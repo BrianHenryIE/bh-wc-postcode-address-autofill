@@ -75,6 +75,7 @@ jobs:
         uses: php-actions/composer@v6
         with:
           args: --ignore-platform-reqs
+          php_version: ${{ matrix.php }}
 
       - name: Create wpconfig ... the composer.json creation didn't work
         run: |
