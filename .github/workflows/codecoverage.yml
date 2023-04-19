@@ -83,6 +83,7 @@ jobs:
 
       - name: Run composer install
         uses: php-actions/composer@v6
+        continue-on-error: true
         with:
           args: --ignore-platform-reqs
           php_version: ${{ matrix.php }}

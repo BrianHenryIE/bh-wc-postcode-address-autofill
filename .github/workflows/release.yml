@@ -58,6 +58,7 @@ jobs:
           mysql -h 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -u root -ppassword -e "CREATE DATABASE "$TEST_DB_NAME"; USE "$TEST_DB_NAME"; GRANT ALL PRIVILEGES ON "$TEST_DB_NAME".* TO '"$TEST_DB_USER"'@'%';";
 
       - name: Run composer install
+        continue-on-error: true
         uses: php-actions/composer@v6
         with:
           args: --ignore-platform-reqs
