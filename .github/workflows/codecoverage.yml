@@ -122,7 +122,6 @@ jobs:
           git checkout -- tests/_data/dump.sql
           git checkout -- tests/integration.suite.yml
           git checkout -- tests/wpunit.suite.yml
-          git checkout -- tests/contract.suite.yml
 
       - name: Commit code coverage to gh-pages
         uses: stefanzweifel/git-auto-commit-action@v4
