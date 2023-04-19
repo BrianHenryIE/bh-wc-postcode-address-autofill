@@ -6,6 +6,7 @@ Performs a zipcode lookup to autofill the city and state fields. First moves the
 
 Postcode data available for the United States (US), Ireland (IE) and Japan (JP).
 
+![Postcode autofill](./.github/checkout-address-suggestions.gif "Demo of the city and state autofilling from the postcode entry")
 
 ### TODO
 
