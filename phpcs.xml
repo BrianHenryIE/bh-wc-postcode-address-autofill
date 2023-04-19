@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress Coding Standards for Plugins">
+    <description>Generally-applicable sniffs for WordPress plugins</description>
+
+    <rule ref="WordPress" />
+
+    <!-- Check all PHP files in directory tree by default. -->
+    <arg name="extensions" value="php"/>
+    <file>.</file>
+
+    <!-- Show progress and sniff codes in all reports -->
+    <arg value="ps"/>
+
+    <!-- Show colors -->
+    <arg name="colors"/>
+
+    <exclude-pattern>/assets/</exclude-pattern>
+    <exclude-pattern>/dist-archive/</exclude-pattern>
+    <exclude-pattern>/scratch/</exclude-pattern>
+    <exclude-pattern>/vendor-prefixed/*</exclude-pattern>
+    <exclude-pattern>/tests/_data/</exclude-pattern>
+    <exclude-pattern>/tests/_output/</exclude-pattern>
+    <exclude-pattern>/tests/_support/</exclude-pattern>
+    <exclude-pattern>/vendor/*</exclude-pattern>
+    <exclude-pattern>/wordpress/</exclude-pattern>
+    <exclude-pattern>/wp-content/</exclude-pattern>
+
+    <!-- Don't enforce MissingVar rule, instead strongly type all variables -->
+    <rule ref="Squiz.Commenting.VariableComment.MissingVar">
+        <exclude-pattern>*/src/*</exclude-pattern>
+    </rule>
+    <!-- Short ternaries are useful -->
+    <rule ref="WordPress.PHP.DisallowShortTernary.Found">
+        <exclude-pattern>*/src/*</exclude-pattern>
+    </rule>
+
+
+    <!-- Enforce fewer rules on tests -->
+    <rule ref="Generic.Commenting.DocComment.MissingShort">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="Internal.NoCodeFound">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="PEAR.NamingConventions.ValidClassName.Invalid">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
+        <exclude-pattern>*/tests/acceptance/*</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.Commenting.ClassComment.Missing">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.Commenting.FileComment.Missing">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.Commenting.FunctionComment.Missing">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.Commenting.FunctionComment.EmptyThrows">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.PHP.DisallowMultipleAssignments.Found">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.DB.DirectDatabaseQuery.DirectQuery">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.DB.DirectDatabaseQuery.NoCaching">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.DB.DirectDatabaseQuery.SchemaChange">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.Files.FileName.InvalidClassFileName">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid">
+        <exclude-pattern>*/tests/acceptance/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase">
+        <exclude-pattern>*/tests/acceptance/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.PHP.DevelopmentFunctions.error_log_set_error_handler">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.Security.NonceVerification.Recommended">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.Security.ValidatedSanitizedInput.InputNotValidated">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.Security.ValidatedSanitizedInput.InputNotSanitized">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.Security.ValidatedSanitizedInput.MissingUnslash">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.WP.GlobalVariablesOverride.Prohibited">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+
+</ruleset>
