@@ -56,6 +56,6 @@ class Admin_Assets {
 	public function enqueue_scripts(): void {
 		$version = $this->settings->get_plugin_version();
 
-		wp_enqueue_script( 'bh-wc-checkout-address-suggestions', plugin_dir_url( __FILE__ ) . '/assets/bh-wc-checkout-address-suggestions-admin.js', array( 'jquery' ), $version, true );
+		wp_enqueue_script( 'bh-wc-checkout-address-suggestions', plugin_dir_url( $this->settings->get_plugin_basename() ) . '/assets/bh-wc-checkout-address-suggestions-admin.js', array( 'jquery' ), $version, true );
 	}
 }
