@@ -44,8 +44,8 @@
 
 		previous_billing_postcode_value = $('#billing_postcode').val();
 
+		// Without this, the country dropdown etc. are no longer rendered correctly.
 		$('select').select2();
-		// jQuery('select').select2();
 
 		// Refocus the element that took focus to cause the blur.
 		if( nextActiveElementId ) {
