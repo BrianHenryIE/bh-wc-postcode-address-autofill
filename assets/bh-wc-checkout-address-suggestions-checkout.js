@@ -1,15 +1,16 @@
-// Keep the previously set postcode so the form is only refreshed when it is changed.
-var billing_postcode_value = null;
 
 (function( $ ) {
 	'use strict';
+
+	// Keep the previously set postcode so the form is only refreshed when it is changed.
+	var previous_billing_postcode_value = null;
 
 	// Attempt to remember what the user was focusing on after refreshing the form.
 	var nextActiveElementId = null;
 
 	// When the page loads, save the currently set value of the postcode.
 	$( function() {
-		billing_postcode_value = $('#billing_postcode').val();
+		previous_billing_postcode_value = $('#billing_postcode').val();
 	});
 
 	$('body').on('focusout', '#billing_postcode', function (e) {
@@ -18,10 +19,10 @@ var billing_postcode_value = null;
 
 		var updated_billing_postcode_value = $('#billing_postcode').val();
 
-		if( billing_postcode_value === updated_billing_postcode_value ) {
+		if( previous_billing_postcode_value === updated_billing_postcode_value ) {
 			return;
 		}
-		billing_postcode_value = updated_billing_postcode_value;
+		previous_billing_postcode_value = updated_billing_postcode_value;
 
 		// Display loading indicator while an account is checked for.
 		$('.woocommerce-billing-fields__field-wrapper').block({
@@ -41,7 +42,7 @@ var billing_postcode_value = null;
 		// Remove the loading indicator.
 		$('.woocommerce-billing-fields__field-wrapper').unblock();
 
-		billing_postcode_value = $('#billing_postcode').val();
+		previous_billing_postcode_value = $('#billing_postcode').val();
 
 		$('select').select2();
 		// jQuery('select').select2();
