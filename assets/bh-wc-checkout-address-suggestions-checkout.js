@@ -5,7 +5,7 @@ var billing_postcode_value = null;
 	'use strict';
 
 	// Attempt to remember what the user was focusing on after refreshing the form.
-	var nextActiveElement = null;
+	var nextActiveElementId = null;
 
 	// When the page loads, save the currently set value of the postcode.
 	$( function() {
@@ -14,7 +14,7 @@ var billing_postcode_value = null;
 
 	$('body').on('focusout', '#billing_postcode', function (e) {
 
-		nextActiveElement = e.relatedTarget;
+		nextActiveElementId = e.relatedTarget.id;
 
 		var updated_billing_postcode_value = $('#billing_postcode').val();
 
@@ -22,9 +22,6 @@ var billing_postcode_value = null;
 			return;
 		}
 		billing_postcode_value = updated_billing_postcode_value;
-
-		// // So we can refocus after reloading.
-		// activeElement = document.activeElement.tagName;
 
 		// Display loading indicator while an account is checked for.
 		$('.woocommerce-billing-fields__field-wrapper').block({
@@ -50,9 +47,9 @@ var billing_postcode_value = null;
 		// jQuery('select').select2();
 
 		// Refocus the element that took focus to cause the blur.
-		if( nextActiveElement ) {
-			nextActiveElement.focus();
-			nextActiveElement = null;
+		if( nextActiveElementId ) {
+			document.getElementById( nextActiveElementId ).focus();
+			nextActiveElementId = null;
 		}
 	});
 
