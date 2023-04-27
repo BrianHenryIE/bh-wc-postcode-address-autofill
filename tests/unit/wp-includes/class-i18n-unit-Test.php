@@ -2,16 +2,16 @@
 /**
  *
  *
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  * @author  BrianHenryIE <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions\WP_Includes;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes;
 
 /**
  * Class Plugin_WP_Mock_Test
  *
- * @coversDefaultClass \BrianHenryIE\WC_Checkout_Address_Suggestions\WP_Includes\I18n
+ * @coversDefaultClass \BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes\I18n
  */
 class I18n_Unit_Test extends \Codeception\Test\Unit {
 
@@ -40,7 +40,7 @@ class I18n_Unit_Test extends \Codeception\Test\Unit {
 				'args'   => array(
 					\WP_Mock\Functions::type( 'string' ),
 				),
-				'return' => 'bh-wc-checkout-address-suggestions',
+				'return' => 'bh-wc-postcode-address-autofill',
 				'times'  => 1,
 			)
 		);
@@ -50,9 +50,9 @@ class I18n_Unit_Test extends \Codeception\Test\Unit {
 			array(
 				'times' => 1,
 				'args'  => array(
-					'bh-wc-checkout-address-suggestions',
+					'bh-wc-postcode-address-autofill',
 					false,
-					'bh-wc-checkout-address-suggestions/languages/',
+					'bh-wc-postcode-address-autofill/languages/',
 				),
 			)
 		);

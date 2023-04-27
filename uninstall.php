@@ -21,7 +21,7 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
 // If uninstall not called from WordPress, then exit.

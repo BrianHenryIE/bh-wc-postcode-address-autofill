@@ -2,7 +2,7 @@
 /**
  * PHPUnit bootstrap file for WP_Mock.
  *
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
 WP_Mock::setUsePatchwork( true );

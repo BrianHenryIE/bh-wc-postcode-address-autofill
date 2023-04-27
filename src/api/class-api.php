@@ -2,12 +2,12 @@
 /**
  * Given a country and postcode, find the state and list of valid cities for that postcode
  *
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions\API;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill\API;
 
-use BrianHenryIE\WC_Checkout_Address_Suggestions\API_Interface;
+use BrianHenryIE\WC_Postcode_Address_Autofill\API_Interface;
 
 /**
  * Reads saved files containing lookup tables.

@@ -2,17 +2,17 @@
 /**
  * Tests for I18n. Tests load_plugin_textdomain.
  *
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  * @author  BrianHenryIE <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions\WP_Includes;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes;
 
 /**
  * Class I18n_Test
  *
  * @see I18n
- * @coversDefaultClass \BrianHenryIE\WC_Checkout_Address_Suggestions\WP_Includes\I18n
+ * @coversDefaultClass \BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes\I18n
  */
 class I18n_WP_Unit_Test extends \Codeception\TestCase\WPTestCase {
 
@@ -41,6 +41,6 @@ class I18n_WP_Unit_Test extends \Codeception\TestCase\WPTestCase {
 		$i18n->load_plugin_textdomain();
 
 		$this->assertTrue( $called, 'plugin_locale filter not called within load_plugin_textdomain() suggesting it has not been set by the plugin.' );
-		$this->assertEquals( 'bh-wc-checkout-address-suggestions', $actual_domain );
+		$this->assertEquals( 'bh-wc-postcode-address-autofill', $actual_domain );
 	}
 }

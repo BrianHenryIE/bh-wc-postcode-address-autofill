@@ -17,7 +17,7 @@ modules:
             tablePrefix: "%TEST_TABLE_PREFIX%"
             domain: "%TEST_SITE_WP_DOMAIN%"
             adminEmail: "%TEST_SITE_ADMIN_EMAIL%"
-            title: "bh-wc-checkout-address-suggestions"
-            plugins: ['bh-wc-checkout-address-suggestions/bh-wc-checkout-address-suggestions.php','woocommerce/woocommerce.php']
-            activatePlugins: ['bh-wc-checkout-address-suggestions/bh-wc-checkout-address-suggestions.php','woocommerce/woocommerce.php']
+            title: "bh-wc-postcode-address-autofill"
+            plugins: ['bh-wc-postcode-address-autofill/bh-wc-postcode-address-autofill.php','woocommerce/woocommerce.php']
+            activatePlugins: ['bh-wc-postcode-address-autofill/bh-wc-postcode-address-autofill.php','woocommerce/woocommerce.php']
 bootstrap: _bootstrap.php

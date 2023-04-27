@@ -2,10 +2,10 @@
 /**
  * The core functions required by the plugin.
  *
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill;
 
 /**
  * The interface for the heavy lifting of the plugin.

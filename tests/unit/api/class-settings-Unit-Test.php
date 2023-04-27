@@ -1,9 +1,9 @@
 <?php
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions\API;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill\API;
 
 /**
- * @coversDefaultClass \BrianHenryIE\WC_Checkout_Address_Suggestions\API\Settings
+ * @coversDefaultClass \BrianHenryIE\WC_Postcode_Address_Autofill\API\Settings
  */
 class Settings_Unit_Test extends \Codeception\Test\Unit {
 
@@ -31,6 +31,6 @@ class Settings_Unit_Test extends \Codeception\Test\Unit {
 	public function test_get_plugin_basename(): void {
 		$sut = new Settings();
 
-		self::assertEquals( 'bh-wc-checkout-address-suggestions/bh-wc-checkout-address-suggestions.php', $sut->get_plugin_basename() );
+		self::assertEquals( 'bh-wc-postcode-address-autofill/bh-wc-postcode-address-autofill.php', $sut->get_plugin_basename() );
 	}
 }

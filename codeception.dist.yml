@@ -22,7 +22,7 @@ coverage:
     enabled: true
     include:
         - /src/*
-        - /bh-wc-checkout-address-suggestions.php
+        - /bh-wc-postcode-address-autofill.php
         - /uninstall.php
     exclude:
         - /vendor/*

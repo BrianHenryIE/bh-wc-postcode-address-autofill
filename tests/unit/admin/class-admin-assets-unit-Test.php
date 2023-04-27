@@ -4,18 +4,18 @@
  *
  * @see Admin_Assets
  *
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  * @author Brian Henry <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions\Admin;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill\Admin;
 
-use BrianHenryIE\WC_Checkout_Address_Suggestions\Settings_Interface;
+use BrianHenryIE\WC_Postcode_Address_Autofill\Settings_Interface;
 
 /**
  * Class Admin_Test
  *
- * @coversDefaultClass \BrianHenryIE\WC_Checkout_Address_Suggestions\Admin\Admin_Assets
+ * @coversDefaultClass \BrianHenryIE\WC_Postcode_Address_Autofill\Admin\Admin_Assets
  */
 class Admin_Assets_Test extends \Codeception\Test\Unit {
 
@@ -48,13 +48,13 @@ class Admin_Assets_Test extends \Codeception\Test\Unit {
 			)
 		);
 
-		$css_file = $plugin_root_dir . '/assets/bh-wc-checkout-address-suggestions-admin.css';
+		$css_file = $plugin_root_dir . '/assets/bh-wc-postcode-address-autofill-admin.css';
 
 		\WP_Mock::userFunction(
 			'wp_enqueue_style',
 			array(
 				'times' => 1,
-				'args'  => array( 'bh-wc-checkout-address-suggestions', $css_file, array(), '1.0.0', 'all' ),
+				'args'  => array( 'bh-wc-postcode-address-autofill', $css_file, array(), '1.0.0', 'all' ),
 			)
 		);
 
@@ -85,8 +85,8 @@ class Admin_Assets_Test extends \Codeception\Test\Unit {
 			)
 		);
 
-		$handle    = 'bh-wc-checkout-address-suggestions';
-		$src       = $plugin_root_dir . '/assets/bh-wc-checkout-address-suggestions-admin.js';
+		$handle    = 'bh-wc-postcode-address-autofill';
+		$src       = $plugin_root_dir . '/assets/bh-wc-postcode-address-autofill-admin.js';
 		$deps      = array( 'jquery' );
 		$ver       = '1.0.0';
 		$in_footer = true;

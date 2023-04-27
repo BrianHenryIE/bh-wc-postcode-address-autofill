@@ -4,7 +4,7 @@
  *
  * @see https://phpstan.org/user-guide/discovering-symbols#global-constants
  *
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
 define( 'WP_CONTENT_DIR', __DIR__ . '/wp-content' );

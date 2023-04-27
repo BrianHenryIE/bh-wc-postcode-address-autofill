@@ -1,13 +1,13 @@
 <?php
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions\WooCommerce;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce;
 
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
-use BrianHenryIE\WC_Checkout_Address_Suggestions\Settings_Interface;
+use BrianHenryIE\WC_Postcode_Address_Autofill\Settings_Interface;
 use Codeception\Stub\Expected;
 
 /**
- * @coversDefaultClass \BrianHenryIE\WC_Checkout_Address_Suggestions\WooCommerce\Features
+ * @coversDefaultClass \BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Features
  */
 class Features_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
@@ -37,7 +37,7 @@ class Features_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		$result = FeaturesUtil::get_compatible_plugins_for_feature( 'custom_order_tables' );
 
-		self::assertContains( 'bh-wc-checkout-address-suggestions/bh-wc-checkout-address-suggestions.php', $result['compatible'], wp_json_encode( $result['compatible'] ) );
+		self::assertContains( 'bh-wc-postcode-address-autofill/bh-wc-postcode-address-autofill.php', $result['compatible'], wp_json_encode( $result['compatible'] ) );
 	}
 
 }

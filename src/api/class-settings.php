@@ -2,12 +2,12 @@
 /**
  * The plugin settings.
  *
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions\API;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill\API;
 
-use BrianHenryIE\WC_Checkout_Address_Suggestions\Settings_Interface;
+use BrianHenryIE\WC_Postcode_Address_Autofill\Settings_Interface;
 
 /**
  * Plain old object for plugin settings.
@@ -18,8 +18,8 @@ class Settings implements Settings_Interface {
 	 * Used to cache assets.
 	 */
 	public function get_plugin_version(): string {
-		return defined( 'BH_WC_CHECKOUT_ADDRESS_SUGGESTIONS_VERSION' )
-			? BH_WC_CHECKOUT_ADDRESS_SUGGESTIONS_VERSION
+		return defined( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_VERSION' )
+			? BH_WC_POSTCODE_ADDRESS_AUTOFILL_VERSION
 			: '1.0.0';
 	}
 
@@ -27,8 +27,8 @@ class Settings implements Settings_Interface {
 	 * Used to determine the plugin dir path and URL.
 	 */
 	public function get_plugin_basename(): string {
-		return defined( 'BH_WC_CHECKOUT_ADDRESS_SUGGESTIONS_BASENAME' )
-			? BH_WC_CHECKOUT_ADDRESS_SUGGESTIONS_BASENAME
-			: 'bh-wc-checkout-address-suggestions/bh-wc-checkout-address-suggestions.php';
+		return defined( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_BASENAME' )
+			? BH_WC_POSTCODE_ADDRESS_AUTOFILL_BASENAME
+			: 'bh-wc-postcode-address-autofill/bh-wc-postcode-address-autofill.php';
 	}
 }

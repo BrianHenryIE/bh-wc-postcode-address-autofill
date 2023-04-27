@@ -5,10 +5,10 @@
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions\WP_Includes;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes;
 
 /**
  * Define the internationalization functionality.
@@ -26,7 +26,7 @@ class I18n {
 	public function load_plugin_textdomain(): void {
 
 		load_plugin_textdomain(
-			'bh-wc-checkout-address-suggestions',
+			'bh-wc-postcode-address-autofill',
 			false,
 			plugin_basename( dirname( __FILE__, 3 ) ) . '/languages/'
 		);

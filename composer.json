@@ -1,5 +1,5 @@
 {
-    "name": "brianhenryie/bh-wc-checkout-address-suggestions",
+    "name": "brianhenryie/bh-wc-postcode-address-autofill",
     "description": "This is a short description of what plugin_title does.",
     "type": "wordpress-plugin",
     "license": "GPL-2.0+-or-later",
@@ -58,7 +58,6 @@
         "jaschilz/php-coverage-badger": "^2.0",
         "kporras07/composer-symlinks": "dev-master",
         "lucatume/wp-browser": "*",
-        "php-stubs/woocommerce-stubs": "*",
         "phpcompatibility/phpcompatibility-wp": "*",
         "phpstan/extension-installer": "*",
         "phpunit/phpcov": "*",
@@ -71,7 +70,7 @@
         "wp-coding-standards/wpcs": "*",
         "wpackagist-plugin/woocommerce": "*",
         "wpackagist-theme/twentytwenty": "*",
-        "wpackagist-theme/storefront": "^3.8"
+        "wpackagist-theme/storefront": "*"
     },
     "extra": {
         "patches": {
@@ -83,20 +82,21 @@
             }
         },
         "strauss": {
-            "namespace_prefix": "BrianHenryIE\\WC_Checkout_Address_Suggestions\\",
-            "classmap_prefix": "BH_WC_Checkout_Address_Suggestions_"
+            "namespace_prefix": "BrianHenryIE\\WC_Postcode_Address_Autofill\\",
+            "classmap_prefix": "BH_WC_Postcode_Address_Autofill_"
         },
         "symlinks": {
             "wp-content": "wordpress/wp-content",
-            ".": "wp-content/plugins/bh-wc-checkout-address-suggestions"
+            ".": "wp-content/plugins/bh-wc-postcode-address-autofill"
         },
         "phpstorm": {
             "exclude_folders": {
                 "folders": [
+                    "dist-archive",
                     "vendor/php-stubs/woocommerce-stubs",
                     "vendor/wordpress/wordpress/src",
                     "vendor/wordpress/wordpress/build",
-                    "wp-content/plugins/bh-wc-checkout-address-suggestions",
+                    "wp-content/plugins/bh-wc-postcode-address-autofill",
                     "wordpress/wp-content"
                 ],
                 "include_folders": [

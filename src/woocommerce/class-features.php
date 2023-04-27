@@ -2,13 +2,13 @@
 /**
  * Declare compatability with WooCommerce features, i.e. HPOS.
  *
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions\WooCommerce;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce;
 
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
-use BrianHenryIE\WC_Checkout_Address_Suggestions\Settings_Interface;
+use BrianHenryIE\WC_Postcode_Address_Autofill\Settings_Interface;
 
 /**
  * Declare compatibility with WooCommerce High Performance Order Storage.

@@ -2,15 +2,15 @@
 /**
  * The file that defines the actions and filters for the plugin.
  *
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill;
 
-use BrianHenryIE\WC_Checkout_Address_Suggestions\Admin\Admin_Assets;
-use BrianHenryIE\WC_Checkout_Address_Suggestions\WooCommerce\Checkout;
-use BrianHenryIE\WC_Checkout_Address_Suggestions\WooCommerce\Features;
-use BrianHenryIE\WC_Checkout_Address_Suggestions\WP_Includes\I18n;
+use BrianHenryIE\WC_Postcode_Address_Autofill\Admin\Admin_Assets;
+use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout;
+use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Features;
+use BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes\I18n;
 
 /**
  * The core plugin class.
@@ -18,7 +18,7 @@ use BrianHenryIE\WC_Checkout_Address_Suggestions\WP_Includes\I18n;
  * This is used to define internationalization, admin-specific hooks, and
  * frontend-facing site hooks.
  */
-class BH_WC_Checkout_Address_Suggestions {
+class BH_WC_Postcode_Address_Autofill {
 
 	/**
 	 * The plugin settings.

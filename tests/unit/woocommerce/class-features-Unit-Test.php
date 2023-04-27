@@ -1,12 +1,12 @@
 <?php
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions\WooCommerce;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce;
 
-use BrianHenryIE\WC_Checkout_Address_Suggestions\Settings_Interface;
+use BrianHenryIE\WC_Postcode_Address_Autofill\Settings_Interface;
 use Codeception\Stub\Expected;
 
 /**
- * @coversDefaultClass \BrianHenryIE\WC_Checkout_Address_Suggestions\WooCommerce\Features
+ * @coversDefaultClass \BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Features
  */
 class Features_Unit_Test extends \Codeception\Test\Unit {
 

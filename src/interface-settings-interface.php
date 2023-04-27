@@ -2,10 +2,10 @@
 /**
  * The required plugin settings.
  *
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill;
 
 /**
  * The plugin settings, passed to most classes in the plugin.

@@ -1,22 +1,22 @@
 <?php
 /**
- * Tests for BH_WC_Checkout_Address_Suggestions main setup class. Tests the actions are correctly added.
+ * Tests for BH_WC_Postcode_Address_Autofill main setup class. Tests the actions are correctly added.
  *
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  * @author  BrianHenryIE <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill;
 
-use BrianHenryIE\WC_Checkout_Address_Suggestions\Admin\Admin_Assets;
-use BrianHenryIE\WC_Checkout_Address_Suggestions\Frontend\Frontend_Assets;
-use BrianHenryIE\WC_Checkout_Address_Suggestions\WooCommerce\Checkout;
-use BrianHenryIE\WC_Checkout_Address_Suggestions\WP_Includes\I18n;
+use BrianHenryIE\WC_Postcode_Address_Autofill\Admin\Admin_Assets;
+use BrianHenryIE\WC_Postcode_Address_Autofill\Frontend\Frontend_Assets;
+use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout;
+use BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes\I18n;
 
 /**
  * Class Develop_Test
  */
-class BH_WC_Checkout_Address_Suggestions_Integration_Test extends \Codeception\TestCase\WPTestCase {
+class BH_WC_Postcode_Address_Autofill_Integration_Test extends \Codeception\TestCase\WPTestCase {
 
 	public function hooks(): array {
 		$hooks = array(

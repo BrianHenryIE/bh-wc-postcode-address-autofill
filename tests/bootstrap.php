@@ -1,6 +1,6 @@
 <?php
 /**
- * @package           brianhenryie/bh-wc-checkout-address-suggestions
+ * @package           brianhenryie/bh-wc-postcode-address-autofill
  */
 
 $GLOBALS['project_root_dir']   = $project_root_dir  = dirname( __FILE__, 2 );

@@ -5,12 +5,12 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions\Admin;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill\Admin;
 
-use BrianHenryIE\WC_Checkout_Address_Suggestions\Settings_Interface;
+use BrianHenryIE\WC_Postcode_Address_Autofill\Settings_Interface;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -45,7 +45,7 @@ class Admin_Assets {
 	public function enqueue_styles(): void {
 		$version = $this->settings->get_plugin_version();
 
-		wp_enqueue_style( 'bh-wc-checkout-address-suggestions', plugin_dir_url( $this->settings->get_plugin_basename() ) . 'assets/bh-wc-checkout-address-suggestions-admin.css', array(), $version, 'all' );
+		wp_enqueue_style( 'bh-wc-postcode-address-autofill', plugin_dir_url( $this->settings->get_plugin_basename() ) . 'assets/bh-wc-postcode-address-autofill-admin.css', array(), $version, 'all' );
 	}
 
 	/**
@@ -56,6 +56,6 @@ class Admin_Assets {
 	public function enqueue_scripts(): void {
 		$version = $this->settings->get_plugin_version();
 
-		wp_enqueue_script( 'bh-wc-checkout-address-suggestions', plugin_dir_url( $this->settings->get_plugin_basename() ) . '/assets/bh-wc-checkout-address-suggestions-admin.js', array( 'jquery' ), $version, true );
+		wp_enqueue_script( 'bh-wc-postcode-address-autofill', plugin_dir_url( $this->settings->get_plugin_basename() ) . '/assets/bh-wc-postcode-address-autofill-admin.js', array( 'jquery' ), $version, true );
 	}
 }

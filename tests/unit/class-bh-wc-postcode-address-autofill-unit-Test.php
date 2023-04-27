@@ -1,23 +1,23 @@
 <?php
 /**
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  * @author  BrianHenryIE <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill;
 
-use BrianHenryIE\WC_Checkout_Address_Suggestions\Admin\Admin_Assets;
-use BrianHenryIE\WC_Checkout_Address_Suggestions\API\API;
-use BrianHenryIE\WC_Checkout_Address_Suggestions\WooCommerce\Checkout;
-use BrianHenryIE\WC_Checkout_Address_Suggestions\WP_Includes\I18n;
+use BrianHenryIE\WC_Postcode_Address_Autofill\Admin\Admin_Assets;
+use BrianHenryIE\WC_Postcode_Address_Autofill\API\API;
+use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout;
+use BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes\I18n;
 use WP_Mock\Matcher\AnyInstance;
 
 /**
- * Class BH_WC_Checkout_Address_Suggestions_Unit_Test
+ * Class BH_WC_Postcode_Address_Autofill_Unit_Test
  *
- * @coversDefaultClass \BrianHenryIE\WC_Checkout_Address_Suggestions\BH_WC_Checkout_Address_Suggestions
+ * @coversDefaultClass \BrianHenryIE\WC_Postcode_Address_Autofill\BH_WC_Postcode_Address_Autofill
  */
-class BH_WC_Checkout_Address_Suggestions_Unit_Test extends \Codeception\Test\Unit {
+class BH_WC_Postcode_Address_Autofill_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function setup(): void {
 		parent::setup();
@@ -41,7 +41,7 @@ class BH_WC_Checkout_Address_Suggestions_Unit_Test extends \Codeception\Test\Uni
 
 		$api      = $this->makeEmpty( API::class );
 		$settings = $this->makeEmpty( Settings_Interface::class );
-		new BH_WC_Checkout_Address_Suggestions( $api, $settings );
+		new BH_WC_Postcode_Address_Autofill( $api, $settings );
 	}
 
 	/**
@@ -61,7 +61,7 @@ class BH_WC_Checkout_Address_Suggestions_Unit_Test extends \Codeception\Test\Uni
 
 		$api      = $this->makeEmpty( API::class );
 		$settings = $this->makeEmpty( Settings_Interface::class );
-		new BH_WC_Checkout_Address_Suggestions( $api, $settings );
+		new BH_WC_Postcode_Address_Autofill( $api, $settings );
 	}
 
 	/**
@@ -75,7 +75,7 @@ class BH_WC_Checkout_Address_Suggestions_Unit_Test extends \Codeception\Test\Uni
 
 		$api      = $this->makeEmpty( API::class );
 		$settings = $this->makeEmpty( Settings_Interface::class );
-		new BH_WC_Checkout_Address_Suggestions( $api, $settings );
+		new BH_WC_Postcode_Address_Autofill( $api, $settings );
 	}
 
 }

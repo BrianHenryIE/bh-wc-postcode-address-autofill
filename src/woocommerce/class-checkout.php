@@ -2,13 +2,13 @@
 /**
  * Handle functions related to the WooCommerce checkout.
  *
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions\WooCommerce;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce;
 
-use BrianHenryIE\WC_Checkout_Address_Suggestions\API_Interface;
-use BrianHenryIE\WC_Checkout_Address_Suggestions\Settings_Interface;
+use BrianHenryIE\WC_Postcode_Address_Autofill\API_Interface;
+use BrianHenryIE\WC_Postcode_Address_Autofill\Settings_Interface;
 
 /**
  * Hook onto WooCommerce checkout functions to reorder the fields and autofill the values.
@@ -54,7 +54,7 @@ class Checkout {
 
 		$version = $this->settings->get_plugin_version();
 
-		wp_enqueue_script( 'bh-wc-checkout-address-suggestions-checkout', plugin_dir_url( $this->settings->get_plugin_basename() ) . 'assets/bh-wc-checkout-address-suggestions-checkout.js', array( 'jquery' ), $version, true );
+		wp_enqueue_script( 'bh-wc-postcode-address-autofill-checkout', plugin_dir_url( $this->settings->get_plugin_basename() ) . 'assets/bh-wc-postcode-address-autofill-checkout.js', array( 'jquery' ), $version, true );
 
 		// TODO: Also add a script containing select2 city suggestions.
 	}

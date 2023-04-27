@@ -1,9 +1,9 @@
 <?php
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions\WooCommerce;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce;
 
 /**
- * @coversDefaultClass \BrianHenryIE\WC_Checkout_Address_Suggestions\WooCommerce\Checkout
+ * @coversDefaultClass \BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout
  */
 class Checkout_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 

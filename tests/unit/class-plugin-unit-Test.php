@@ -2,11 +2,11 @@
 /**
  * Tests for the root plugin file.
  *
- * @package brianhenryie/bh-wc-checkout-address-suggestions
+ * @package brianhenryie/bh-wc-postcode-address-autofill
  * @author  BrianHenryIE <BrianHenryIE@gmail.com>
  */
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill;
 
 /**
  * Class Plugin_WP_Mock_Test
@@ -31,7 +31,7 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 
 		// Prevents code-coverage counting, and removes the need to define the WordPress functions that are used in that class.
 		\Patchwork\redefine(
-			array( BH_WC_Checkout_Address_Suggestions::class, '__construct' ),
+			array( BH_WC_Postcode_Address_Autofill::class, '__construct' ),
 			function() {}
 		);
 
@@ -90,7 +90,7 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 
 		ob_start();
 
-		include $plugin_root_dir . '/bh-wc-checkout-address-suggestions.php';
+		include $plugin_root_dir . '/bh-wc-postcode-address-autofill.php';
 
 		$printed_output = ob_get_contents();
 
@@ -98,8 +98,8 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 
 		$this->assertEmpty( $printed_output );
 
-		$this->assertArrayHasKey( 'bh_wc_checkout_address_suggestions', $GLOBALS );
+		$this->assertArrayHasKey( 'bh_wc_postcode_address_autofill', $GLOBALS );
 
-		$this->assertInstanceOf( BH_WC_Checkout_Address_Suggestions::class, $GLOBALS['bh_wc_checkout_address_suggestions'] );
+		$this->assertInstanceOf( BH_WC_Postcode_Address_Autofill::class, $GLOBALS['bh_wc_postcode_address_autofill'] );
 	}
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace BrianHenryIE\WC_Checkout_Address_Suggestions\WooCommerce;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce;
 
-use BrianHenryIE\WC_Checkout_Address_Suggestions\API_Interface;
-use BrianHenryIE\WC_Checkout_Address_Suggestions\Settings_Interface;
+use BrianHenryIE\WC_Postcode_Address_Autofill\API_Interface;
+use BrianHenryIE\WC_Postcode_Address_Autofill\Settings_Interface;
 
 /**
- * @coversDefaultClass \BrianHenryIE\WC_Checkout_Address_Suggestions\WooCommerce\Checkout
+ * @coversDefaultClass \BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout
  */
 class Checkout_Unit_Test extends \Codeception\Test\Unit {
 
@@ -28,8 +28,8 @@ class Checkout_Unit_Test extends \Codeception\Test\Unit {
 
 		\WP_Mock::passthruFunction( 'plugin_dir_url' );
 
-		$handle    = 'bh-wc-checkout-address-suggestions-checkout';
-		$src       = 'assets/bh-wc-checkout-address-suggestions-checkout.js';
+		$handle    = 'bh-wc-postcode-address-autofill-checkout';
+		$src       = 'assets/bh-wc-postcode-address-autofill-checkout.js';
 		$deps      = array( 'jquery' );
 		$ver       = '1.0.0';
 		$in_footer = true;
