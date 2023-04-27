@@ -45,26 +45,6 @@ class BH_WC_Postcode_Address_Autofill_Unit_Test extends \Codeception\Test\Unit {
 	}
 
 	/**
-	 * @covers ::define_admin_hooks
-	 */
-	public function test_admin_hooks(): void {
-
-		\WP_Mock::expectActionAdded(
-			'admin_enqueue_scripts',
-			array( new AnyInstance( Admin_Assets::class ), 'enqueue_styles' )
-		);
-
-		\WP_Mock::expectActionAdded(
-			'admin_enqueue_scripts',
-			array( new AnyInstance( Admin_Assets::class ), 'enqueue_scripts' )
-		);
-
-		$api      = $this->makeEmpty( API::class );
-		$settings = $this->makeEmpty( Settings_Interface::class );
-		new BH_WC_Postcode_Address_Autofill( $api, $settings );
-	}
-
-	/**
 	 * @covers ::define_woocommerce_checkout_hooks
 	 */
 	public function test_woocommerce_checkout_hooks(): void {

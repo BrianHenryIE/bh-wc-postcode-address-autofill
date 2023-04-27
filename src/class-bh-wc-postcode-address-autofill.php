@@ -7,7 +7,6 @@
 
 namespace BrianHenryIE\WC_Postcode_Address_Autofill;
 
-use BrianHenryIE\WC_Postcode_Address_Autofill\Admin\Admin_Assets;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Features;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes\I18n;
@@ -42,7 +41,6 @@ class BH_WC_Postcode_Address_Autofill {
 		$this->api      = $api;
 
 		$this->set_locale();
-		$this->define_admin_hooks();
 
 		$this->define_woocommerce_checkout_hooks();
 		$this->define_woocommerce_features_hooks();
@@ -59,18 +57,6 @@ class BH_WC_Postcode_Address_Autofill {
 		$plugin_i18n = new I18n();
 
 		add_action( 'init', array( $plugin_i18n, 'load_plugin_textdomain' ) );
-	}
-
-	/**
-	 * Register all of the hooks related to the admin area functionality
-	 * of the plugin.
-	 */
-	protected function define_admin_hooks(): void {
-
-		$plugin_admin = new Admin_Assets( $this->settings );
-
-		add_action( 'admin_enqueue_scripts', array( $plugin_admin, 'enqueue_styles' ) );
-		add_action( 'admin_enqueue_scripts', array( $plugin_admin, 'enqueue_scripts' ) );
 	}
 
 	/**
