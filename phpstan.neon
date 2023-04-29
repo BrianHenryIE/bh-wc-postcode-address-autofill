@@ -2,7 +2,7 @@ parameters:
     level: 8
     paths:
         - src
-        - bh-wc-checkout-address-suggestions.php
+        - bh-wc-postcode-address-autofill.php
         - autoload.php
         - uninstall.php
     excludePaths:

@@ -58,6 +58,7 @@
         "jaschilz/php-coverage-badger": "^2.0",
         "kporras07/composer-symlinks": "dev-master",
         "lucatume/wp-browser": "*",
+        "php-stubs/woocommerce-stubs": "^7.6",
         "phpcompatibility/phpcompatibility-wp": "*",
         "phpstan/extension-installer": "*",
         "phpunit/phpcov": "*",
@@ -69,8 +70,8 @@
         "wp-cli/wp-cli-bundle": "*",
         "wp-coding-standards/wpcs": "*",
         "wpackagist-plugin/woocommerce": "*",
-        "wpackagist-theme/twentytwenty": "*",
-        "wpackagist-theme/storefront": "*"
+        "wpackagist-theme/storefront": "*",
+        "wpackagist-theme/twentytwenty": "*"
     },
     "extra": {
         "patches": {
