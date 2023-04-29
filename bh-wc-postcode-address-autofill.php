@@ -15,7 +15,7 @@
  * Plugin Name:       Postcode Address Autofill
  * Plugin URI:        http://github.com/BrianHenryIE/bh-wc-postcode-address-autofill/
  * Description:       Autofill city and state based on postcode input.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            BrianHenryIE
  * Author URI:        http://BrianHenry.ie
  * License:           GPL-2.0+
@@ -26,7 +26,6 @@
 
 namespace BrianHenryIE\WC_Postcode_Address_Autofill;
 
-// If this file is called directly, abort.
 use BrianHenryIE\WC_Postcode_Address_Autofill\API\API;
 use BrianHenryIE\WC_Postcode_Address_Autofill\API\Settings;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes\Activator;
@@ -43,7 +42,7 @@ require_once plugin_dir_path( __FILE__ ) . 'autoload.php';
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_VERSION', '1.0.0' );
+define( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_VERSION', '1.0.1' );
 define( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_BASENAME', plugin_basename( __FILE__ ) );
 define( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_URL', trailingslashit( plugins_url( plugin_basename( __DIR__ ) ) ) );
