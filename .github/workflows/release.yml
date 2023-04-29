@@ -80,9 +80,9 @@ jobs:
 #
 #      - name: Install package.json / `npm install`
 #        run: npm install
-
-      - name: Build for production
-        run: npm run build
+#
+#      - name: Build for production
+#        run: npm run build
 
       - name: Create plugin archive
         id: create-plugin-archive
