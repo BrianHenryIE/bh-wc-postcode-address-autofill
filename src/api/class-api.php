@@ -40,7 +40,6 @@ class API implements API_Interface {
 	 */
 	public function get_state_city_for_postcode( string $country, string $postcode ): array {
 
-		$postcode = preg_replace( '/[^A-Za-z0-9]*/', '', sanitize_title( $postcode ) );
 		$country  = strtolower( $country );
 		$location = array(
 			'state' => '',
@@ -58,10 +57,13 @@ class API implements API_Interface {
 				$file                  = file( $filename ) ?: array();
 				foreach ( $file as $line ) {
 					$data = str_getcsv( $line );
+					if ( $data[0] !== $postcode ) {
+						continue;
+					}
 					if ( ! isset( $locations_by_postcode[ $data[0] ] ) ) {
 						$locations_by_postcode[ $data[0] ] = array();
 					}
-					$state_name = substr( $data[2], 0, - 4 ); // remove " ken".
+					$state_name = $data[2];
 					$city       = $data[1];
 					$state      = isset( $states_index[ $state_name ] ) ? $states_index[ $state_name ] : '';
 
@@ -71,22 +73,33 @@ class API implements API_Interface {
 					);
 
 					$japanese_states[ $state_name ] = $state_name;
-				}
-				$locations = isset( $locations_by_postcode[ $postcode ] ) ? $locations_by_postcode[ $postcode ] : null;
-				$location  = is_null( $locations ) ? null : $locations[0];
 
+					$location['state']  = $state;
+					$location['city'][] = $city;
+				}
 				break;
 
 			case 'ie':
+				$postcode = preg_replace( '/[^A-Za-z0-9]*/', '', sanitize_title( $postcode ) ) ?? '';
+				if ( strlen( $postcode ) < 3 ) {
+					break;
+				}
 				$eircode_first_three = ucwords( substr( $postcode, 0, 3 ) );
 
 				$counties_index = array_flip( WC()->countries->get_states( 'IE' ) ?: array() );
 
 				$locations_by_postcode = array();
 				$filename              = WP_PLUGIN_DIR . '/' . plugin_dir_path( $this->settings->get_plugin_basename() ) . 'data/postcodes-ie.csv';
-				$file                  = file( $filename ) ?: array();
+				if ( ! is_readable( $filename ) ) {
+					// Log.
+					break;
+				}
+				$file = file( $filename ) ?: array();
 				foreach ( $file as $line ) {
 					$data = str_getcsv( $line );
+					if ( $data[0] !== $eircode_first_three ) {
+						continue;
+					}
 					if ( ! isset( $locations_by_postcode[ $data[0] ] ) ) {
 						$locations_by_postcode[ $data[0] ] = array();
 					}
@@ -95,19 +108,19 @@ class API implements API_Interface {
 					$state      = isset( $counties_index[ $state_name ] ) ? $counties_index[ $state_name ] : '';
 
 					$locations_by_postcode[ $data[0] ][] = array( $state, $city );
-
 				}
-				if ( isset( $locations_by_postcode[ $eircode_first_three ] ) ) {
-					$first_location = array_pop( $locations_by_postcode[ $eircode_first_three ] );
-
-					$location = array(
-						'state' => $first_location[0],
-						'city'  => $first_location[1],
-					);
+				foreach ( $locations_by_postcode[ $eircode_first_three ] as $location_for_postcode ) {
+					$location['state']  = $location_for_postcode[0];
+					$location['city'][] = $location_for_postcode[1];
 				}
 				break;
-			default:
-				$file = WP_PLUGIN_DIR . '/' . plugin_dir_path( $this->settings->get_plugin_basename() ) . "data/postcodes-{$country}.json";
+			default: // AKA US.
+				$postcode = preg_replace( '/[^\d]*/', '', sanitize_title( $postcode ) ) ?? '';
+				if ( strlen( $postcode ) < 5 ) {
+					break;
+				}
+				$postcode = substr( $postcode, 0, 5 );
+				$file     = WP_PLUGIN_DIR . '/' . plugin_dir_path( $this->settings->get_plugin_basename() ) . "data/postcodes-{$country}.json";
 				if ( ! file_exists( $file ) ) {
 					break;
 				}
