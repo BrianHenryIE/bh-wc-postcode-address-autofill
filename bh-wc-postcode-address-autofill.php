@@ -12,7 +12,7 @@
  * @package brianhenryie/bh-wc-postcode-address-autofill
  *
  * @wordpress-plugin
- * Plugin Name:       Checkout Address Suggestions
+ * Plugin Name:       Postcode Address Autofill
  * Plugin URI:        http://github.com/BrianHenryIE/bh-wc-postcode-address-autofill/
  * Description:       Autofill city and state based on postcode input.
  * Version:           1.0.0
