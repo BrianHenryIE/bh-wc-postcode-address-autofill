@@ -327,7 +327,7 @@ LOCK TABLES `wp_options` WRITE;
 INSERT INTO `wp_options` VALUES
 (1,'siteurl','http://localhost:8080/bh-wc-postcode-address-autofillons','yes'),
 (2,'home','http://localhost:8080/bh-wc-postcode-address-autofillons','yes'),
-(3,'blogname','BH WC Checkout Address Suggestions','yes'),
+(3,'blogname','BH WC Postcode Address Autofill','yes'),
 (4,'blogdescription','Just another WordPress site','yes'),
 (5,'users_can_register','0','yes'),
 (6,'admin_email','admin@example.org','yes'),
@@ -523,7 +523,7 @@ INSERT INTO `wp_options` VALUES
 (211,'woocommerce_trash_failed_orders','','no'),
 (212,'woocommerce_trash_cancelled_orders','','no'),
 (213,'woocommerce_anonymize_completed_orders','a:2:{s:6:\"number\";s:0:\"\";s:4:\"unit\";s:6:\"months\";}','no'),
-(214,'woocommerce_email_from_name','BH WC Checkout Address Suggestions','no'),
+(214,'woocommerce_email_from_name','BH WC Postcode Address Autofill','no'),
 (215,'woocommerce_email_from_address','admin@example.org','no'),
 (216,'woocommerce_email_header_image','','no'),
 (217,'woocommerce_email_footer_text','{site_title} &mdash; Built with {WooCommerce}','no'),
