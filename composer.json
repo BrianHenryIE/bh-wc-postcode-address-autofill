@@ -64,6 +64,7 @@
         "phpunit/phpcov": "*",
         "squizlabs/php_codesniffer": "*",
         "szepeviktor/phpstan-wordpress": "*",
+        "woocommerce/woocommerce-sniffs": "^0.0.2",
         "wordpress/wordpress": "*",
         "wp-cli/dist-archive-command": "dev-main",
         "wp-cli/i18n-command": "^2.4",
