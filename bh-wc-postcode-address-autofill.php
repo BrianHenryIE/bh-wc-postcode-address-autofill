@@ -22,6 +22,9 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       bh-wc-postcode-address-autofill
  * Domain Path:       /languages
+ *
+ * WC requires at least: 7.6
+ * WC tested up to:      7.6
  */
 
 namespace BrianHenryIE\WC_Postcode_Address_Autofill;
