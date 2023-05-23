@@ -30,6 +30,18 @@
             "type": "composer",
             "url": "https://wpackagist.org"
         },
+        "woocommerce/woocommerce-gateway-dummy":{
+            "type": "package",
+            "package": {
+                "name": "woocommerce/woocommerce-gateway-dummy",
+                "version": "1.0.5",
+                "dist": {
+                    "url": "https://github.com/woocommerce/woocommerce-gateway-dummy/releases/latest/download/woocommerce-gateway-dummy.zip",
+                    "type": "zip"
+                },
+                "installation-source": "dist"
+            }
+        },
         "wordpress/wordpress": {
             "url": "https://github.com/WordPress/wordpress-develop",
             "type": "git"
@@ -64,12 +76,14 @@
         "phpunit/phpcov": "*",
         "squizlabs/php_codesniffer": "*",
         "szepeviktor/phpstan-wordpress": "*",
+        "woocommerce/woocommerce-gateway-dummy": "*",
         "woocommerce/woocommerce-sniffs": "^0.0.2",
         "wordpress/wordpress": "*",
         "wp-cli/dist-archive-command": "dev-main",
         "wp-cli/i18n-command": "^2.4",
         "wp-cli/wp-cli-bundle": "*",
         "wp-coding-standards/wpcs": "*",
+        "wpackagist-plugin/woo-gutenberg-products-block": "*",
         "wpackagist-plugin/woocommerce": "*",
         "wpackagist-theme/storefront": "*",
         "wpackagist-theme/twentytwenty": "*"
