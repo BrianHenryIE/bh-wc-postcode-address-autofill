@@ -105,7 +105,8 @@
         },
         "symlinks": {
             "wp-content": "wordpress/wp-content",
-            ".": "wp-content/plugins/bh-wc-postcode-address-autofill"
+            ".": "wp-content/plugins/bh-wc-postcode-address-autofill",
+            "vendor/woocommerce/woocommerce-gateway-dummy/woocommerce-gateway-dummy": "wp-content/plugins/woocommerce-gateway-dummy"
         },
         "phpstorm": {
             "exclude_folders": {
