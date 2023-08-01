@@ -19,8 +19,8 @@ class Settings implements Settings_Interface {
 	 */
 	public function get_plugin_version(): string {
 		return defined( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_VERSION' )
-			? BH_WC_POSTCODE_ADDRESS_AUTOFILL_VERSION
-			: '1.0.0';
+			? constant( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_VERSION' )
+			: '1.0.1';
 	}
 
 	/**
@@ -28,7 +28,7 @@ class Settings implements Settings_Interface {
 	 */
 	public function get_plugin_basename(): string {
 		return defined( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_BASENAME' )
-			? BH_WC_POSTCODE_ADDRESS_AUTOFILL_BASENAME
+			? constant( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_BASENAME' )
 			: 'bh-wc-postcode-address-autofill/bh-wc-postcode-address-autofill.php';
 	}
 }

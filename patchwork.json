@@ -1,0 +1,7 @@
+{
+  "redefinable-internals": [
+    "constant",
+    "define",
+    "defined"
+  ]
+}
