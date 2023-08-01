@@ -2,12 +2,21 @@
   "phpVersion": "7.4",
   "mappings": {
     "wp-content/themes": "./wp-content/themes",
-    "wp-content/uploads": "./wp-content/uploads"
+    "wp-content/plugins/woocommerce": "./wp-content/plugins/woocommerce",
+    "wp-content/plugins/basic-auth": "./wp-content/plugins/basic-auth",
+    "wp-content/plugins/gutenberg": "./wp-content/plugins/gutenberg",
+    "wp-content/plugins/woo-gutenberg-products-block": "./wp-content/plugins/woo-gutenberg-products-block",
+    "wp-content/plugins/woocommerce-gateway-dummy": "./wp-content/plugins/woocommerce-gateway-dummy",
+    "wp-cli.yml": "./wp-cli.wp-env.yml"
   },
   "plugins": [
     ".",
+    "./wp-content/plugins/basic-auth",
     "./wp-content/plugins/woocommerce"
   ],
   "port": 8888,
-  "testsPort": 8889
+  "testsPort": 8889,
+  "lifecycleScripts": {
+    "afterStart": "wp-env run tests-cli wp rewrite structure /%year%/%monthnum%/%postname%/ --hard;"
+  }
 }

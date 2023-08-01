@@ -19,7 +19,8 @@
             "cweagans/composer-patches": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "johnpbloch/wordpress-core-installer": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "automattic/jetpack-autoloader": true
         }
     },
     "repositories": {
@@ -31,13 +32,82 @@
             "type": "composer",
             "url": "https://wpackagist.org"
         },
+        "wordpress/gutenberg":{
+            "type": "package",
+            "package": {
+                "name": "wordpress/gutenberg",
+                "type": "package",
+                "version": "2023-07-31",
+                "source": {
+                    "url": "https://github.com/wordpress/gutenberg",
+                    "type": "git",
+                    "reference": "v16.3.0"
+                },
+                "installation-source": "source"
+            }
+        },
+        "woocommerce/woocommerce":{
+            "type": "package",
+            "package": {
+                "name": "woocommerce/woocommerce",
+                "type": "package",
+                "version": "2023-07-31",
+                "source": {
+                    "url": "https://github.com/woocommerce/woocommerce",
+                    "type": "git",
+                    "reference": "7.9.0"
+                },
+                "installation-source": "source"
+            }
+        },
+        "woocommerce/woocommerce-blocks":{
+            "type": "package",
+            "package": {
+                "name": "woocommerce/woocommerce-blocks",
+                "type": "package",
+                "version": "2023-07-31",
+                "source": {
+                    "url": "https://github.com/woocommerce/woocommerce-blocks",
+                    "type": "git",
+                    "reference": "v10.7.1"
+                },
+                "installation-source": "source"
+            }
+        },
         "woocommerce/woocommerce-gateway-dummy":{
             "type": "package",
             "package": {
                 "name": "woocommerce/woocommerce-gateway-dummy",
+                "version": "dev-trunk",
+                "source": {
+                    "url": "https://github.com/woocommerce/woocommerce-gateway-dummy",
+                    "type": "git",
+                    "reference": "master"
+                },
+                "installation-source": "dist"
+            }
+        },
+        "woocommerce-zip/woocommerce-gateway-dummy":{
+            "type": "package",
+            "package": {
+                "name": "woocommerce-zip/woocommerce-gateway-dummy",
+                "type": "wordpress-plugin",
                 "version": "1.0.5",
                 "dist": {
                     "url": "https://github.com/woocommerce/woocommerce-gateway-dummy/releases/latest/download/woocommerce-gateway-dummy.zip",
+                    "type": "zip"
+                },
+                "installation-source": "dist"
+            }
+        },
+        "wp-api/basic-auth":{
+            "type": "package",
+            "package": {
+                "name": "wp-api/basic-auth",
+                "type": "wordpress-plugin",
+                "version": "1.0.0",
+                "dist": {
+                    "url": "https://github.com/WP-API/Basic-Auth/archive/master.zip",
                     "type": "zip"
                 },
                 "installation-source": "dist"
@@ -78,14 +148,20 @@
         "phpunit/phpcov": "*",
         "squizlabs/php_codesniffer": "*",
         "szepeviktor/phpstan-wordpress": "*",
+        "woocommerce/woocommerce": "*",
+        "woocommerce/woocommerce-blocks": "*",
+        "woocommerce-zip/woocommerce-gateway-dummy": "*",
         "woocommerce/woocommerce-gateway-dummy": "*",
         "woocommerce/woocommerce-sniffs": "^0.0.2",
+        "wordpress/gutenberg": "*",
         "wordpress/wordpress": "*",
+        "wp-api/basic-auth": "*",
         "wp-cli/dist-archive-command": "dev-main",
         "wp-cli/i18n-command": "^2.4",
         "wp-cli/wp-cli-bundle": "*",
         "wp-coding-standards/wpcs": "*",
         "wpackagist-plugin/woo-gutenberg-products-block": "*",
+        "wpackagist-plugin/gutenberg": "*",
         "wpackagist-plugin/woocommerce": "*",
         "wpackagist-theme/storefront": "*",
         "wpackagist-theme/twentytwenty": "*"
@@ -105,8 +181,7 @@
         },
         "symlinks": {
             "wp-content": "wordpress/wp-content",
-            ".": "wp-content/plugins/bh-wc-postcode-address-autofill",
-            "vendor/woocommerce/woocommerce-gateway-dummy/woocommerce-gateway-dummy": "wp-content/plugins/woocommerce-gateway-dummy"
+            ".": "wp-content/plugins/bh-wc-postcode-address-autofill"
         },
         "phpstorm": {
             "exclude_folders": {
@@ -166,8 +241,8 @@
         "coverage-tests": [
             "vendor/bin/codecept run unit --coverage unit.cov",
             "vendor/bin/codecept run wpunit --coverage wpunit.cov",
-            "vendor/bin/phpcov merge --clover tests/_output/clover.xml --html tests/_output/html tests/_output;",
-            "open tests/_output/html/index.html"
+            "vendor/bin/phpcov merge --clover tests/_output/clover.xml --html tests/_output/phpunit tests/_output;",
+            "open tests/_output/phpunit/index.html"
         ],
         "lint": [
             "vendor/bin/phpcbf || true",

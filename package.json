@@ -5,15 +5,18 @@
   "main": "index.js",
   "scripts": {
     "env:start": "wp-env start",
+    "env:stop": "wp-env stop",
     "test:e2e-pw": "npx playwright test --config=tests/e2e-pw/playwright.config.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.32.3",
-    "@wordpress/env": "^6.0.0"
-  },
-  "dependencies": {
+    "@testing-library/react": "^14.0.0",
+    "@woocommerce/woocommerce-rest-api": "^1.0",
+    "@wordpress/e2e-test-utils": "^10.9",
+    "@wordpress/e2e-test-utils-playwright": "^0.6",
+    "@wordpress/env": "^8.0",
+    "rxjs": "^7.8.1"
   }
 }
