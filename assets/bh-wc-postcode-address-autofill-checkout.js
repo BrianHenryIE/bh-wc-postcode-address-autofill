@@ -15,7 +15,7 @@
 
 	$('body').on('focusout', '#billing_postcode', function (e) {
 
-		nextActiveElementId = e.relatedTarget.id;
+		nextActiveElementId = e.relatedTarget?.id;
 
 		var updated_billing_postcode_value = $('#billing_postcode').val();
 
