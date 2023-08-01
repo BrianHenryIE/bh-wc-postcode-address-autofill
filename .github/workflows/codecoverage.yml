@@ -61,10 +61,10 @@ jobs:
         with:
           env-file: .env.testing
 
-      - name: Read secrets (upload local `.env.secret` file using `gh secret set -f .env.secret`)
-        uses: Firenza/secrets-to-env@v1.2.0
-        with:
-          secrets: ${{ toJSON(secrets) }}
+#      - name: Read secrets (upload local `.env.secret` file using `gh secret set -f .env.secret`)
+#        uses: Firenza/secrets-to-env@v1.2.0
+#        with:
+#          secrets: ${{ toJSON(secrets) }}
 
       - name: Configure MySQL
         run: |
