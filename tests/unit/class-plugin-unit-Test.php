@@ -8,6 +8,8 @@
 
 namespace BrianHenryIE\WC_Postcode_Address_Autofill;
 
+use BrianHenryIE\WC_Postcode_Address_Autofill\API\API;
+
 /**
  * Class Plugin_WP_Mock_Test
  */
@@ -100,6 +102,6 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 
 		$this->assertArrayHasKey( 'bh_wc_postcode_address_autofill', $GLOBALS );
 
-		$this->assertInstanceOf( BH_WC_Postcode_Address_Autofill::class, $GLOBALS['bh_wc_postcode_address_autofill'] );
+		$this->assertInstanceOf( API::class, $GLOBALS['bh_wc_postcode_address_autofill'] );
 	}
 }

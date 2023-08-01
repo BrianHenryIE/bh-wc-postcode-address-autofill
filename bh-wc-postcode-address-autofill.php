@@ -65,18 +65,15 @@ register_deactivation_hook( __FILE__, array( Deactivator::class, 'deactivate' ) 
  *
  * @since    1.0.0
  */
-function instantiate_bh_wc_postcode_address_autofill(): BH_WC_Postcode_Address_Autofill {
+function instantiate_bh_wc_postcode_address_autofill(): API {
 
 	$settings = new Settings();
 	$api      = new API( $settings );
 
-	$plugin = new BH_WC_Postcode_Address_Autofill( $api, $settings );
+	new BH_WC_Postcode_Address_Autofill( $api, $settings );
 
-	return $plugin;
+	return $api;
 }
 
-/**
- * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and frontend-facing site hooks.
- */
+/** @var API_Interface */
 $GLOBALS['bh_wc_postcode_address_autofill'] = instantiate_bh_wc_postcode_address_autofill();

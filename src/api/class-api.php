@@ -36,7 +36,10 @@ class API implements API_Interface {
 	 * @param string $country The country, used to determine which file to load.
 	 * @param string $postcode The postcode to search for.
 	 *
-	 * @return array{state: string, city: array<string>} Empty if not found.
+	 * @return array{
+	 *           state: string,
+	 *           city: array<string>
+	 *         } Empty if not found.
 	 */
 	public function get_state_city_for_postcode( string $country, string $postcode ): array {
 
