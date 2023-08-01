@@ -34,20 +34,16 @@ use BrianHenryIE\WC_Postcode_Address_Autofill\API\API;
 use BrianHenryIE\WC_Postcode_Address_Autofill\API\Settings;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes\Activator;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes\Deactivator;
+use Error;
 
 if ( ! defined( 'WPINC' ) ) {
-	die;
+	throw new \Exception( 'WordPress required but not loaded.' );
 }
 
 require_once __DIR__ . '/vendor-prefixed/autoload.php';
 
 Autoloader::generate( __NAMESPACE__, __DIR__ . '/src', )->register();
 
-/**
- * Current plugin version.
- * Start at version 1.0.0 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
- */
 define( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_VERSION', '1.0.1' );
 define( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_BASENAME', plugin_basename( __FILE__ ) );
 define( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_PATH', plugin_dir_path( __FILE__ ) );
