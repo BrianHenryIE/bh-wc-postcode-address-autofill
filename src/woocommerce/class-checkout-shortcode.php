@@ -1,6 +1,6 @@
 <?php
 /**
- * Handle functions related to the WooCommerce checkout.
+ * Handle functions specific to the WooCommerce shortcode (traditional/PHP) checkout.
  *
  * @package brianhenryie/bh-wc-postcode-address-autofill
  */
@@ -12,10 +12,8 @@ use BrianHenryIE\WC_Postcode_Address_Autofill\Settings_Interface;
 
 /**
  * Hook onto WooCommerce checkout functions to reorder the fields and autofill the values.
- *
- * @phpstan-type WooCommerceFormField array{label:string,required:bool,class:array<string>,autocomplete:string,priority:int,type?:string,placeholder?:string,label_class?:array<string>,validate?:array<string>,country_field?:string,country?:string}
  */
-class Checkout {
+class Checkout_Shortcode {
 
 	/**
 	 * The core plugin functions.
@@ -52,71 +50,15 @@ class Checkout {
 	 */
 	public function enqueue_scripts(): void {
 
+		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
+			return;
+		}
+
 		$version = $this->settings->get_plugin_version();
 
 		wp_enqueue_script( 'bh-wc-postcode-address-autofill-checkout', plugin_dir_url( $this->settings->get_plugin_basename() ) . 'assets/bh-wc-postcode-address-autofill-checkout.js', array( 'jquery' ), $version, true );
 
 		// TODO: Also add a script containing select2 city suggestions.
-	}
-
-	/**
-	 * Move the Postcode input field above the City input field.
-	 *
-	 * Change the billing_postcode priority value, if it has not been changed by another plugin.
-	 *
-	 * @see woocommerce_form_field()
-	 *
-	 * @param array<string,WooCommerceFormField> $fields The billing/shipping fields.
-	 * @param string                             $prefix In some cases the array keys are prefixed with `billing_` or `shipping_`, sometimes unprefixed.
-	 *
-	 * @return array<string,WooCommerceFormField>
-	 */
-	protected function move_postcode_before_city_field( array $fields, string $prefix = 'billing_' ): array {
-
-		// Priorities are typically set in increments of 10.
-		$city_priority                             = $fields[ "{$prefix}city" ]['priority'];
-		$fields[ "{$prefix}postcode" ]['priority'] = $city_priority - 5;
-
-		return $fields;
-	}
-
-	/**
-	 * Reorder the fields when called when rendering the form.
-	 *
-	 * @hooked woocommerce_checkout_fields
-	 * @see WC_Checkout::get_checkout_fields()
-	 * @see https://rudrastyh.com/woocommerce/reorder-checkout-fields.html
-	 *
-	 * @param array{billing:array<string,WooCommerceFormField>, shipping:array<string,WooCommerceFormField>, account:array<string,WooCommerceFormField>, order:array<string,WooCommerceFormField>} $checkout_fields Array of checkout fields which will later be rendered with `woocommerce_form_field()`.
-	 *
-	 * @return array{billing:array<string,WooCommerceFormField>, shipping:array<string,WooCommerceFormField>, account:array<string,WooCommerceFormField>, order:array<string,WooCommerceFormField>}
-	 */
-	public function reorder_checkout_fields( array $checkout_fields ): array {
-
-		$checkout_fields['billing']  = $this->move_postcode_before_city_field( $checkout_fields['billing'], 'billing_' );
-		$checkout_fields['shipping'] = $this->move_postcode_before_city_field( $checkout_fields['shipping'], 'shipping_' );
-
-		return $checkout_fields;
-	}
-
-	/**
-	 * Reorder the fields when called to print the local information JSON.
-	 *
-	 * @hooked woocommerce_get_country_locale_base
-	 * @see \WC_Countries::get_country_locale()
-	 * @see address-i18n.js
-	 *
-	 * @param array<string,WooCommerceFormField> $locale_fields The local information.
-	 *
-	 * @return array<string,WooCommerceFormField>
-	 */
-	public function reorder_woocommerce_get_country_locale_base( array $locale_fields ): array {
-
-		if ( ! isset( $locale_fields['city']['priority'], $locale_fields['postcode']['priority'] ) ) {
-			return $locale_fields;
-		}
-
-		return $this->move_postcode_before_city_field( $locale_fields, '' );
 	}
 
 	/**

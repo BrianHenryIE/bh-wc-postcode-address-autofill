@@ -6,9 +6,9 @@ use BrianHenryIE\WC_Postcode_Address_Autofill\API_Interface;
 use BrianHenryIE\WC_Postcode_Address_Autofill\Settings_Interface;
 
 /**
- * @coversDefaultClass \BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout
+ * @coversDefaultClass \BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout_Shortcode
  */
-class Checkout_Unit_Test extends \Codeception\Test\Unit {
+class Checkout_Shortcode_Unit_Test extends \Codeception\Test\Unit {
 
 	protected function setup(): void {
 		parent::setup();
@@ -42,48 +42,20 @@ class Checkout_Unit_Test extends \Codeception\Test\Unit {
 			)
 		);
 
+		\WP_Mock::userFunction(
+			'is_checkout',
+			array(
+				'times'  => 1,
+				'return' => true,
+			)
+		);
+
 		$api      = self::makeEmpty( API_Interface::class );
 		$settings = self::makeEmpty( Settings_Interface::class, array( 'get_plugin_version' => $ver ) );
-		$sut      = new Checkout( $api, $settings );
+		$sut      = new Checkout_Shortcode( $api, $settings );
 
 		$sut->enqueue_scripts();
 
 		$this->assertFileExists( $src );
 	}
-
-	/**
-	 * @covers ::reorder_checkout_fields
-	 * @covers ::move_postcode_before_city_field
-	 */
-	public function test_move_postcode_input_above_city(): void {
-
-		$api      = self::makeEmpty( API_Interface::class );
-		$settings = self::makeEmpty( Settings_Interface::class );
-		$sut      = new Checkout( $api, $settings );
-
-		$checkout_fields = array(
-			'billing'  => array(
-				'billing_postcode' => array(
-					'priority' => 90,
-				),
-				'billing_city'     => array(
-					'priority' => 70,
-				),
-			),
-			'shipping' => array(
-				'shipping_postcode' => array(
-					'priority' => 90,
-				),
-				'shipping_city'     => array(
-					'priority' => 70,
-				),
-			),
-		);
-
-		$result = $sut->reorder_checkout_fields( $checkout_fields );
-
-		self::assertEquals( 65, $result['billing']['billing_postcode']['priority'] );
-		self::assertEquals( 65, $result['shipping']['shipping_postcode']['priority'] );
-	}
-
 }

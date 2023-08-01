@@ -7,7 +7,9 @@
 
 namespace BrianHenryIE\WC_Postcode_Address_Autofill;
 
-use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout;
+use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Countries;
+use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout_Blocks;
+use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout_Shortcode;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Features;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes\I18n;
 
@@ -42,7 +44,9 @@ class BH_WC_Postcode_Address_Autofill {
 
 		$this->set_locale();
 
-		$this->define_woocommerce_checkout_hooks();
+		$this->define_woocommerce_countries_hooks();
+		$this->define_woocommerce_shortcode_checkout_hooks();
+		$this->define_woocommerce_blocks_checkout_hooks();
 		$this->define_woocommerce_features_hooks();
 	}
 
@@ -62,16 +66,24 @@ class BH_WC_Postcode_Address_Autofill {
 	/**
 	 * Define the WooCommerce checkout hooks.
 	 */
-	protected function define_woocommerce_checkout_hooks(): void {
+	protected function define_woocommerce_countries_hooks(): void {
 
-		$woocommerce_checkout = new Checkout( $this->api, $this->settings );
+		$countries = new Countries( $this->api, $this->settings );
 
-		add_action( 'wp_enqueue_scripts', array( $woocommerce_checkout, 'enqueue_scripts' ) );
+		add_filter( 'woocommerce_get_country_locale', array( $countries, 'add_postcode_priority_to_country_locale' ) );
+	}
 
-		add_filter( 'woocommerce_get_country_locale_base', array( $woocommerce_checkout, 'reorder_woocommerce_get_country_locale_base' ) );
-		add_filter( 'woocommerce_checkout_fields', array( $woocommerce_checkout, 'reorder_checkout_fields' ) );
+	protected function define_woocommerce_shortcode_checkout_hooks(): void {
+		$woocommerce_shortcode_checkout = new Checkout_Shortcode( $this->api, $this->settings );
 
-		add_action( 'woocommerce_checkout_update_order_review', array( $woocommerce_checkout, 'parse_post_on_update_order_review' ) );
+		add_action( 'wp_enqueue_scripts', array( $woocommerce_shortcode_checkout, 'enqueue_scripts' ) );
+		add_action( 'woocommerce_checkout_update_order_review', array( $woocommerce_shortcode_checkout, 'parse_post_on_update_order_review' ) );
+	}
+
+	protected function define_woocommerce_blocks_checkout_hooks(): void {
+		$blocks_checkout = new Checkout_Blocks( $this->api );
+
+		add_filter( 'rest_request_before_callbacks', array( $blocks_checkout, 'add_state_city_from_zip' ), 10, 3 );
 	}
 
 	/**

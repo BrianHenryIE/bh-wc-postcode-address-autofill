@@ -8,9 +8,7 @@
 
 namespace BrianHenryIE\WC_Postcode_Address_Autofill;
 
-use BrianHenryIE\WC_Postcode_Address_Autofill\Admin\Admin_Assets;
-use BrianHenryIE\WC_Postcode_Address_Autofill\Frontend\Frontend_Assets;
-use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout;
+use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout_Shortcode;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes\I18n;
 
 /**
@@ -21,9 +19,7 @@ class BH_WC_Postcode_Address_Autofill_Integration_Test extends \Codeception\Test
 	public function hooks(): array {
 		$hooks = array(
 			array( 'init', I18n::class, 'load_plugin_textdomain' ),
-			array( 'admin_enqueue_scripts', Admin_Assets::class, 'enqueue_styles' ),
-			array( 'admin_enqueue_scripts', Admin_Assets::class, 'enqueue_scripts' ),
-			array( 'wp_enqueue_scripts', Checkout::class, 'enqueue_scripts' ),
+			array( 'wp_enqueue_scripts', Checkout_Shortcode::class, 'enqueue_scripts' ),
 		);
 		return $hooks;
 	}
