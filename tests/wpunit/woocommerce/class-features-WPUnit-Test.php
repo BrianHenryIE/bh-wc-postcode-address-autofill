@@ -12,7 +12,7 @@ use Codeception\Stub\Expected;
 class Features_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
-	 * @covers ::declare_compatibility
+	 * @covers ::declare_hpos_compatibility
 	 */
 	public function test_declare_compatibility(): void {
 
@@ -33,7 +33,7 @@ class Features_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 		$sut = new Features( $settings );
 
-		$sut->declare_compatibility();
+		$sut->declare_hpos_compatibility();
 
 		$result = FeaturesUtil::get_compatible_plugins_for_feature( 'custom_order_tables' );
 

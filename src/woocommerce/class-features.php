@@ -35,7 +35,7 @@ class Features {
 	 *
 	 * @hooked before_woocommerce_init
 	 */
-	public function declare_compatibility(): void {
+	public function declare_hpos_compatibility(): void {
 		if ( ! class_exists( FeaturesUtil::class ) ) {
 			return;
 		}

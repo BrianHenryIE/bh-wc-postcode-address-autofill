@@ -12,7 +12,7 @@ class Features_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * @covers ::__construct
-	 * @covers ::declare_compatibility
+	 * @covers ::declare_hpos_compatibility
 	 */
 	public function test_no_features_class(): void {
 
@@ -25,6 +25,6 @@ class Features_Unit_Test extends \Codeception\Test\Unit {
 
 		$sut = new Features( $settings );
 
-		$sut->declare_compatibility();
+		$sut->declare_hpos_compatibility();
 	}
 }

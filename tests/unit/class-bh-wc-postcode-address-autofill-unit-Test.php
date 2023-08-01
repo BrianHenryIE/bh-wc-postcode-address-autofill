@@ -10,6 +10,7 @@ use BrianHenryIE\WC_Postcode_Address_Autofill\API\API;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout_Blocks;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout_Shortcode;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Countries;
+use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Features;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes\I18n;
 use WP_Mock\Matcher\AnyInstance;
 
@@ -87,6 +88,20 @@ class BH_WC_Postcode_Address_Autofill_Unit_Test extends \Codeception\Test\Unit {
 			array( new AnyInstance( Checkout_Blocks::class ), 'add_state_city_from_zip' ),
 			10,
 			3
+		);
+
+		$api      = $this->makeEmpty( API::class );
+		$settings = $this->makeEmpty( Settings_Interface::class );
+		new BH_WC_Postcode_Address_Autofill( $api, $settings );
+	}
+
+	/**
+	 * @covers ::define_woocommerce_features_hooks
+	 */
+	public function test_define_woocommerce_features_hooks(): void {
+		\WP_Mock::expectActionAdded(
+			'before_woocommerce_init',
+			array( new AnyInstance( Features::class ), 'declare_hpos_compatibility' )
 		);
 
 		$api      = $this->makeEmpty( API::class );

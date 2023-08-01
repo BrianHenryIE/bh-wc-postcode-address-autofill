@@ -87,12 +87,12 @@ class BH_WC_Postcode_Address_Autofill {
 	}
 
 	/**
-	 * Declare compatibility with WooCommerce High Performace Order Storage.
+	 * Declare compatibility with WooCommerce High Performance Order Storage.
 	 */
 	protected function define_woocommerce_features_hooks(): void {
 
 		$features = new Features( $this->settings );
 
-		add_action( 'before_woocommerce_init', array( $features, 'declare_compatibility' ) );
+		add_action( 'before_woocommerce_init', array( $features, 'declare_hpos_compatibility' ) );
 	}
 }
