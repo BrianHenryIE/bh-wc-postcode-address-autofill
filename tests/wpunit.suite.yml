@@ -20,5 +20,4 @@ modules:
             title: "bh-wc-postcode-address-autofill"
             plugins: ["woocommerce/woocommerce.php"]
             activatePlugins: ["woocommerce/woocommerce.php"]
-            pluginsFolder: "%WP_ROOT_FOLDER%/wp-content/plugins"
 bootstrap: _bootstrap.php
