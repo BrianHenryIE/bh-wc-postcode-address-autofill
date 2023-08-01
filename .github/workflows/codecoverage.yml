@@ -102,7 +102,7 @@ jobs:
         run: XDEBUG_MODE=coverage vendor/bin/codecept run unit --coverage unit.cov --debug || true;
 
       - name: Run wpunit tests
-        run: XDEBUG_MODE=coverage vendor/bin/codecept run wpunit --coverage wpunit.cov --debug || true;
+        run: WP_PLUGIN_DIR=$(pwd)/bh-wc-postcode-address-autofill/wp-content/plugins XDEBUG_MODE=coverage vendor/bin/codecept run wpunit --coverage wpunit.cov --debug || true;
 
       - name: Merge code coverage
         run: vendor/bin/phpcov merge --clover tests/_output/clover.xml --html tests/_output/html tests/_output;
