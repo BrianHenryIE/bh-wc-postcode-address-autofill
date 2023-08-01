@@ -68,7 +68,7 @@ class BH_WC_Postcode_Address_Autofill {
 	 */
 	protected function define_woocommerce_countries_hooks(): void {
 
-		$countries = new Countries( $this->api, $this->settings );
+		$countries = new Countries();
 
 		add_filter( 'woocommerce_get_country_locale', array( $countries, 'add_postcode_priority_to_country_locale' ) );
 	}
