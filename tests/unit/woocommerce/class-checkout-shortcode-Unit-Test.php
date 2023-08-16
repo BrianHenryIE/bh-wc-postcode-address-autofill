@@ -61,6 +61,36 @@ class Checkout_Shortcode_Unit_Test extends \Codeception\Test\Unit {
 	}
 
 	/**
+	 * @covers ::__construct
+	 * @covers ::enqueue_scripts
+	 */
+	public function test_enqueue_scripts_not_on_checkout(): void {
+
+		\WP_Mock::passthruFunction( 'plugin_dir_url' );
+
+		\WP_Mock::userFunction(
+			'wp_enqueue_script',
+			array(
+				'times' => 0,
+			)
+		);
+
+		\WP_Mock::userFunction(
+			'is_checkout',
+			array(
+				'times'  => 1,
+				'return' => false,
+			)
+		);
+
+		$api      = self::makeEmpty( API_Interface::class );
+		$settings = self::makeEmpty( Settings_Interface::class );
+		$sut      = new Checkout_Shortcode( $api, $settings );
+
+		$sut->enqueue_scripts();
+	}
+
+	/**
 	 * @covers ::parse_post_on_update_order_review
 	 */
 	public function test_parse_post_on_update_order_review(): void {
