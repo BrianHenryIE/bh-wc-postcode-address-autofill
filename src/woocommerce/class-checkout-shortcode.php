@@ -76,14 +76,27 @@ class Checkout_Shortcode {
 		$post_array = array();
 		parse_str( $posted_data, $post_array );
 
-		$postcode = $post_array['billing_postcode'];
-		$country  = $post_array['billing_country'];
-
-		if ( empty( $postcode ) || empty( $country ) || ! is_string( $postcode ) || ! is_string( $country ) ) {
+		// In the future, it would be good to detect country from postcode.
+		if ( empty( $post_array['billing_postcode'] ) || empty( $post_array['billing_country'] )
+		|| ! is_string( $post_array['billing_postcode'] ) || ! is_string( $post_array['billing_country'] )
+		) {
 			return;
 		}
 
+		$postcode = $post_array['billing_postcode'];
+		$country  = $post_array['billing_country'];
+
 		$location = $this->api->get_state_city_for_postcode( $country, $postcode );
+
+		// If the correct city and state are already set, there is nothing to do.
+		if (
+			isset( $post_array['billing_state'] )
+			&& $post_array['billing_state'] === $location['state']
+			&& isset( $post_array['billing_city'] )
+			&& in_array( $post_array['billing_city'], $location['city'], true )
+		) {
+			return;
+		}
 
 		if ( ! empty( $location['state'] ) ) {
 			// Handle Puerto Rico edge case.
