@@ -83,6 +83,11 @@ class BH_WC_Postcode_Address_Autofill_Unit_Test extends \Codeception\Test\Unit {
 	 * @covers ::define_woocommerce_blocks_checkout_hooks
 	 */
 	public function test_define_woocommerce_blocks_checkout_hooks(): void {
+		\WP_Mock::expectActionAdded(
+			'woocommerce_blocks_enqueue_checkout_block_scripts_after',
+			array( new AnyInstance( Checkout_Blocks::class ), 'enqueue_scripts' )
+		);
+
 		\WP_Mock::expectFilterAdded(
 			'rest_request_before_callbacks',
 			array( new AnyInstance( Checkout_Blocks::class ), 'add_state_city_from_zip' ),

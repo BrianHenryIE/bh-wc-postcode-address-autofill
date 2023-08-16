@@ -81,8 +81,9 @@ class BH_WC_Postcode_Address_Autofill {
 	}
 
 	protected function define_woocommerce_blocks_checkout_hooks(): void {
-		$blocks_checkout = new Checkout_Blocks( $this->api );
+		$blocks_checkout = new Checkout_Blocks( $this->api, $this->settings );
 
+		add_action( 'woocommerce_blocks_enqueue_checkout_block_scripts_after', array( $blocks_checkout, 'enqueue_scripts' ) );
 		add_filter( 'rest_request_before_callbacks', array( $blocks_checkout, 'add_state_city_from_zip' ), 10, 3 );
 	}
 

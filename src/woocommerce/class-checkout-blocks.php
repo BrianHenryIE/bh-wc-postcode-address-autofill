@@ -12,15 +12,54 @@
 namespace BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce;
 
 use BrianHenryIE\WC_Postcode_Address_Autofill\API_Interface;
+use BrianHenryIE\WC_Postcode_Address_Autofill\Settings_Interface;
 use WC_Customer;
 use WP_REST_Request;
 
 class Checkout_Blocks {
 
+	/**
+	 * The core plugin functions.
+	 *
+	 * @uses API_Interface::get_state_city_for_postcode()
+	 */
 	protected API_Interface $api;
 
-	public function __construct( API_Interface $api ) {
-		$this->api = $api;
+	/**
+	 * Plugin settings for assets URL and caching version.
+	 *
+	 * @uses Settings_Interface::get_plugin_basename()
+	 * @uses Settings_Interface::get_plugin_version()
+	 */
+	protected Settings_Interface $settings;
+
+	/**
+	 * Constructor
+	 *
+	 * @param API_Interface      $api The main plugin functions.
+	 * @param Settings_Interface $settings The plugin settings.
+	 */
+	public function __construct( API_Interface $api, Settings_Interface $settings ) {
+		$this->settings = $settings;
+		$this->api      = $api;
+	}
+
+	/**
+	 * Register the JavaScript files used for WooCommerce Blocks checkout.
+	 *
+	 * @hooked woocommerce_blocks_enqueue_checkout_block_scripts_after
+	 * @see \Automattic\WooCommerce\Blocks\BlockTypes\Checkout::enqueue_assets()
+	 */
+	public function enqueue_scripts(): void {
+		$version = $this->settings->get_plugin_version();
+
+		wp_enqueue_script(
+			'bh-wc-postcode-address-autofill-checkout-blocks',
+			plugin_dir_url( $this->settings->get_plugin_basename() ) . 'assets/bh-wc-postcode-address-autofill-checkout-blocks.js',
+			array(),
+			$version,
+			true
+		);
 	}
 
 	/**
