@@ -55,4 +55,33 @@ test.describe( 'Checkout page', () => {
         await expect( page.locator( '#billing_state' ) ).toContainText('New York');
         await expect( page.locator( '#billing_city' ) ).toHaveValue(/New York/i );
 	});
+
+    test('Customer gets city and country autofilled only once', async( { page } ) => {
+
+        await page.goto( '/shop/?add-to-cart=' + productId );
+        await page.waitForLoadState( 'networkidle' );
+
+        await page.goto( '/checkout/' );
+
+        await page.selectOption( '#billing_country', 'IE' );
+
+        await page.getByLabel("Eircode").focus();
+        await page.getByLabel("Eircode").fill('A67 X566');
+
+        await page.locator('#billing_email').focus();
+        await page.waitForLoadState( 'networkidle' );
+
+        await expect( page.locator( '#billing_state' ) ).toContainText('Wicklow');
+        await expect( page.locator( '#billing_city' ) ).toHaveValue(/Wicklow/i );
+
+        await page.getByLabel("Town / City").fill('Rathnew');
+
+        await page.getByLabel("Eircode").focus();
+        await page.getByLabel("Eircode").fill('A67 X566');
+
+        await page.locator('#billing_email').focus();
+        await page.waitForLoadState( 'networkidle' );
+
+        await expect( page.locator( '#billing_city' ) ).toHaveValue(/Rathnew/i );
+    });
 } );

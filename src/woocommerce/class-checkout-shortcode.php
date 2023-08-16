@@ -86,29 +86,39 @@ class Checkout_Shortcode {
 		$postcode = $post_array['billing_postcode'];
 		$country  = $post_array['billing_country'];
 
+		// If the postcode did not change on this request, do not alter the address.
+		$customer_session_data = WC()->session->get( 'customer' );
+		if ( ! is_null( $customer_session_data ) && isset( $customer_session_data['postcode'] ) && $postcode === $customer_session_data['postcode'] ) {
+			return;
+		}
+
 		$location = $this->api->get_state_city_for_postcode( $country, $postcode );
+
+		if ( empty( $location['state'] ) || empty( $location['city'] ) ) {
+			return;
+		}
+
+		$new_state  = $location['state'];
+		$new_cities = $location['city'];
 
 		// If the correct city and state are already set, there is nothing to do.
 		if (
-			isset( $post_array['billing_state'] )
-			&& $post_array['billing_state'] === $location['state']
-			&& isset( $post_array['billing_city'] )
-			&& in_array( $post_array['billing_city'], $location['city'], true )
+			isset( $post_array['billing_state'] ) && $post_array['billing_state'] === $new_state
+			&& isset( $post_array['billing_city'] ) && in_array( strtoupper( $post_array['billing_city'] ), $new_cities, true )
 		) {
 			return;
 		}
 
-		if ( ! empty( $location['state'] ) ) {
-			// Handle Puerto Rico edge case.
-			if ( 'PR' === $location['state'] ) {
-				$_POST['country'] = $location['state'];
-			} else {
-				$_POST['state'] = $location['state'];
-			}
+		// Crude! One postcode could represent multiple towns/cities but for v1 we only return one.
+		$new_city = array_pop( $new_cities );
+
+		// Handle Puerto Rico edge case.
+		if ( 'PR' === $new_state ) {
+			$_POST['country'] = $new_state;
+		} else {
+			$_POST['state'] = $new_state;
 		}
-		if ( ! empty( $location['city'] ) ) {
-			$_POST['city'] = array_pop( $location['city'] );
-		}
+		$_POST['city'] = $new_city;
 
 		add_filter( 'woocommerce_update_order_review_fragments', array( $this, 'rerender_billing_fields_fragment' ) );
 	}

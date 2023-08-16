@@ -81,7 +81,106 @@ class Checkout_Shortcode_Unit_Test extends \Codeception\Test\Unit {
 		$settings = self::makeEmpty( Settings_Interface::class );
 		$sut      = new Checkout_Shortcode( $api, $settings );
 
+		$wc = new class() {
+			public $session;
+		};
+
+		$wc->session = new class() {
+			public function get( string $key ) {
+				return null;
+			}
+		};
+
+		\WP_Mock::userFunction(
+			'WC',
+			array(
+				'times'  => 1,
+				'return' => $wc,
+			)
+		);
+
 		\WP_Mock::expectFilterAdded(
+			'woocommerce_update_order_review_fragments',
+			array( $sut, 'rerender_billing_fields_fragment' )
+		);
+
+		$sut->parse_post_on_update_order_review( $posted_data );
+
+		self::assertEquals( $_POST['city'], 'Sacramento' );
+	}
+
+	/**
+	 * @covers ::parse_post_on_update_order_review
+	 */
+	public function test_parse_post_on_update_order_review_postcode_not_updated(): void {
+
+		$posted_data = 'billing_first_name=&billing_last_name=&billing_company=&billing_country=US&billing_address_1=&billing_address_2=&billing_postcode=10001&billing_city=BEVERLY%20HILLS&billing_state=CA&billing_phone=&billing_email=admin%40example.org&order_comments=&woocommerce-process-checkout-nonce=e05ebe4c4c&_wp_http_referer=%2Fbh-wc-postcode-address-autofill%2F%3Fwc-ajax%3Dupdate_order_review';
+
+		$api      = self::makeEmpty( API_Interface::class, array( 'get_state_city_for_postcode' => Expected::never() ) );
+		$settings = self::makeEmpty( Settings_Interface::class );
+		$sut      = new Checkout_Shortcode( $api, $settings );
+
+		$wc = new class() {
+			public $session;
+		};
+
+		$wc->session = new class() {
+			public function get( string $key ) {
+				return array( 'postcode' => '10001' );
+			}
+		};
+
+		\WP_Mock::userFunction(
+			'WC',
+			array(
+				'times'  => 1,
+				'return' => $wc,
+			)
+		);
+
+		$sut->parse_post_on_update_order_review( $posted_data );
+	}
+
+	/**
+	 * @covers ::parse_post_on_update_order_review
+	 */
+	public function test_parse_post_on_update_order_review_no_postcode_data(): void {
+
+		$posted_data = 'billing_first_name=&billing_last_name=&billing_company=&billing_country=US&billing_address_1=&billing_address_2=&billing_postcode=10001&billing_city=BEVERLY%20HILLS&billing_state=CA&billing_phone=&billing_email=admin%40example.org&order_comments=&woocommerce-process-checkout-nonce=e05ebe4c4c&_wp_http_referer=%2Fbh-wc-postcode-address-autofill%2F%3Fwc-ajax%3Dupdate_order_review';
+
+		$api      = self::makeEmpty(
+			API_Interface::class,
+			array(
+				'get_state_city_for_postcode' => Expected::once(
+					array(
+						'state' => '',
+						'city'  => array(),
+					)
+				),
+			)
+		);
+		$settings = self::makeEmpty( Settings_Interface::class );
+		$sut      = new Checkout_Shortcode( $api, $settings );
+
+		$wc = new class() {
+			public $session;
+		};
+
+		$wc->session = new class() {
+			public function get( string $key ) {
+				return null;
+			}
+		};
+
+		\WP_Mock::userFunction(
+			'WC',
+			array(
+				'times'  => 1,
+				'return' => $wc,
+			)
+		);
+
+		\WP_Mock::expectFilterNotAdded(
 			'woocommerce_update_order_review_fragments',
 			array( $sut, 'rerender_billing_fields_fragment' )
 		);
@@ -128,6 +227,24 @@ class Checkout_Shortcode_Unit_Test extends \Codeception\Test\Unit {
 		);
 		$settings = self::makeEmpty( Settings_Interface::class );
 		$sut      = new Checkout_Shortcode( $api, $settings );
+
+		$wc = new class() {
+			public $session;
+		};
+
+		$wc->session = new class() {
+			public function get( string $key ) {
+				return null;
+			}
+		};
+
+		\WP_Mock::userFunction(
+			'WC',
+			array(
+				'times'  => 1,
+				'return' => $wc,
+			)
+		);
 
 		\WP_Mock::expectFilterNotAdded(
 			'woocommerce_update_order_review_fragments',
