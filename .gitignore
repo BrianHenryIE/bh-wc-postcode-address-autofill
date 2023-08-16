@@ -64,3 +64,4 @@ dist-archive
 /test-results/
 /playwright-report/
 /playwright/.cache/
+.phpunit.result.cache
