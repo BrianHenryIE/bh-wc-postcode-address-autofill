@@ -65,11 +65,11 @@
             "package": {
                 "name": "woocommerce/woocommerce-blocks",
                 "type": "package",
-                "version": "2023-07-31",
+                "version": "2023-08-16",
                 "source": {
                     "url": "https://github.com/woocommerce/woocommerce-blocks",
                     "type": "git",
-                    "reference": "v10.7.1"
+                    "reference": "v10.9.0"
                 },
                 "installation-source": "source"
             }

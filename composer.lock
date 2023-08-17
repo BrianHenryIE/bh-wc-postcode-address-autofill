@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b3b345dd752162791e681131a292f6bf",
+    "content-hash": "912be6aeb124d3b1d33e6941299f5e9b",
     "packages": [
         {
             "name": "alleyinteractive/wordpress-autoloader",
@@ -9066,11 +9066,11 @@
         },
         {
             "name": "woocommerce/woocommerce-blocks",
-            "version": "2023-07-31",
+            "version": "2023-08-16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/woocommerce/woocommerce-blocks",
-                "reference": "v10.7.1"
+                "reference": "v10.9.0"
             },
             "type": "package"
         },
