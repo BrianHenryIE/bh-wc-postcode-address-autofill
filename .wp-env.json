@@ -17,6 +17,6 @@
   "port": 8888,
   "testsPort": 8889,
   "lifecycleScripts": {
-    "afterStart": "wp-env run tests-cli wp rewrite structure /%year%/%monthnum%/%postname%/ --hard;"
+    "afterStart": "wp-env run tests-cli ./wp-content/plugins/bh-wc-postcode-address-autofill/tests/e2e-pw/initialize.sh;"
   }
 }
