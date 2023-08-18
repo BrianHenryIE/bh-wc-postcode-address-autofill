@@ -6,17 +6,32 @@
   "scripts": {
     "env:start": "wp-env start",
     "env:stop": "wp-env stop",
-    "test:e2e-pw": "npx playwright test --config=tests/e2e-pw/playwright.config.js"
+    "test:e2e-pw": "npx playwright test --config=tests/e2e-pw/playwright.config.js",
+    "build": "wp-scripts build",
+    "check-engines": "wp-scripts check-engines",
+    "check-licenses": "wp-scripts check-licenses",
+    "format:js": "wp-scripts format-js",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js",
+    "lint:md:docs": "wp-scripts lint-md-docs",
+    "lint:md:js": "wp-scripts lint-md-js",
+    "lint:pkg-json": "wp-scripts lint-pkg-json",
+    "packages-update": "wp-scripts packages-update",
+    "start": "wp-scripts start",
+    "test:unit": "wp-scripts test-unit-js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
+    "@woocommerce/dependency-extraction-webpack-plugin": "^2.2.0",
+    "@woocommerce/eslint-plugin": "^2.2.0",
     "@woocommerce/woocommerce-rest-api": "^1.0",
     "@wordpress/e2e-test-utils": "^10.9",
     "@wordpress/e2e-test-utils-playwright": "^0.6",
     "@wordpress/env": "^8.4",
+    "@wordpress/scripts": "^26.11.0",
     "rxjs": "^7.8.1"
   }
 }
