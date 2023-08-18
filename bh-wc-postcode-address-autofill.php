@@ -61,7 +61,7 @@ register_deactivation_hook( __FILE__, array( Deactivator::class, 'deactivate' ) 
  *
  * @since    1.0.0
  */
-function instantiate_bh_wc_postcode_address_autofill(): API {
+function instantiate_bh_wc_postcode_address_autofill(): API_Interface {
 
 	$settings = new Settings();
 	$api      = new API( $settings );
@@ -71,5 +71,4 @@ function instantiate_bh_wc_postcode_address_autofill(): API {
 	return $api;
 }
 
-/** @var API_Interface */
 $GLOBALS['bh_wc_postcode_address_autofill'] = instantiate_bh_wc_postcode_address_autofill();

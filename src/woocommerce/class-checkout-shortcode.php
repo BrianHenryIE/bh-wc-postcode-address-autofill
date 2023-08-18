@@ -104,7 +104,7 @@ class Checkout_Shortcode {
 		// If the correct city and state are already set, there is nothing to do.
 		if (
 			isset( $post_array['billing_state'] ) && $post_array['billing_state'] === $new_state
-			&& isset( $post_array['billing_city'] ) && in_array( strtoupper( $post_array['billing_city'] ), $new_cities, true )
+			&& isset( $post_array['billing_city'] ) && is_string( $post_array['billing_city'] ) && in_array( strtoupper( $post_array['billing_city'] ), $new_cities, true )
 		) {
 			return;
 		}

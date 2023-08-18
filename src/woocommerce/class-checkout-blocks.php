@@ -31,17 +31,25 @@ class Checkout_Blocks implements IntegrationInterface {
 		$this->settings = $settings;
 	}
 
+	/**
+	 * @see IntegrationInterface::get_name()
+	 * @return string
+	 */
 	public function get_name() {
 		return 'bh-wc-postcode-address-autofill-checkout-blocks';
 	}
 
+	/**
+	 * @see IntegrationInterface::initialize()
+	 * @return void
+	 */
 	public function initialize() {
 		$this->register_script();
 	}
 
 	protected function register_script(): void {
-		$script_asset_path = '../../build/bh-wc-postcode-address-autofill-checkout-blocks.asset.php';
-		$script_asset      = file_exists( $script_asset_path )
+		$script_asset_path = realpath( __DIR__ . '/../../build/bh-wc-postcode-address-autofill-checkout-blocks.asset.php' );
+		$script_asset      = $script_asset_path && file_exists( $script_asset_path )
 			? require $script_asset_path
 			: array(
 				'dependencies' => array(),
@@ -57,15 +65,28 @@ class Checkout_Blocks implements IntegrationInterface {
 		);
 	}
 
+	/**
+	 * @see IntegrationInterface::get_script_handles()
+	 * @return string[]
+	 */
 	public function get_script_handles() {
 		return array( 'bh-wc-postcode-address-autofill-checkout-blocks' );
 	}
 
+	/**
+	 * @see IntegrationInterface::get_editor_script_handles()
+	 * @return string[]
+	 */
 	public function get_editor_script_handles() {
 		return array();
 	}
 
-	// The script does not need any data.
+	/**
+	 * The script does not need any data.
+	 *
+	 * @see IntegrationInterface::get_script_data()
+	 * @return array{}
+	 */
 	public function get_script_data() {
 		return array();
 	}
