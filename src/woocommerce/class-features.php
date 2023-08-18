@@ -29,6 +29,19 @@ class Features {
 	}
 
 	/**
+	 * Register compatibility with WooCommerce Blocks cart and checkout.
+	 *
+	 * @hooked before_woocommerce_init
+	 */
+	public function declare_cart_checkout_blocks_compatibility(): void {
+		if ( ! class_exists( FeaturesUtil::class ) ) {
+			return;
+		}
+
+		FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', $this->settings->get_plugin_basename(), true );
+	}
+
+	/**
 	 * Register compatibility with HPOS.
 	 *
 	 * We do not use anything with orders.

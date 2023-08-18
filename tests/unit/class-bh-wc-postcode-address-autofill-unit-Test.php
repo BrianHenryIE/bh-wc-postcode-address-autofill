@@ -105,6 +105,10 @@ class BH_WC_Postcode_Address_Autofill_Unit_Test extends \Codeception\Test\Unit {
 	public function test_define_woocommerce_features_hooks(): void {
 		\WP_Mock::expectActionAdded(
 			'before_woocommerce_init',
+			array( new AnyInstance( Features::class ), 'declare_cart_checkout_blocks_compatibility' )
+		);
+		\WP_Mock::expectActionAdded(
+			'before_woocommerce_init',
 			array( new AnyInstance( Features::class ), 'declare_hpos_compatibility' )
 		);
 

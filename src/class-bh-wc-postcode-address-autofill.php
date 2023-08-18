@@ -95,6 +95,7 @@ class BH_WC_Postcode_Address_Autofill {
 
 		$features = new Features( $this->settings );
 
+		add_action( 'before_woocommerce_init', array( $features, 'declare_cart_checkout_blocks_compatibility' ) );
 		add_action( 'before_woocommerce_init', array( $features, 'declare_hpos_compatibility' ) );
 	}
 }
