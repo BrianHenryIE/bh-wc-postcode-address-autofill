@@ -7,6 +7,7 @@
 
 namespace BrianHenryIE\WC_Postcode_Address_Autofill;
 
+use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Blocks;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Countries;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout_Blocks;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout_Shortcode;
@@ -81,10 +82,10 @@ class BH_WC_Postcode_Address_Autofill {
 	}
 
 	protected function define_woocommerce_blocks_checkout_hooks(): void {
-		$blocks_checkout = new Checkout_Blocks( $this->api, $this->settings );
+		$blocks = new Blocks( $this->api, $this->settings );
 
-		add_action( 'wp_enqueue_scripts', array( $blocks_checkout, 'enqueue_scripts' ) );
-		add_action( 'woocommerce_blocks_loaded', array( $blocks_checkout, 'register_update_callback' ) );
+		add_action( 'woocommerce_blocks_loaded', array( $blocks, 'register_update_callback' ) );
+		add_action( 'woocommerce_blocks_checkout_block_registration', array( $blocks, 'register_integration' ) );
 	}
 
 	/**
