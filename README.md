@@ -10,6 +10,12 @@ Works with WooCommerce Blocks checkout. Postcode data available for the United S
 
 ![Shortcode checkout postcode autofill](./.github/bh-wc-postcode-address-autofill.gif "Demo of the city and state autofilling from the postcode entry")
 
+## TODO:
+
+* Shipping addresses
+* My Account
+* JS/TS sourcemap
+* Serialize data and store in database
 ### PHPUnit Tests with Codeception/WP-Browser
 
 Requires local Apache and MySQL.
