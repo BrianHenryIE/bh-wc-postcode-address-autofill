@@ -1,5 +1,4 @@
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
-const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
 const WooDependencyExtractionWebpackPlugin = require( '@woocommerce/dependency-extraction-webpack-plugin' );
 
 const requestToExternal = ( request ) => {
@@ -43,8 +42,7 @@ module.exports = {
             ( plugin ) =>
                 plugin.constructor.name !== 'DependencyExtractionWebpackPlugin'
         ),
-        new WooDependencyExtractionWebpackPlugin(), // TODO: Should this be used alongside or instead of the WP one?
-        new DependencyExtractionWebpackPlugin( {
+        new WooDependencyExtractionWebpackPlugin( {
             injectPolyfill: true,
             requestToExternal,
             requestToHandle,
