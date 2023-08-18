@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Register the blocks checkout integration and handle updating the cart through `extensionCartUpdate` JavaScript.
+ *
+ * @package brianhenryie/bh-wc-postcode-address-autofill
+ */
 
 namespace BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce;
 
@@ -7,8 +11,10 @@ use Automattic\WooCommerce\Blocks\Integrations\IntegrationRegistry;
 use BrianHenryIE\WC_Postcode_Address_Autofill\API_Interface;
 use BrianHenryIE\WC_Postcode_Address_Autofill\Settings_Interface;
 
+/**
+ * Register with WooCommerce's `IntegrationRegistry` and `extensionCartUpdate`.
+ */
 class Blocks {
-
 	/**
 	 * The core plugin functions.
 	 *
@@ -17,7 +23,7 @@ class Blocks {
 	protected API_Interface $api;
 
 	/**
-	 * Plugin settings for assets URL.
+	 * Plugin settings.
 	 */
 	protected Settings_Interface $settings;
 
@@ -33,14 +39,22 @@ class Blocks {
 	}
 
 	/**
+	 * Use the IntegrationRegistry to enqueue scripts wherever the checkout is displayed.
+	 *
 	 * @hooked woocommerce_blocks_checkout_block_registration
+	 * @see https://github.com/woocommerce/woocommerce-blocks/blob/trunk/docs/third-party-developers/extensibility/checkout-block/integration-interface.md
+	 *
+	 * @param IntegrationRegistry $integration_registry WooCommerce core class for managing blocks' assets.
 	 */
 	public function register_integration( IntegrationRegistry $integration_registry ): void {
 		$integration_registry->register( new Checkout_Blocks( $this->settings ) );
 	}
 
 	/**
+	 * Register a function to handle updating the cart in JavaScript using the `extensionCartUpdate` function.
+	 *
 	 * @hooked woocommerce_blocks_loaded
+	 * @see https://github.com/woocommerce/woocommerce-blocks/blob/trunk/docs/third-party-developers/extensibility/rest-api/extend-rest-api-update-cart.md
 	 */
 	public function register_update_callback(): void {
 		woocommerce_store_api_register_update_callback(
@@ -52,6 +66,11 @@ class Blocks {
 	}
 
 	/**
+	 * Handle the update sent from the frontend.
+	 *
+	 * Find the state+city for the country+postcode and apply them to the cart address.
+	 * This should only be called when a new postcode has been entered.
+	 *
 	 * @param array{postcode:string, country:string} $data The data object as passed from our JavaScript.
 	 */
 	public function update_callback( array $data ): void {
