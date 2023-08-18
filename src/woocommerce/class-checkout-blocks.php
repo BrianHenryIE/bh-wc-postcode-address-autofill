@@ -40,7 +40,7 @@ class Checkout_Blocks implements IntegrationInterface {
 	}
 
 	protected function register_script(): void {
-		$script_asset_path = WP_PLUGIN_DIR . '/' . plugin_dir_path( $this->settings->get_plugin_basename() ) . 'build/bh-wc-postcode-address-autofill-checkout-blocks.asset.php';
+		$script_asset_path = '../../build/bh-wc-postcode-address-autofill-checkout-blocks.asset.php';
 		$script_asset      = file_exists( $script_asset_path )
 			? require $script_asset_path
 			: array(

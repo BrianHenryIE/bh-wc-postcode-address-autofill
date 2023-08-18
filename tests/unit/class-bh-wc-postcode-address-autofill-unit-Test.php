@@ -7,6 +7,7 @@
 namespace BrianHenryIE\WC_Postcode_Address_Autofill;
 
 use BrianHenryIE\WC_Postcode_Address_Autofill\API\API;
+use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Blocks;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout_Blocks;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout_Shortcode;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Countries;
@@ -84,15 +85,13 @@ class BH_WC_Postcode_Address_Autofill_Unit_Test extends \Codeception\Test\Unit {
 	 */
 	public function test_define_woocommerce_blocks_checkout_hooks(): void {
 		\WP_Mock::expectActionAdded(
-			'woocommerce_blocks_enqueue_checkout_block_scripts_after',
-			array( new AnyInstance( Checkout_Blocks::class ), 'enqueue_scripts' )
+			'woocommerce_blocks_loaded',
+			array( new AnyInstance( Blocks::class ), 'register_update_callback' )
 		);
 
-		\WP_Mock::expectFilterAdded(
-			'rest_request_before_callbacks',
-			array( new AnyInstance( Checkout_Blocks::class ), 'add_state_city_from_zip' ),
-			10,
-			3
+		\WP_Mock::expectActionAdded(
+			'woocommerce_blocks_checkout_block_registration',
+			array( new AnyInstance( Blocks::class ), 'register_integration' )
 		);
 
 		$api      = $this->makeEmpty( API::class );

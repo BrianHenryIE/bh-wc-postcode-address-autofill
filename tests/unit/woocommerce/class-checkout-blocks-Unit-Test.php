@@ -23,31 +23,46 @@ class Checkout_Blocks_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * @covers ::__construct
-	 * @covers ::enqueue_scripts
+	 * @covers ::initialize
+	 * @covers ::register_script
 	 */
 	public function test_enqueue_scripts(): void {
 
-		\WP_Mock::passthruFunction( 'plugin_dir_url' );
+		$plugin_basename = 'bh-wc-postcode-address-autofill/bh-wc-postcode-address-autofill.php';
 
 		$handle    = 'bh-wc-postcode-address-autofill-checkout-blocks';
-		$src       = 'assets/bh-wc-postcode-address-autofill-checkout-blocks.js';
+		$src       = 'build/bh-wc-postcode-address-autofill-checkout-blocks.js';
 		$deps      = array();
 		$ver       = '1.0.0';
 		$in_footer = true;
 
 		\WP_Mock::userFunction(
-			'wp_enqueue_script',
+			'plugin_dir_url',
+			array(
+				'times'  => 1,
+				'args'   => $plugin_basename,
+				'return' => '',
+			)
+		);
+
+		\WP_Mock::userFunction(
+			'wp_register_script',
 			array(
 				'times' => 1,
 				'args'  => array( $handle, $src, $deps, $ver, $in_footer ),
 			)
 		);
 
-		$api      = self::makeEmpty( API_Interface::class );
-		$settings = self::makeEmpty( Settings_Interface::class, array( 'get_plugin_version' => $ver ) );
-		$sut      = new Checkout_Blocks( $api, $settings );
+		$settings = self::makeEmpty(
+			Settings_Interface::class,
+			array(
+				'get_plugin_version'  => $ver,
+				'get_plugin_basename' => $plugin_basename,
+			)
+		);
+		$sut      = new Checkout_Blocks( $settings );
 
-		$sut->enqueue_scripts();
+		$sut->initialize();
 
 		$this->assertFileExists( $src );
 	}
