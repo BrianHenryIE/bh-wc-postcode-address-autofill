@@ -2,6 +2,10 @@
 const { test, expect } = require( '@playwright/test' );
 const { default: WooCommerceRestApi } = require("@woocommerce/woocommerce-rest-api");
 
+// TODO: Check is this import useful:
+// "It also creates a "Checkout page object" util class which contains some new utils, specifically:"
+// @see https://github.com/woocommerce/woocommerce-blocks/pull/10532
+
 test.describe( 'Checkout page', () => {
 
     const singleProductPrice = '9.99';
@@ -38,27 +42,27 @@ test.describe( 'Checkout page', () => {
             } );
     } );
 
-    test('Customer gets city and country autofilled', async( { page } ) => {
+    test('Checkout billing address gets city and country autofilled', async( { page } ) => {
 
         await page.goto( '/shop/?add-to-cart=' + productId );
-		await page.waitForLoadState( 'networkidle' );
+        await page.waitForLoadState( 'networkidle' );
 
         await page.goto( '/blocks-checkout/' );
 
-        await page.getByLabel('Country/Region').click();
-        await page.getByLabel('Country/Region').fill('united');
-        await page.getByLabel('United States (US)', { exact: true }).click();
+        let billingAddress = await page.locator('#billing-fields');
 
+        await billingAddress.getByLabel('Country/Region').click();
+        await billingAddress.getByLabel('Country/Region').fill('united');
+        await billingAddress.getByLabel('United States (US)', { exact: true }).click();
 
-        await page.getByLabel("ZIP Code").focus();
-        await page.getByLabel("ZIP Code").fill('10001');
-        await page.getByLabel('ZIP Code').press('Tab');
+        await billingAddress.getByLabel("ZIP Code").focus();
+        await billingAddress.getByLabel("ZIP Code").fill('10001');
+        await billingAddress.getByLabel('ZIP Code').press('Tab');
 
-        // await page.getByLabel('Phone').focus();
         await page.waitForLoadState( 'networkidle' );
 
-        await expect( page.getByLabel('City') ).toContainText('New York');
-        await expect( page.getByLabel('State') ).toHaveValue(/New York/i );
+        await expect( billingAddress.getByLabel('City') ).toHaveValue('NEW YORK');
+        await expect( billingAddress.locator('#billing-state').getByLabel('State') ).toHaveValue(/New York/i );
 	});
 
 } );
