@@ -8,6 +8,9 @@ use Codeception\Stub\Expected;
 
 /**
  * @coversDefaultClass \BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Checkout_Shortcode
+ *
+ * phpcs:disable Squiz.Commenting.VariableComment.Missing
+ * phpcs:disable WordPress.Security.NonceVerification.Missing
  */
 class Checkout_Shortcode_Unit_Test extends \Codeception\Test\Unit {
 

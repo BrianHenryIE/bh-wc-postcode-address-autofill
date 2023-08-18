@@ -74,6 +74,10 @@ class BH_WC_Postcode_Address_Autofill {
 		add_filter( 'woocommerce_get_country_locale', array( $countries, 'add_postcode_priority_to_country_locale' ) );
 	}
 
+	/**
+	 * Register hooks for operation on traditional WooCommerce "shortcode" checkout.
+	 * Enqueue the required JavaScript and handle the checkout update.
+	 */
 	protected function define_woocommerce_shortcode_checkout_hooks(): void {
 		$woocommerce_shortcode_checkout = new Checkout_Shortcode( $this->api, $this->settings );
 
@@ -81,11 +85,15 @@ class BH_WC_Postcode_Address_Autofill {
 		add_action( 'woocommerce_checkout_update_order_review', array( $woocommerce_shortcode_checkout, 'parse_post_on_update_order_review' ) );
 	}
 
+	/**
+	 * Register hooks for operation on the WooCommerce Blocks checkout.
+	 * Use IntegrationsRegistry to enqueue the script and Store API to handle updates from JavaScript.
+	 */
 	protected function define_woocommerce_blocks_checkout_hooks(): void {
 		$blocks = new Blocks( $this->api, $this->settings );
 
-		add_action( 'woocommerce_blocks_loaded', array( $blocks, 'register_update_callback' ) );
 		add_action( 'woocommerce_blocks_checkout_block_registration', array( $blocks, 'register_integration' ) );
+		add_action( 'woocommerce_blocks_loaded', array( $blocks, 'register_update_callback' ) );
 	}
 
 	/**

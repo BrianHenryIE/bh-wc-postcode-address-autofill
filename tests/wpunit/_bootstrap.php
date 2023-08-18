@@ -5,7 +5,6 @@
  * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
-
 use Alley_Interactive\Autoloader\Autoloader;
 
 global $plugin_root_dir;

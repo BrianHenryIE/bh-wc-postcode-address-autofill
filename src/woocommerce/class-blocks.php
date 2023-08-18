@@ -68,6 +68,8 @@ class Blocks {
 	/**
 	 * Handle the update sent from the frontend.
 	 *
+	 * Handle autofill on postcode entry on the WooCommerce Blocks checkout.
+	 *
 	 * Find the state+city for the country+postcode and apply them to the cart address.
 	 * This should only be called when a new postcode has been entered.
 	 *

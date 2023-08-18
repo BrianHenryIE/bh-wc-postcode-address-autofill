@@ -1,8 +1,6 @@
 <?php
 /**
- * Handle autofill on postcode entry on the WooCommerce Blocks checkout.
- *
- * When the postcode entered, a HTTP POST request is sent to `/wc/store/v1/cart/update-customer` (via `wp-json/wc/store/v1/batch`).
+ * Register the Blocks checkout JavaScript with WooCommerce.
  *
  * @package brianhenryie/bh-wc-postcode-address-autofill
  */
@@ -12,10 +10,15 @@ namespace BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce;
 use Automattic\WooCommerce\Blocks\Integrations\IntegrationInterface;
 use BrianHenryIE\WC_Postcode_Address_Autofill\Settings_Interface;
 
+/**
+ * Conventional way to register scripts for WooCommerce Blocks.
+ *
+ * @see \Automattic\WooCommerce\Blocks\BlockTypes\AbstractBlock::register_block_type_assets()
+ */
 class Checkout_Blocks implements IntegrationInterface {
 
 	/**
-	 * Plugin settings for assets URL and caching version.
+	 * Plugin settings for assets URL and sometimes for caching version.
 	 *
 	 * @uses Settings_Interface::get_plugin_basename()
 	 * @uses Settings_Interface::get_plugin_version()
@@ -32,6 +35,8 @@ class Checkout_Blocks implements IntegrationInterface {
 	}
 
 	/**
+	 * Return a unique name for the integration.
+	 *
 	 * @see IntegrationInterface::get_name()
 	 * @return string
 	 */
@@ -40,6 +45,8 @@ class Checkout_Blocks implements IntegrationInterface {
 	}
 
 	/**
+	 * Initialize the integration – in this case, just register the script.
+	 *
 	 * @see IntegrationInterface::initialize()
 	 * @return void
 	 */
@@ -47,6 +54,9 @@ class Checkout_Blocks implements IntegrationInterface {
 		$this->register_script();
 	}
 
+	/**
+	 * Register the checkout script with WordPress, to later be enqueued by WooCommerce.
+	 */
 	protected function register_script(): void {
 		$script_asset_path = realpath( __DIR__ . '/../../build/bh-wc-postcode-address-autofill-checkout-blocks.asset.php' );
 		$script_asset      = $script_asset_path && file_exists( $script_asset_path )
@@ -66,6 +76,8 @@ class Checkout_Blocks implements IntegrationInterface {
 	}
 
 	/**
+	 * Return the handle of the script registered above.
+	 *
 	 * @see IntegrationInterface::get_script_handles()
 	 * @return string[]
 	 */
@@ -74,6 +86,8 @@ class Checkout_Blocks implements IntegrationInterface {
 	}
 
 	/**
+	 * The script does not run in the admin editor.
+	 *
 	 * @see IntegrationInterface::get_editor_script_handles()
 	 * @return string[]
 	 */
