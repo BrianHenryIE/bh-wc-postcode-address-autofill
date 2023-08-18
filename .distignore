@@ -31,3 +31,11 @@ DOCKER_ENV
 docker_tag
 
 /uninstall.php
+
+/js
+/artifacts
+patchwork.json
+phpcs.*.xml
+/test-results
+webpack.config.js
+wp-cli.*.yml
