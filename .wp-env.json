@@ -9,14 +9,27 @@
     "wp-content/plugins/woocommerce-gateway-dummy": "./wp-content/plugins/woocommerce-gateway-dummy",
     "wp-cli.yml": "./wp-cli.wp-env.yml"
   },
-  "plugins": [
-    ".",
-    "./wp-content/plugins/basic-auth",
-    "./wp-content/plugins/woocommerce"
-  ],
   "port": 8888,
   "testsPort": 8889,
   "lifecycleScripts": {
-    "afterStart": "wp-env run tests-cli ./wp-content/plugins/bh-wc-postcode-address-autofill/tests/e2e-pw/initialize.sh;"
+    "afterStart": "./tests/e2e-pw/setup/initialize-external.sh"
+  },
+  "env": {
+    "development": {
+      "plugins": [
+        "./wp-content/plugins/basic-auth",
+        "./wp-content/plugins/woocommerce",
+        "."
+      ]
+    },
+    "tests": {
+      "mappings": {
+        "e2e-setup": "./tests/e2e-pw/setup"
+      },
+      "plugins": [
+        "./wp-content/plugins/basic-auth",
+        "./wp-content/plugins/woocommerce"
+      ]
+    }
   }
 }

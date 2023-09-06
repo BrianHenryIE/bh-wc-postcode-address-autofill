@@ -16,6 +16,9 @@ Works with WooCommerce Blocks checkout. Postcode data available for the United S
 * My Account
 * JS/TS sourcemap
 * Serialize data and store in database
+
+## Testing:
+
 ### PHPUnit Tests with Codeception/WP-Browser
 
 Requires local Apache and MySQL.
@@ -53,6 +56,9 @@ open http://localhost:8889
 
 # Start the playwright test runner UI and return to the Terminal (otherwise Terminal is unavailable until the application is exited).
 npx playwright test --config ./tests/e2e-pw/playwright.config.js --ui &;
+
+# Start browser and record Playwright steps
+playwright codegen --target javascript -o example.js
 
 # Run WP CLI commands on the tests instance
 npx wp-env run tests-cli wp option get rewrite_rules
