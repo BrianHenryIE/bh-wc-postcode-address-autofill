@@ -18,6 +18,5 @@ class Activator {
 	 * Short Description. (use period)
 	 */
 	public static function activate(): void {
-
 	}
 }

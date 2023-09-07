@@ -20,6 +20,5 @@ class Deactivator {
 	 * Long Description.
 	 */
 	public static function deactivate(): void {
-
 	}
 }
