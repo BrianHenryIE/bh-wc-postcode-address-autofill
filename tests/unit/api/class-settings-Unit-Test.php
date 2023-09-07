@@ -32,7 +32,7 @@ class Settings_Unit_Test extends \Codeception\Test\Unit {
 
 		\Patchwork\redefine(
 			'defined',
-			function( string $const ): bool {
+			function ( string $constant_value ): bool {
 				return false;
 			}
 		);
@@ -51,14 +51,14 @@ class Settings_Unit_Test extends \Codeception\Test\Unit {
 
 		\Patchwork\redefine(
 			'defined',
-			function( string $const ): bool {
+			function ( string $constant_value ): bool {
 				return true;
 			}
 		);
 
 		\Patchwork\redefine(
 			'constant',
-			function( string $const ): string {
+			function ( string $constant_value ): string {
 				return '1.0.1d';
 			}
 		);
@@ -77,7 +77,7 @@ class Settings_Unit_Test extends \Codeception\Test\Unit {
 
 		\Patchwork\redefine(
 			'defined',
-			function( string $const ): bool {
+			function ( string $constant_value ): bool {
 				return false;
 			}
 		);
@@ -96,14 +96,14 @@ class Settings_Unit_Test extends \Codeception\Test\Unit {
 
 		\Patchwork\redefine(
 			'defined',
-			function( string $const ): bool {
+			function ( string $constant_value ): bool {
 				return true;
 			}
 		);
 
 		\Patchwork\redefine(
 			'constant',
-			function( string $const ): string {
+			function ( string $constant_value ): string {
 				return 'defined-bh-wc-postcode-address-autofill/bh-wc-postcode-address-autofill.php';
 			}
 		);

@@ -15,7 +15,7 @@ use BrianHenryIE\WC_Postcode_Address_Autofill\API\API;
  */
 class Plugin_Unit_Test extends \Codeception\Test\Unit {
 
-	protected function setup() : void {
+	protected function setup(): void {
 		parent::setUp();
 		\WP_Mock::setUp();
 	}
@@ -34,7 +34,7 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 		// Prevents code-coverage counting, and removes the need to define the WordPress functions that are used in that class.
 		\Patchwork\redefine(
 			array( BH_WC_Postcode_Address_Autofill::class, '__construct' ),
-			function() {}
+			function () {}
 		);
 
 		// Defined in `bootstrap.php`.

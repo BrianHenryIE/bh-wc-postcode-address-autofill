@@ -58,6 +58,5 @@ class BH_WC_Postcode_Address_Autofill_Integration_Test extends \Codeception\Test
 		$this->assertNotNull( $hooked_method, "No methods on an instance of $class_type hooked to $action_name" );
 
 		$this->assertEquals( $method_name, $hooked_method, "Unexpected method name for $class_type class hooked to $action_name" );
-
 	}
 }

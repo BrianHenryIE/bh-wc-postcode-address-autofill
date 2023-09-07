@@ -28,7 +28,7 @@ class I18n {
 		load_plugin_textdomain(
 			'bh-wc-postcode-address-autofill',
 			false,
-			plugin_basename( dirname( __FILE__, 3 ) ) . '/languages/'
+			plugin_basename( dirname( __DIR__, 2 ) ) . '/languages/'
 		);
 	}
 }

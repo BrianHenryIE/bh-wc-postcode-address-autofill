@@ -35,7 +35,7 @@ class Blocks_Unit_Test extends \Codeception\Test\Unit {
 			IntegrationRegistry::class,
 			array(
 				'register' => Expected::once(
-					function( $checkout_blocks ) {
+					function ( $checkout_blocks ) {
 						assert( $checkout_blocks instanceof Checkout_Blocks );
 					}
 				),
@@ -57,7 +57,7 @@ class Blocks_Unit_Test extends \Codeception\Test\Unit {
 			'woocommerce_store_api_register_update_callback',
 			array(
 				'times' => 1,
-				'args'  => function( $args ): bool {
+				'args'  => function ( $args ): bool {
 					self::assertCount( 2, $args );
 					self::assertEquals( 'bh-wc-postcode-address-autofill', $args['namespace'] );
 					return true;
@@ -72,7 +72,5 @@ class Blocks_Unit_Test extends \Codeception\Test\Unit {
 	 * @covers ::update_callback
 	 */
 	public function test_update_callback(): void {
-
 	}
-
 }

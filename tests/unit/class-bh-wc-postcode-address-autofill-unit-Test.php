@@ -116,5 +116,4 @@ class BH_WC_Postcode_Address_Autofill_Unit_Test extends \Codeception\Test\Unit {
 		$settings = $this->makeEmpty( Settings_Interface::class );
 		new BH_WC_Postcode_Address_Autofill( $api, $settings );
 	}
-
 }

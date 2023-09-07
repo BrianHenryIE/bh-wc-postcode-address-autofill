@@ -26,7 +26,7 @@ class I18n_WP_Unit_Test extends \Codeception\TestCase\WPTestCase {
 		$called        = false;
 		$actual_domain = null;
 
-		$filter = function( $locale, $domain ) use ( &$called, &$actual_domain ) {
+		$filter = function ( $locale, $domain ) use ( &$called, &$actual_domain ) {
 
 			$called        = true;
 			$actual_domain = $domain;

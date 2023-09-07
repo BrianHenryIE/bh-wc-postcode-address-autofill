@@ -76,45 +76,45 @@ class Checkout_Blocks_Unit_Test extends \Codeception\Test\Unit {
 	 * @covers ::get_name
 	 */
 	public function test_get_name(): void {
-		$settings = self::makeEmpty(Settings_Interface::class);
+		$settings = self::makeEmpty( Settings_Interface::class );
 		$sut      = new Checkout_Blocks( $settings );
 
-		self::assertEquals('bh-wc-postcode-address-autofill-checkout-blocks', $sut->get_name());
+		self::assertEquals( 'bh-wc-postcode-address-autofill-checkout-blocks', $sut->get_name() );
 	}
 
 	/**
 	 * @covers ::get_script_handles
 	 */
 	public function test_get_script_handles(): void {
-		$settings = self::makeEmpty(Settings_Interface::class);
+		$settings = self::makeEmpty( Settings_Interface::class );
 		$sut      = new Checkout_Blocks( $settings );
 
 		$result = $sut->get_script_handles();
 
-		self::assertIsArray($result);
-		self::assertCount(1,$result);
-		self::assertEquals('bh-wc-postcode-address-autofill-checkout-blocks', $result[0]);
+		self::assertIsArray( $result );
+		self::assertCount( 1, $result );
+		self::assertEquals( 'bh-wc-postcode-address-autofill-checkout-blocks', $result[0] );
 	}
 
 	/**
 	 * @covers ::get_editor_script_handles
 	 */
 	public function test_get_editor_script_handles(): void {
-		$settings = self::makeEmpty(Settings_Interface::class);
+		$settings = self::makeEmpty( Settings_Interface::class );
 		$sut      = new Checkout_Blocks( $settings );
 
-		self::assertIsArray($sut->get_editor_script_handles());
-		self::assertEmpty($sut->get_editor_script_handles());
+		self::assertIsArray( $sut->get_editor_script_handles() );
+		self::assertEmpty( $sut->get_editor_script_handles() );
 	}
 
 	/**
 	 * @covers ::get_script_data
 	 */
 	public function test_get_script_data(): void {
-		$settings = self::makeEmpty(Settings_Interface::class);
+		$settings = self::makeEmpty( Settings_Interface::class );
 		$sut      = new Checkout_Blocks( $settings );
 
-		self::assertIsArray($sut->get_script_data());
-		self::assertEmpty($sut->get_script_data());
+		self::assertIsArray( $sut->get_script_data() );
+		self::assertEmpty( $sut->get_script_data() );
 	}
 }
