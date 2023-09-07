@@ -2,9 +2,9 @@
 
 ## 1.1.0 - 2023-08-18
 
-* Add: WooCommerce Blocks compatability
+* Add: WooCommerce Blocks compatibility
 * Fix: JS error when blur/focus moved to browser chrome and not a DOM element
-* Add: Don't perform lookup unless postcode has changed
+* Performance: Don't perform lookup unless postcode has changed
 * Dev: Added E2E tests with Playwright and wp-env
 * Dev: Added many PHPUnit tests
 
