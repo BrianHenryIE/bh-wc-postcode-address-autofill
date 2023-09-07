@@ -53,7 +53,7 @@ class Checkout_Blocks_Unit_Test extends \Codeception\Test\Unit {
 					$src,
 					\WP_Mock\Functions::type( 'array' ),
 					\WP_Mock\Functions::type( 'string' ),
-					$in_footer
+					$in_footer,
 				),
 			)
 		);
