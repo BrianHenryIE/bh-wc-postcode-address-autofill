@@ -18,7 +18,7 @@ class Blocks {
 	/**
 	 * The core plugin functions.
 	 *
-	 * @uses API_Interface::get_state_city_for_postcode()
+	 * @uses API_Interface::get_locations_for_postcode()
 	 */
 	protected API_Interface $api;
 
@@ -83,14 +83,19 @@ class Blocks {
 
 		$cart->get_customer()->set_billing_postcode( $postcode );
 
-		$state_city = $this->api->get_state_city_for_postcode( $country, $postcode );
+		$locations = $this->api->get_locations_for_postcode( $country, $postcode );
 
-		if ( ! empty( $state_city['state'] ) ) {
-			$cart->get_customer()->set_billing_state( $state_city['state'] );
+		if ( empty( $locations ) ) {
+			return;
 		}
-		if ( ! empty( $state_city['city'] ) ) {
-			$city = array_pop( $state_city['city'] );
-			$cart->get_customer()->set_billing_city( $city );
+
+		$location = $locations->get_first();
+
+		if ( empty( $location ) ) {
+			return;
 		}
+
+		$cart->get_customer()->set_billing_state( $location->get_state() );
+		$cart->get_customer()->set_billing_city( $location->get_city() );
 	}
 }

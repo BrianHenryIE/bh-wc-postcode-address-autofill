@@ -32,10 +32,10 @@ namespace BrianHenryIE\WC_Postcode_Address_Autofill;
 
 use BrianHenryIE\WC_Postcode_Address_Autofill\Alley_Interactive\Autoloader\Autoloader;
 use BrianHenryIE\WC_Postcode_Address_Autofill\API\API;
+use BrianHenryIE\WC_Postcode_Address_Autofill\API\Data_Loader;
 use BrianHenryIE\WC_Postcode_Address_Autofill\API\Settings;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes\Activator;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes\Deactivator;
-use Error;
 
 if ( ! defined( 'WPINC' ) ) {
 	throw new \Exception( 'WordPress required but not loaded.' );
@@ -64,8 +64,9 @@ register_deactivation_hook( __FILE__, array( Deactivator::class, 'deactivate' ) 
  */
 function instantiate_bh_wc_postcode_address_autofill(): API_Interface {
 
-	$settings = new Settings();
-	$api      = new API( $settings );
+	$settings    = new Settings();
+	$data_loader = new Data_Loader( $settings );
+	$api         = new API( $data_loader, $settings );
 
 	new BH_WC_Postcode_Address_Autofill( $api, $settings );
 

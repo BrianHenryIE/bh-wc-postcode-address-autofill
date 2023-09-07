@@ -32,8 +32,8 @@
         <exclude-pattern>*/src/*</exclude-pattern>
     </rule>
     <!-- Short ternaries are useful -->
-    <rule ref="WordPress.PHP.DisallowShortTernary.Found">
-        <exclude-pattern>*/src/*</exclude-pattern>
+    <rule ref="Universal.Operators.DisallowShortTernary.Found">
+        <exclude-pattern>*</exclude-pattern>
     </rule>
     <!-- Short comments aren't necessary when commenting arrays for type-hinting. TODO: make this specific to arrays! -->
     <rule ref="Generic.Commenting.DocComment.MissingShort">
@@ -109,6 +109,11 @@
     </rule>
     <rule ref="WordPress.WP.GlobalVariablesOverride.Prohibited">
         <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+
+    <!-- Go easier on the build tool -->
+    <rule ref="WordPress">
+        <exclude-pattern>data/original/parser/*</exclude-pattern>
     </rule>
 
 </ruleset>

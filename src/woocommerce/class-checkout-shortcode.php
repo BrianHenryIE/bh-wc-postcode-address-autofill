@@ -18,7 +18,7 @@ class Checkout_Shortcode {
 	/**
 	 * The core plugin functions.
 	 *
-	 * @uses API_Interface::get_state_city_for_postcode()
+	 * @uses API_Interface::get_locations_for_postcode()
 	 */
 	protected API_Interface $api;
 
@@ -92,25 +92,29 @@ class Checkout_Shortcode {
 			return;
 		}
 
-		$location = $this->api->get_state_city_for_postcode( $country, $postcode );
+		$locations = $this->api->get_locations_for_postcode( $country, $postcode );
 
-		if ( empty( $location['state'] ) || empty( $location['city'] ) ) {
+		if ( empty( $locations ) ) {
 			return;
 		}
 
-		$new_state  = $location['state'];
-		$new_cities = $location['city'];
+		// Crude! One postcode could represent multiple towns/cities but for v1 we only work with one.
+		$location = $locations->get_first();
+
+		if ( empty( $location ) ) {
+			return;
+		}
+
+		$new_state = $location->get_state();
+		$new_city  = $location->get_city();
 
 		// If the correct city and state are already set, there is nothing to do.
 		if (
 			isset( $post_array['billing_state'] ) && $post_array['billing_state'] === $new_state
-			&& isset( $post_array['billing_city'] ) && is_string( $post_array['billing_city'] ) && in_array( strtoupper( $post_array['billing_city'] ), $new_cities, true )
+			&& isset( $post_array['billing_city'] ) && is_string( $post_array['billing_city'] ) && stripos( $post_array['billing_city'], $new_city ) === 0
 		) {
 			return;
 		}
-
-		// Crude! One postcode could represent multiple towns/cities but for v1 we only return one.
-		$new_city = array_pop( $new_cities );
 
 		// Handle Puerto Rico edge case.
 		if ( 'PR' === $new_state ) {

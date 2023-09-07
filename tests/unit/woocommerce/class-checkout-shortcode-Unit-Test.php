@@ -2,6 +2,8 @@
 
 namespace BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce;
 
+use BrianHenryIE\WC_Postcode_Address_Autofill\API\Postcode_Location;
+use BrianHenryIE\WC_Postcode_Address_Autofill\API\Postcode_Locations_Result;
 use BrianHenryIE\WC_Postcode_Address_Autofill\API_Interface;
 use BrianHenryIE\WC_Postcode_Address_Autofill\Settings_Interface;
 use Codeception\Stub\Expected;
@@ -103,11 +105,21 @@ class Checkout_Shortcode_Unit_Test extends \Codeception\Test\Unit {
 		$api      = self::makeEmpty(
 			API_Interface::class,
 			array(
-				'get_state_city_for_postcode' => Expected::once(
-					array(
-						'state' => 'CA',
-						'city'  => array( 'Sacramento' ),
-					)
+				'get_locations_for_postcode' => Expected::once(
+					self::makeEmpty(
+						Postcode_Locations_Result::class,
+						array(
+							'get_first' => Expected::once(
+								self::makeEmpty(
+									Postcode_Location::class,
+									array(
+										'get_state' => 'CA',
+										'get_city'  => 'Sacramento',
+									)
+								)
+							),
+						)
+					),
 				),
 			)
 		);
@@ -149,7 +161,7 @@ class Checkout_Shortcode_Unit_Test extends \Codeception\Test\Unit {
 
 		$posted_data = 'billing_first_name=&billing_last_name=&billing_company=&billing_country=US&billing_address_1=&billing_address_2=&billing_postcode=10001&billing_city=BEVERLY%20HILLS&billing_state=CA&billing_phone=&billing_email=admin%40example.org&order_comments=&woocommerce-process-checkout-nonce=e05ebe4c4c&_wp_http_referer=%2Fbh-wc-postcode-address-autofill%2F%3Fwc-ajax%3Dupdate_order_review';
 
-		$api      = self::makeEmpty( API_Interface::class, array( 'get_state_city_for_postcode' => Expected::never() ) );
+		$api      = self::makeEmpty( API_Interface::class, array( 'get_locations_for_postcode' => Expected::never() ) );
 		$settings = self::makeEmpty( Settings_Interface::class );
 		$sut      = new Checkout_Shortcode( $api, $settings );
 
@@ -184,11 +196,8 @@ class Checkout_Shortcode_Unit_Test extends \Codeception\Test\Unit {
 		$api      = self::makeEmpty(
 			API_Interface::class,
 			array(
-				'get_state_city_for_postcode' => Expected::once(
-					array(
-						'state' => '',
-						'city'  => array(),
-					)
+				'get_locations_for_postcode' => Expected::once(
+					null
 				),
 			)
 		);
@@ -231,7 +240,7 @@ class Checkout_Shortcode_Unit_Test extends \Codeception\Test\Unit {
 		$api      = self::makeEmpty(
 			API_Interface::class,
 			array(
-				'get_state_city_for_postcode' => Expected::never(),
+				'get_locations_for_postcode' => Expected::never(),
 			)
 		);
 		$settings = self::makeEmpty( Settings_Interface::class );
@@ -250,11 +259,21 @@ class Checkout_Shortcode_Unit_Test extends \Codeception\Test\Unit {
 		$api      = self::makeEmpty(
 			API_Interface::class,
 			array(
-				'get_state_city_for_postcode' => Expected::once(
-					array(
-						'state' => 'CA',
-						'city'  => array( 'BEVERLY HILLS' ),
-					)
+				'get_locations_for_postcode' => Expected::once(
+					self::makeEmpty(
+						Postcode_Locations_Result::class,
+						array(
+							'get_first' => Expected::once(
+								self::makeEmpty(
+									Postcode_Location::class,
+									array(
+										'get_state' => 'CA',
+										'get_city'  => 'BEVERLY HILLS',
+									)
+								)
+							),
+						)
+					),
 				),
 			)
 		);

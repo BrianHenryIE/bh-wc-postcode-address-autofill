@@ -76,3 +76,6 @@ build-style
 *.sql
 *.tar.gz
 *.tgz
+
+data/*.json
+data/available-countries.php

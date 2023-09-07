@@ -19,7 +19,8 @@ dist-archive/
 node_modules/
 package.json
 package-lock.json
-vendor/
+/vendor/
+/data/original
 
 *.log
 

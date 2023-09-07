@@ -72,9 +72,9 @@ test.describe( 'Checkout page', () => {
         await page.waitForLoadState( 'networkidle' );
 
         await expect( page.locator( '#billing_state' ) ).toContainText('Wicklow');
-        await expect( page.locator( '#billing_city' ) ).toHaveValue(/Wicklow/i );
+        await expect( page.locator( '#billing_city' ) ).toHaveValue(/Rathnew/i );
 
-        await page.getByLabel("Town / City").fill('Rathnew');
+        await page.getByLabel("Town / City").fill('Wicklow');
 
         await page.getByLabel("Eircode").focus();
         await page.getByLabel("Eircode").fill('A67 X566');
@@ -82,6 +82,6 @@ test.describe( 'Checkout page', () => {
         await page.locator('#billing_email').focus();
         await page.waitForLoadState( 'networkidle' );
 
-        await expect( page.locator( '#billing_city' ) ).toHaveValue(/Rathnew/i );
+        await expect( page.locator( '#billing_city' ) ).toHaveValue(/Wicklow/i );
     });
 } );
