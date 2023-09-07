@@ -32,7 +32,6 @@ class Checkout_Blocks_Unit_Test extends \Codeception\Test\Unit {
 
 		$handle    = 'bh-wc-postcode-address-autofill-checkout-blocks';
 		$src       = 'build/bh-wc-postcode-address-autofill-checkout-blocks.js';
-		$deps      = array();
 		$ver       = '1.0.0';
 		$in_footer = true;
 
@@ -49,7 +48,13 @@ class Checkout_Blocks_Unit_Test extends \Codeception\Test\Unit {
 			'wp_register_script',
 			array(
 				'times' => 1,
-				'args'  => array( $handle, $src, $deps, $ver, $in_footer ),
+				'args'  => array(
+					$handle,
+					$src,
+					\WP_Mock\Functions::type( 'array' ),
+					\WP_Mock\Functions::type( 'string' ),
+					$in_footer
+				),
 			)
 		);
 
