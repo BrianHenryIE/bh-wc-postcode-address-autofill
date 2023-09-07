@@ -42,7 +42,7 @@ test.describe( 'Checkout page', () => {
         await page.goto( '/shop/?add-to-cart=' + productId );
 		await page.waitForLoadState( 'networkidle' );
 
-        await page.goto( '/checkout/' );
+        await page.goto( '/shortcode-checkout/' );
 
         await page.selectOption( '#billing_country', 'US' );
 
@@ -61,7 +61,7 @@ test.describe( 'Checkout page', () => {
         await page.goto( '/shop/?add-to-cart=' + productId );
         await page.waitForLoadState( 'networkidle' );
 
-        await page.goto( '/checkout/' );
+        await page.goto( '/shortcode-checkout/' );
 
         await page.selectOption( '#billing_country', 'IE' );
 
