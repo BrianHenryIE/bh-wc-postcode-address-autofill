@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1 - 2023-09-07
+
+* Dev: Refactor data loading. Data is now stored in a common format and parsed to strongly typed locations
+* Dev: Added many tests
+
 ## 1.1.0 - 2023-08-18
 
 * Add: WooCommerce Blocks compatibility

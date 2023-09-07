@@ -255,6 +255,7 @@
             "vendor/bin/phpcs -p src templates vendor-prefixed --standard=PHPCompatibilityWP --runtime-set testVersion 7.4-"
         ],
         "create-plugin-archive": [
+            "php ./data/original/parser/data-parser.php",
             "vendor/bin/wp i18n make-pot src languages/$(basename \"$PWD\").pot --domain=$(basename \"$PWD\")",
             "vendor/bin/wp dist-archive . ./dist-archive --plugin-dirname=$(basename \"$PWD\") --create-target-dir"
         ],
