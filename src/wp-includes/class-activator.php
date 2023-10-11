@@ -37,7 +37,6 @@ class Activator {
 			return;
 		}
 
-		/** @var API_Interface $api */
 		$api = $GLOBALS['bh_wc_postcode_address_autofill'];
 
 		$store_country = wc_get_base_location()['country'];
