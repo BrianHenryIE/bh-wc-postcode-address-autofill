@@ -1,5 +1,4 @@
 .*
-CHANGELOG.md
 codeception.dist.yml
 tests/
 composer.json
