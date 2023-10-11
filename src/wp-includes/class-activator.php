@@ -7,6 +7,8 @@
 
 namespace BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes;
 
+use BrianHenryIE\WC_Postcode_Address_Autofill\API_Interface;
+
 /**
  * Fired during plugin activation.
  *
@@ -15,9 +17,31 @@ namespace BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes;
 class Activator {
 
 	/**
-	 * Short Description. (use period)
+	 * Load the postcode data for the store's country into cache.
 	 */
 	public static function activate(): void {
+		if ( did_action( 'woocommerce_loaded' ) ) {
+			self::prepare_cache();
+		} else {
+			add_action( 'woocommerce_loaded', array( __CLASS__, 'prepare_cache' ) );
+		}
+	}
 
+	/**
+	 * Load the postcode data for the store's base country into cache.
+	 */
+	public static function prepare_cache(): void {
+
+		if ( ! isset( $GLOBALS['bh_wc_postcode_address_autofill'] )
+			|| ! $GLOBALS['bh_wc_postcode_address_autofill'] instanceof API_Interface ) {
+			return;
+		}
+
+		/** @var API_Interface $api */
+		$api = $GLOBALS['bh_wc_postcode_address_autofill'];
+
+		$store_country = wc_get_base_location()['country'];
+
+		$api->get_locations_for_postcode( $store_country, '' );
 	}
 }
