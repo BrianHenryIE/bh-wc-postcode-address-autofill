@@ -93,6 +93,10 @@ class Data_Loader {
 
 		try {
 			ob_start();
+			/**
+			 * Exclusion reason: Filename is validated against allow-list in `available-countries.php` via `is_implemented_county()`.
+			 * nosemgrep audit.php.lang.security.file.inclusion-arg
+			 */
 			include $file_path;
 			$file_data = ob_get_clean();
 			if ( empty( $file_data ) ) {
