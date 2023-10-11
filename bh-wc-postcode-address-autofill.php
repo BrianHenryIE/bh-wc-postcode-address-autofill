@@ -35,7 +35,6 @@ use BrianHenryIE\WC_Postcode_Address_Autofill\API\API;
 use BrianHenryIE\WC_Postcode_Address_Autofill\API\Data_Loader;
 use BrianHenryIE\WC_Postcode_Address_Autofill\API\Settings;
 use BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes\Activator;
-use BrianHenryIE\WC_Postcode_Address_Autofill\WP_Includes\Deactivator;
 
 if ( ! defined( 'WPINC' ) ) {
 	throw new \Exception( 'WordPress required but not loaded.' );
