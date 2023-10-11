@@ -152,7 +152,7 @@
         "woocommerce/woocommerce-blocks": "*",
         "woocommerce-zip/woocommerce-gateway-dummy": "*",
         "woocommerce/woocommerce-gateway-dummy": "*",
-        "woocommerce/woocommerce-sniffs": "^0.0.2",
+        "woocommerce/woocommerce-sniffs": "*",
         "wordpress/gutenberg": "*",
         "wordpress/wordpress": "*",
         "wp-api/basic-auth": "*",
@@ -246,8 +246,10 @@
             "open tests/_output/phpunit/index.html"
         ],
         "lint": [
-            "vendor/bin/phpcbf || true",
-            "vendor/bin/phpcs || true",
+            "phpcbf || true",
+            "phpcbf --standard=phpcs.woocommerce.xml || true",
+            "phpcs || true",
+            "phpcs --standard=phpcs.woocommerce.xml || true",
             "vendor/bin/phpstan analyse --memory-limit 1G"
         ],
         "lint-changes": [
