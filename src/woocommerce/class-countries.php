@@ -1,20 +1,24 @@
 <?php
 /**
- * Handle functions related to both WooCommerce checkout types.
+ * Manipulate the WooCommerce countries settings which affect both checkout types.
  *
  * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
 namespace BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce;
 
-use BrianHenryIE\WC_Postcode_Address_Autofill\API_Interface;
-use BrianHenryIE\WC_Postcode_Address_Autofill\Settings_Interface;
-
 /**
+ * Filter the WooCommerce country locale settings.
+ *
  * @phpstan-type FieldProperties array{priority?:int,required?:bool,hidden?:bool,label?:string,class?:array<string>}
  */
 class Countries {
 	/**
+	 * Ensure the postcode field's priority is higher than the city field's.
+	 *
+	 * Every country has different settings for ordering the checkout fields. Loop over each one and set the
+	 * postcode priority.
+	 *
 	 * @hooked woocommerce_get_country_locale
 	 * @see \WC_Countries::get_country_locale()
 	 *

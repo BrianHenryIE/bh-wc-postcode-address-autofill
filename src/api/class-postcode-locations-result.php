@@ -7,10 +7,14 @@
 
 namespace BrianHenryIE\WC_Postcode_Address_Autofill\API;
 
+use ArrayObject;
+
 /**
- * @template-extends \ArrayObject<array-key, Postcode_Location>
+ * Simple class to store the valid locations for a postcode.
+ *
+ * @template-extends ArrayObject<array-key, Postcode_Location>
  */
-class Postcode_Locations_Result extends \ArrayObject {
+class Postcode_Locations_Result extends ArrayObject {
 
 	/**
 	 * Simple logic to get the first correct location for a postcode.
