@@ -7,7 +7,7 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              http://BrianHenry.ie
+ * @link              http://bhwp.ie
  * @since             1.0.0
  * @package brianhenryie/bh-wc-postcode-address-autofill
  *
@@ -18,7 +18,7 @@
  * Version:           1.1.1
  * Requires PHP:      7.4
  * Author:            BrianHenryIE
- * Author URI:        http://BrianHenry.ie
+ * Author URI:        http://bhwp.ie
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       bh-wc-postcode-address-autofill
