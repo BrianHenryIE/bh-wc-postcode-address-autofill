@@ -28,7 +28,7 @@
             "url": "https://github.com/BrianHenryIE/composer-phpstorm",
             "type": "git"
         },
-        "composer/composer": {
+        "outlandishideas/wpackagist": {
             "type": "composer",
             "url": "https://wpackagist.org"
         },
