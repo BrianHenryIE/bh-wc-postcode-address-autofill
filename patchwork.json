@@ -2,6 +2,8 @@
   "redefinable-internals": [
     "constant",
     "define",
-    "defined"
+    "defined",
+    "ob_get_clean",
+    "ob_start"
   ]
 }

@@ -39,7 +39,7 @@ class Data_Loader {
 	 * @return string
 	 */
 	protected function get_data_dir( string $appending = '' ): string {
-		return WP_PLUGIN_DIR . '/' . plugin_dir_path( $this->settings->get_plugin_basename() ) . 'data/' . $appending;
+		return constant( 'WP_PLUGIN_DIR' ) . '/' . plugin_dir_path( $this->settings->get_plugin_basename() ) . 'data/' . $appending;
 	}
 
 	/**
@@ -73,11 +73,14 @@ class Data_Loader {
 	 */
 	public function get_data_for_country( string $country ): ?Country_Data {
 
+		$cached_value = wp_cache_get( $country, 'bh-wc-postcode-address-autofill' );
+		if ( $cached_value instanceof Country_Data ) {
+			return $cached_value;
+		}
+
 		if ( ! $this->is_implemented_county( $country ) ) {
 			return null;
 		}
-
-		// TODO: Cache.
 
 		$file_path = $this->get_data_dir( strtolower( $country ) . '.json' );
 		if ( ! is_readable( $file_path ) ) {
@@ -98,6 +101,10 @@ class Data_Loader {
 			return null;
 		}
 
-		return new Country_Data( $json_country_data );
+		$country_data = new Country_Data( $json_country_data );
+
+		wp_cache_set( $country, $country_data, 'bh-wc-postcode-address-autofill' );
+
+		return $country_data;
 	}
 }
