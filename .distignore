@@ -40,3 +40,5 @@ phpcs.*.xml
 /test-results
 webpack.config.js
 wp-cli.*.yml
+
+/README.txt
