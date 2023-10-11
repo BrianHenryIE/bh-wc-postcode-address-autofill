@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0 - 2023-10-11
+
+* Add: cache country lookup classes
+* Add: on activation, load the store base country data into the cache
+* Fix: Japanese datafile states didn't all match WooCommerce states
+
 ## 1.1.1 - 2023-09-07
 
 * Dev: Refactor data loading. Data is now stored in a common format and parsed to strongly typed locations
