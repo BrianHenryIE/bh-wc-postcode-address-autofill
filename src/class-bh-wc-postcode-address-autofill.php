@@ -97,7 +97,7 @@ class BH_WC_Postcode_Address_Autofill {
 	}
 
 	/**
-	 * Declare compatibility with WooCommerce High Performance Order Storage.
+	 * Declare compatibility with WooCommerce features: High Performance Order Storage and Checkout Blocks.
 	 */
 	protected function define_woocommerce_features_hooks(): void {
 
