@@ -77,6 +77,9 @@ class Data_Loader {
 		if ( $cached_value instanceof Country_Data ) {
 			return $cached_value;
 		}
+		if ( false !== $cached_value ) {
+			wp_cache_delete( $country, 'bh-wc-postcode-address-autofill' );
+		}
 
 		if ( ! $this->is_implemented_county( $country ) ) {
 			return null;
@@ -97,7 +100,6 @@ class Data_Loader {
 			}
 			$json_country_data = json_decode( $file_data, false, 512, JSON_THROW_ON_ERROR );
 		} catch ( Throwable $t ) {
-			// TODO: If cache is unparseable, delete it.
 			return null;
 		}
 
