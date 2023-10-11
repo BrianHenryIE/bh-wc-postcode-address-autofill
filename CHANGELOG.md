@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1
+
+* Add: comment for `nosemgrep` exclusion reason. 
+
 ## 1.2.0 - 2023-10-11
 
 * Add: cache country lookup classes
