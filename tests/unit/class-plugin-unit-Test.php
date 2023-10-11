@@ -82,14 +82,6 @@ class Plugin_Unit_Test extends \Codeception\Test\Unit {
 			)
 		);
 
-		\WP_Mock::userFunction(
-			'register_deactivation_hook',
-			array(
-				'args'  => array( \WP_Mock\Functions::type( 'string' ), \WP_Mock\Functions::type( 'array' ) ),
-				'times' => 1,
-			)
-		);
-
 		ob_start();
 
 		include $plugin_root_dir . '/bh-wc-postcode-address-autofill.php';
