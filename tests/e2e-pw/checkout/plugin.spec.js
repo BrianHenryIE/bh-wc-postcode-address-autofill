@@ -2,6 +2,7 @@
 const { test, expect, RequestUtils, Admin } = require ('@wordpress/e2e-test-utils-playwright');
 const {paramCase: kebabCase} = require("param-case");
 
+// TODO: Failing due to "Database Update Required".
 test.describe( 'Plugin activates without issue', () => {
 
     test( 'can activate the plugin', async ( {

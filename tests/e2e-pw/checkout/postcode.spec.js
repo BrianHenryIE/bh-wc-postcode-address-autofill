@@ -56,6 +56,8 @@ test.describe( 'Checkout page', () => {
         await expect( page.locator( '#billing_city' ) ).toHaveValue(/New York/i );
 	});
 
+    // TODO: Right now this just confirms that the refresh request is not sent unless the postcode is changed
+    // TODO: Add a test with multiple shipping options, so when the chosen one changes and refreshes the checkout, confirm the postcode is not altered.
     test('Customer gets city and country autofilled only once', async( { page } ) => {
 
         await page.goto( '/shop/?add-to-cart=' + productId );

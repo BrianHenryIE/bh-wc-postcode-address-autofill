@@ -1,35 +1,28 @@
 {
-  "phpVersion": "7.4",
-  "mappings": {
-    "wp-content/themes": "./wp-content/themes",
-    "wp-content/plugins/woocommerce": "./wp-content/plugins/woocommerce",
-    "wp-content/plugins/basic-auth": "./wp-content/plugins/basic-auth",
-    "wp-content/plugins/gutenberg": "./wp-content/plugins/gutenberg",
-    "wp-content/plugins/woo-gutenberg-products-block": "./wp-content/plugins/woo-gutenberg-products-block",
-    "wp-content/plugins/woocommerce-gateway-dummy": "./wp-content/plugins/woocommerce-gateway-dummy",
-    "wp-cli.yml": "./wp-cli.wp-env.yml"
-  },
-  "port": 8888,
-  "testsPort": 8889,
-  "lifecycleScripts": {
-    "afterStart": "./tests/e2e-pw/setup/initialize-external.sh"
-  },
   "env": {
     "development": {
       "plugins": [
-        "./wp-content/plugins/basic-auth",
-        "./wp-content/plugins/woocommerce",
         "."
       ]
-    },
-    "tests": {
-      "mappings": {
-        "e2e-setup": "./tests/e2e-pw/setup"
-      },
-      "plugins": [
-        "./wp-content/plugins/basic-auth",
-        "./wp-content/plugins/woocommerce"
-      ]
     }
-  }
+  },
+  "lifecycleScripts": {
+    "afterStart": "./tests/e2e-pw/setup/initialize-external.sh"
+  },
+  "mappings": {
+    "setup": "./tests/e2e-pw/setup",
+    "wp-cli.yml": "./wp-cli.wp-env.yml",
+    "wp-content/plugins/basic-auth": "./wp-content/plugins/basic-auth",
+    "wp-content/plugins/bh-wp-autologin-urls": "./wp-content/plugins/bh-wp-autologin-urls",
+    "wp-content/plugins/gutenberg": "./wp-content/plugins/gutenberg",
+    "wp-content/plugins/gutenberg-test-plugin-disables-the-css-animations": "./wp-content/plugins/gutenberg-test-plugin-disables-the-css-animations",
+    "wp-content/plugins/woo-gutenberg-products-block": "./wp-content/plugins/woo-gutenberg-products-block",
+    "wp-content/plugins/woocommerce": "./wp-content/plugins/woocommerce",
+    "wp-content/plugins/woocommerce-gateway-dummy": "./wp-content/plugins/woocommerce-gateway-dummy",
+    "wp-content/plugins/wp-feature-notifications": "./wp-content/plugins/wp-feature-notifications",
+    "wp-content/themes": "./wp-content/themes"
+  },
+  "phpVersion": "7.4",
+  "port": 8888,
+  "testsPort": 8889
 }

@@ -13,7 +13,7 @@ const { defineConfig, devices } = require( '@playwright/test' );
 // module.exports = defineConfig(
 // 	{
 const config = {
-	testDir: '.',
+	testDir: './tests/e2e-pw',
 	/* Run tests in files in parallel */
 	fullyParallel: true,
 	/* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -23,7 +23,9 @@ const config = {
 	/* Opt out of parallel tests on CI. */
 	workers: process.env.CI ? 1 : undefined,
 	/* Reporter to use. See https://playwright.dev/docs/test-reporters */
-	reporter: [['html', {outputFolder: '../_output/playwright/' + (new Date()).toISOString()}]],
+	// override that location using the PLAYWRIGHT_HTML_REPORT environment variable
+	reporter: [['html', { outputFolder: 'tests/_output/playwright-report/' + (new Date()).toISOString() }]],
+
 	/* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 	use: {
 		/* Base URL to use in actions like `await page.goto('/')`. */
@@ -32,6 +34,17 @@ const config = {
 		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
 		trace: 'retain-on-failure',
 	},
+	// Folder for test artifacts such as screenshots, videos, traces, etc.
+	outputDir: './tests/_output/playwright-results',
+
+	// // path to the global setup files.
+	// globalSetup: require.resolve('./global-setup'),
+	//
+	// // path to the global teardown files.
+	// globalTeardown: require.resolve('./global-teardown'),
+	//
+	// // Each test is given 30 seconds.
+	// timeout: 30000,
 
 	/* Configure projects for major browsers */
 	projects: [

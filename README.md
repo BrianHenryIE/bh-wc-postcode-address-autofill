@@ -58,7 +58,7 @@ open http://localhost:8889
 npx playwright test --config ./tests/e2e-pw/playwright.config.js --ui &;
 
 # Start browser and record Playwright steps
-playwright codegen --target javascript -o example.js
+npx playwright codegen -o tests/e2e-pw/example.spec.js
 
 # Run WP CLI commands on the tests instance
 npx wp-env run tests-cli wp option get rewrite_rules
