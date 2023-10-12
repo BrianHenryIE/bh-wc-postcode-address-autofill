@@ -53,7 +53,7 @@ foreach ( $countries as $country ) {
 				if ( isset( $jp_states_index[ $dataset_state_name ] ) ) {
 					$woocommerce_state =  $jp_states_index[ $dataset_state_name ];
 				} else {
-					error_log( "State $dataset_state_name not found in WC states list" );
+					error_log( "JP State $dataset_state_name not found in WC states list" );
 					continue;
 				}
 
@@ -69,6 +69,8 @@ foreach ( $countries as $country ) {
 			// Eircodes are six characters long, but we only match on the first 3.
 			$country_data['postcode_length'] = 3;
 
+			$ie_states_index = array_flip( $states['IE'] );
+
 			$filename = __DIR__ . '/../postcodes-ie.csv';
 			if ( ! is_readable( $filename ) ) {
 				break;
@@ -80,14 +82,20 @@ foreach ( $countries as $country ) {
 				// Always remove non-alphanumeric characters from Irish postcodes.
 				$postcode = preg_replace( '/[^\d\w]*/', '', $data[0] );
 				$city     = $data[1];
-				$state    = $data[2];
+				$dataset_state_name    = $data[2];
+				if ( isset( $ie_states_index[ $dataset_state_name ] ) ) {
+					$woocommerce_state =  $ie_states_index[ $dataset_state_name ];
+				} else {
+					error_log( "IE State $dataset_state_name not found in WC states list" );
+					continue;
+				}
 
 				if ( ! isset( $country_data['postcode_locations'][ $postcode ] ) ) {
 					$country_data['postcode_locations'][ $postcode ] = array();
 				}
 					$country_data['postcode_locations'][ $postcode ][] = array(
 						'postcode' => $postcode,
-						'state'    => $state,
+						'state'    => $woocommerce_state,
 						'city'     => $city,
 					);
 			}
