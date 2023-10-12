@@ -37,7 +37,7 @@ open http://localhost:8888
 open http://localhost:8889
 
 # Start the playwright test runner UI and return to the Terminal (otherwise Terminal is unavailable until the application is exited).
-npx playwright test --config ./tests/e2e-pw/playwright.config.js --ui &;
+npx playwright test --ui &;
 
 # Start browser and record Playwright steps
 npx playwright codegen -o tests/e2e-pw/example.spec.js
