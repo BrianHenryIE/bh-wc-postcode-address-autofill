@@ -49,7 +49,7 @@ test.describe( 'Checkout page', () => {
 
         await page.goto( '/blocks-checkout/' );
 
-        let billingAddress = await page.locator('#billing-fields');
+        let billingAddress = await page.locator('#billing').page();
 
         await billingAddress.getByLabel('Country/Region').click();
         await billingAddress.getByLabel('Country/Region').fill('united');
