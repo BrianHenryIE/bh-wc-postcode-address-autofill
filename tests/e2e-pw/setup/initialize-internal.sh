@@ -11,12 +11,12 @@ echo "Set up pretty permalinks for REST API."
 wp rewrite structure /%year%/%monthnum%/%postname%/ --hard;
 
 echo "Adding pages"
-if[[ '[]' == $(wp post list --name="Blocks Checkout" --post_type="page" --format=json) ]]; then
+if [[ '[]' == $(wp post list --name="Blocks Checkout" --post_type="page" --format=json) ]]; then
   echo "Adding the Block Checkout page";
   wp post create --post_type=page --post_title="Blocks Checkout" --post_status=publish ./setup/blocks-checkout-post-content.txt;
 fi
 
-if[[ '[]' == $(wp post list --name="Shortcode Checkout" --post_type=page --format=json) ]]; then
+if [[ '[]' == $(wp post list --name="Shortcode Checkout" --post_type=page --format=json) ]]; then
   echo "Adding the Shortcode Checkout page";
   wp post create --post_type=page --post_title="Shortcode Checkout" --post_status=publish ./setup/shortcode-checkout-post-content.txt;
 fi
