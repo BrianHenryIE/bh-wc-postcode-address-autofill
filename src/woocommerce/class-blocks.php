@@ -82,6 +82,7 @@ class Blocks {
 		$cart = WC()->cart;
 
 		$cart->get_customer()->set_billing_postcode( $postcode );
+		$cart->get_customer()->set_billing_country( $country );
 
 		$locations = $this->api->get_locations_for_postcode( $country, $postcode );
 
