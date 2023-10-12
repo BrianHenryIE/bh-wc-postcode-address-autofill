@@ -12,7 +12,9 @@ Works with WooCommerce Blocks checkout. Postcode data available for the United S
 
 ## TODO:
 
-* Shipping addresses
+* Send `available_countries` to the frontend to avoid unnecessary lookups
+* Shipping addresses (done for shortcode checkout)
 * My Account
 * JS/TS sourcemap
+* Add city suggestions via select2 where postcode is not precise enough
 * ~~Serialize data and store in database~~ v1.2.0
