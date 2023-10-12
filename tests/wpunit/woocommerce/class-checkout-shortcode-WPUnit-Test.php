@@ -13,6 +13,7 @@ class Checkout_Shortcode_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 
 	/**
 	 * @covers ::rerender_billing_fields_fragment
+	 * @covers ::get_fragment
 	 */
 	public function test_rerender_billing_fields_fragment(): void {
 
@@ -23,5 +24,20 @@ class Checkout_Shortcode_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
 		$result = $sut->rerender_billing_fields_fragment( array() );
 
 		self::assertArrayHasKey( '.woocommerce-billing-fields', $result );
+	}
+
+	/**
+	 * @covers ::rerender_shipping_fields_fragment
+	 * @covers ::get_fragment
+	 */
+	public function test_rerender_shipping_fields_fragment(): void {
+
+		$api      = self::makeEmpty( API_Interface::class );
+		$settings = self::makeEmpty( Settings_Interface::class );
+		$sut      = new Checkout_Shortcode( $api, $settings );
+
+		$result = $sut->rerender_shipping_fields_fragment( array() );
+
+		self::assertArrayHasKey( '.woocommerce-shipping-fields', $result );
 	}
 }

@@ -97,6 +97,7 @@ class Checkout_Shortcode_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * @covers ::parse_post_on_update_order_review
+	 * @covers ::process_address_update
 	 */
 	public function test_parse_post_on_update_order_review(): void {
 
@@ -156,6 +157,7 @@ class Checkout_Shortcode_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * @covers ::parse_post_on_update_order_review
+	 * @covers ::process_address_update
 	 */
 	public function test_parse_post_on_update_order_review_postcode_not_updated(): void {
 
@@ -188,6 +190,7 @@ class Checkout_Shortcode_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * @covers ::parse_post_on_update_order_review
+	 * @covers ::process_address_update
 	 */
 	public function test_parse_post_on_update_order_review_no_postcode_data(): void {
 
@@ -232,6 +235,7 @@ class Checkout_Shortcode_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * @covers ::parse_post_on_update_order_review
+	 * @covers ::process_address_update
 	 */
 	public function test_parse_post_on_update_order_review_not_enough_posted_data(): void {
 
@@ -251,6 +255,7 @@ class Checkout_Shortcode_Unit_Test extends \Codeception\Test\Unit {
 
 	/**
 	 * @covers ::parse_post_on_update_order_review
+	 * @covers ::process_address_update
 	 */
 	public function test_parse_post_on_update_order_review_city_state_already_correct(): void {
 

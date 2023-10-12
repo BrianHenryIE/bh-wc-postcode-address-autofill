@@ -37,53 +37,72 @@ test.describe( 'Checkout page', () => {
             } );
     } );
 
-    test('Customer gets city and country autofilled', async( { page } ) => {
+    test('Customer gets billing city and state autofilled', async( { page } ) => {
 
-        await page.goto( '/shop/?add-to-cart=' + productId );
-		await page.waitForLoadState( 'networkidle' );
+        await page.goto( '/shortcode-checkout/?add-to-cart=' + productId,{waitUntil:'domcontentloaded'});
 
-        await page.goto( '/shortcode-checkout/' );
+        let billingFields = await page.locator( '.woocommerce-billing-fields' );
 
         await page.selectOption( '#billing_country', 'US' );
 
-        await page.getByLabel("ZIP Code").focus();
-        await page.getByLabel("ZIP Code").fill('10001');
+        await billingFields.getByLabel("ZIP Code").focus();
+        await billingFields.getByLabel("ZIP Code").fill('10001');
 
-        await page.locator('#billing_email').focus();
+        await billingFields.locator('#billing_email').focus();
         await page.waitForLoadState( 'networkidle' );
 
-        await expect( page.locator( '#billing_state' ) ).toContainText('New York');
-        await expect( page.locator( '#billing_city' ) ).toHaveValue(/New York/i );
+        await expect( billingFields.locator( '#billing_state' ) ).toContainText('New York');
+        await expect( billingFields.locator( '#billing_city' ) ).toHaveValue(/New York/i );
 	});
 
     // TODO: Right now this just confirms that the refresh request is not sent unless the postcode is changed
     // TODO: Add a test with multiple shipping options, so when the chosen one changes and refreshes the checkout, confirm the postcode is not altered.
-    test('Customer gets city and country autofilled only once', async( { page } ) => {
+    test('Customer gets city and state autofilled only once', async( { page } ) => {
 
-        await page.goto( '/shop/?add-to-cart=' + productId );
-        await page.waitForLoadState( 'networkidle' );
+        await page.goto( '/shortcode-checkout/?add-to-cart=' + productId,{waitUntil:'domcontentloaded'});
 
-        await page.goto( '/shortcode-checkout/' );
+        let billingFields = await page.locator( '.woocommerce-billing-fields' );
 
         await page.selectOption( '#billing_country', 'IE' );
 
-        await page.getByLabel("Eircode").focus();
-        await page.getByLabel("Eircode").fill('A67 X566');
+        await billingFields.getByLabel("Eircode").focus();
+        await billingFields.getByLabel("Eircode").fill('A67 X566');
 
-        await page.locator('#billing_email').focus();
+        await billingFields.locator('#billing_email').focus();
         await page.waitForLoadState( 'networkidle' );
 
-        await expect( page.locator( '#billing_state' ) ).toContainText('Wicklow');
-        await expect( page.locator( '#billing_city' ) ).toHaveValue(/Rathnew/i );
+        await expect( billingFields.locator( '#billing_state' ) ).toContainText('Wicklow');
+        await expect( billingFields.locator( '#billing_city' ) ).toHaveValue(/Rathnew/i );
 
-        await page.getByLabel("Town / City").fill('Wicklow');
+        await billingFields.getByLabel("Town / City").fill('Wicklow');
 
-        await page.getByLabel("Eircode").focus();
-        await page.getByLabel("Eircode").fill('A67 X566');
+        await billingFields.getByLabel("Eircode").focus();
+        await billingFields.getByLabel("Eircode").fill('A67 X566');
 
-        await page.locator('#billing_email').focus();
+        await billingFields.locator('#billing_email').focus();
         await page.waitForLoadState( 'networkidle' );
 
-        await expect( page.locator( '#billing_city' ) ).toHaveValue(/Wicklow/i );
+        await expect( billingFields.locator( '#billing_city' ) ).toHaveValue(/Wicklow/i );
+    });
+
+    test('Customer gets shipping city and state autofilled', async( { page } ) => {
+
+        await page.goto( '/shortcode-checkout/?add-to-cart=' + productId,{waitUntil:'domcontentloaded'});
+
+        let shippingFields = await page.locator( '.woocommerce-shipping-fields' );
+
+        await page.locator('#ship-to-different-address').click();
+        await page.waitForTimeout(250);
+
+        await page.selectOption( '#shipping_country', 'IE' );
+
+        await shippingFields.getByLabel("Eircode").focus();
+        await shippingFields.getByLabel("Eircode").fill('D02 WY18');
+
+        await shippingFields.locator('#shipping_address_1').focus();
+        await page.waitForLoadState( 'networkidle' );
+
+        await expect( shippingFields.locator( '#shipping_city' ) ).toHaveValue(/Dublin 2/i );
+        await expect( shippingFields.locator( '#shipping_state' ) ).toContainText('Dublin');
     });
 } );
