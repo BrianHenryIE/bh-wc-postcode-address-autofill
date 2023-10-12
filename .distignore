@@ -43,3 +43,5 @@ wp-cli.*.yml
 /README.txt
 
 playwright.config.js
+
+/CONTRIBUTING.md
