@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0
+
+* Add: autofill for shipping address fields on blocks checkout
+
 ## 1.3.0
 
 * Add: autofill for shipping address fields on shortcode checkout

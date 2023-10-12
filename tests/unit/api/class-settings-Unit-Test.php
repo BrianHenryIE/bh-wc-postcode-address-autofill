@@ -39,7 +39,7 @@ class Settings_Unit_Test extends \Codeception\Test\Unit {
 
 		$sut = new Settings();
 
-		self::assertEquals( '1.3.0', $sut->get_plugin_version() );
+		self::assertEquals( '1.4.0', $sut->get_plugin_version() );
 
 		\Patchwork\restoreAll();
 	}
