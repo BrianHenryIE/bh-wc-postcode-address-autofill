@@ -73,30 +73,44 @@ class Blocks {
 	 * Find the state+city for the country+postcode and apply them to the cart address.
 	 * This should only be called when a new postcode has been entered.
 	 *
-	 * @param array{postcode:string, country:string} $data The data object as passed from our JavaScript.
+	 * @param array{shipping:array{postcode:string, country:string},billing:array{postcode:string, country:string}} $data The data object as passed from our JavaScript.
 	 */
 	public function update_callback( array $data ): void {
-		$postcode = $data['postcode'];
-		$country  = $data['country'];
 
-		$cart = WC()->cart;
+		foreach ( $data as $address_type => $address_data ) {
 
-		$cart->get_customer()->set_billing_postcode( $postcode );
-		$cart->get_customer()->set_billing_country( $country );
+			$postcode = $address_data['postcode'];
+			$country  = $address_data['country'];
 
-		$locations = $this->api->get_locations_for_postcode( $country, $postcode );
+			$cart = WC()->cart;
 
-		if ( empty( $locations ) ) {
-			return;
+			if ( 'shipping' === $address_type ) {
+				$cart->get_customer()->set_shipping_postcode( $postcode );
+				$cart->get_customer()->set_shipping_country( $country );
+			} else {
+				$cart->get_customer()->set_billing_country( $country );
+				$cart->get_customer()->set_billing_postcode( $postcode );
+			}
+
+			$locations = $this->api->get_locations_for_postcode( $country, $postcode );
+
+			if ( empty( $locations ) ) {
+				return;
+			}
+
+			$location = $locations->get_first();
+
+			if ( empty( $location ) ) {
+				return;
+			}
+
+			if ( 'shipping' === $address_type ) {
+				$cart->get_customer()->set_shipping_state( $location->get_state() );
+				$cart->get_customer()->set_shipping_city( $location->get_city() );
+			} else {
+				$cart->get_customer()->set_billing_state( $location->get_state() );
+				$cart->get_customer()->set_billing_city( $location->get_city() );
+			}
 		}
-
-		$location = $locations->get_first();
-
-		if ( empty( $location ) ) {
-			return;
-		}
-
-		$cart->get_customer()->set_billing_state( $location->get_state() );
-		$cart->get_customer()->set_billing_city( $location->get_city() );
 	}
 }

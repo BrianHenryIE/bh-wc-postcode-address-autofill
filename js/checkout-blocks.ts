@@ -2,7 +2,10 @@ import { subscribe, select } from '@wordpress/data';
 import { CART_STORE_KEY } from '@woocommerce/block-data';
 import { extensionCartUpdate, isPostcode as isValidPostcode } from '@woocommerce/blocks-checkout';
 
-var lastPostcode = null;
+var lastPostcode = {
+    billingAddress: null,
+    shippingAddress: null,
+};
 var isPostcodeAutofillUpdating = false
 
 subscribe( () => {
@@ -17,32 +20,62 @@ subscribe( () => {
         const store = select( CART_STORE_KEY );
         const cartData = store.getCartData();
 
+        isPostcodeAutofillUpdating = true;
+
+        var addressData = {
+            billing: {
+                country: cartData.billingAddress.country,
+                postcode: cartData.billingAddress.postcode,
+            },
+            shipping: {
+                country: cartData.shippingAddress.country,
+                postcode: cartData.shippingAddress.postcode,
+            },
+        };
+
         // If either are empty, there is nothing to do.
         if( !cartData.billingAddress.country || !cartData.billingAddress.postcode ) {
-            return;
+            delete addressData.billing;
+        }
+        if( !cartData.shippingAddress.country || !cartData.shippingAddress.postcode ) {
+            delete addressData.shipping;
         }
 
         // If the postcode has not changed, there is nothing to do.
-        if( cartData.billingAddress.postcode === lastPostcode ) {
-            return;
+        if( cartData.billingAddress.postcode === lastPostcode.billingAddress ) {
+            delete addressData.billing;
+        } else {
+            lastPostcode.billingAddress = cartData.billingAddress.postcode;
         }
-        lastPostcode = cartData.billingAddress.postcode;
+        if( cartData.shippingAddress.postcode === lastPostcode.shippingAddress ) {
+            delete addressData.shipping;
+        } else {
+            lastPostcode.shippingAddress = cartData.shippingAddress.postcode;
+        }
 
         // If it's not a valid postcode, there is nothing to do.
         if ( !isValidPostcode( {
                 postcode: cartData.billingAddress.postcode,
                 country: cartData.billingAddress.country,
             } ) ) {
+            delete addressData.billing;
+        }
+        // If it's not a valid postcode, there is nothing to do.
+        if ( !isValidPostcode( {
+                postcode: cartData.shippingAddress.postcode,
+                country: cartData.shippingAddress.country,
+            } ) ) {
+            delete addressData.shipping;
+        }
+
+        if( 0 === Object.keys(addressData).length ) {
+            isPostcodeAutofillUpdating = false;
             return;
         }
 
-        isPostcodeAutofillUpdating = true;
         extensionCartUpdate({
             namespace: 'bh-wc-postcode-address-autofill',
-            data: {
-                "country": cartData.billingAddress.country,
-                "postcode": cartData.billingAddress.postcode,
-            },
+            data: addressData
         }).then(function(){
             isPostcodeAutofillUpdating = false;
         })

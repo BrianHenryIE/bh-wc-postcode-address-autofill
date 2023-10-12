@@ -44,16 +44,15 @@ test.describe( 'Checkout page', () => {
 
     test('Checkout billing address gets city and country autofilled', async( { page } ) => {
 
-        await page.goto( '/shop/?add-to-cart=' + productId );
-        await page.waitForLoadState( 'networkidle' );
+        await page.goto( '/blocks-checkout/?add-to-cart=' + productId,{waitUntil:'domcontentloaded'});
 
-        await page.goto( '/blocks-checkout/' );
-
-        let billingAddress = await page.locator('#billing').page();
+        let billingAddress = await page.locator('#billing-fields');
 
         await billingAddress.getByLabel('Country/Region').click();
         await billingAddress.getByLabel('Country/Region').fill('united');
         await billingAddress.getByLabel('United States (US)', { exact: true }).click();
+
+        await page.waitForLoadState( 'networkidle' );
 
         await billingAddress.getByLabel("ZIP Code").focus();
         await billingAddress.getByLabel("ZIP Code").fill('10001');
@@ -61,8 +60,30 @@ test.describe( 'Checkout page', () => {
 
         await page.waitForLoadState( 'networkidle' );
 
-        await expect( billingAddress.getByLabel('City') ).toHaveValue('NEW YORK');
-        await expect( billingAddress.locator('#billing-state').getByLabel('State') ).toHaveValue(/New York/i );
+
+        await expect( await billingAddress.getByLabel('State') ).toHaveValue('NEW YORK');
+        await expect( await billingAddress.getByLabel('City') ).toHaveValue('NEW YORK');
 	});
 
+    test('Checkout shipping address postcode autofills city and country', async( { page } ) => {
+
+        await page.goto( '/blocks-checkout/?add-to-cart=' + productId,{waitUntil:'domcontentloaded'});
+
+        let shippingAddress = await page.locator('#shipping');
+
+        await shippingAddress.getByLabel('Country/Region').click();
+        await shippingAddress.getByLabel('Country/Region').fill('ireland');
+        await shippingAddress.getByLabel('Ireland', { exact: true }).click();
+
+        await page.waitForLoadState( 'networkidle' );
+
+        await shippingAddress.getByLabel("Eircode").focus();
+        await shippingAddress.getByLabel("Eircode").fill('A67 X566');
+        await shippingAddress.getByLabel('Eircode').press('Tab');
+
+        await page.waitForLoadState( 'networkidle' );
+
+        await expect( await shippingAddress.getByLabel('County') ).toHaveValue(/Wicklow/i);
+        await expect( await shippingAddress.getByLabel('City') ).toHaveValue(/rathnew/i);
+    });
 } );
