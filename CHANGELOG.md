@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.0
+
+* Add: autofill for shipping address fields on shortcode checkout
+* Fix: Irish counties (states) did not match WooCommerce names
+* Fix: Blocks checkout bug where country could be forgotten
+
 ## 1.2.1
 
 * Add: comment for `nosemgrep` exclusion reason. 
