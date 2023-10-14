@@ -6,7 +6,7 @@
  * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
-$countries = array( 'ie', 'jp', 'us' );
+$countries = array( 'in', 'ie', 'jp', 'us' );
 
 define( 'ABSPATH', 'fake-abspath!' );
 function __( $text, $translation_domain ) {
@@ -30,12 +30,14 @@ foreach ( $countries as $country ) {
 	$country_data                       = array();
 	$country_data['postcode_locations'] = array();
 
+	unset( $postcode, $state, $woocommerce_state, $data, $dataset_state_name, $file, $line, $states_index, $result_bytes );
+
 	switch ( $country ) {
 		case 'jp':
 			// It's xxx-yyyy.
 			$country_data['postcode_length'] = 7;
 
-			$jp_states_index = array_flip( $states['JP'] );
+			$states_index = array_flip( $states['JP'] );
 
 			$filename = __DIR__ . '/../jp_postal_codes.csv';
 			$file     = file( $filename ) ?: array();
@@ -50,8 +52,8 @@ foreach ( $countries as $country ) {
 				}
 				$dataset_state_name = $data[2];
 				$city               = $data[1];
-				if ( isset( $jp_states_index[ $dataset_state_name ] ) ) {
-					$woocommerce_state =  $jp_states_index[ $dataset_state_name ];
+				if ( isset( $states_index[ $dataset_state_name ] ) ) {
+					$woocommerce_state = $states_index[ $dataset_state_name ];
 				} else {
 					error_log( "JP State $dataset_state_name not found in WC states list" );
 					continue;
@@ -59,8 +61,8 @@ foreach ( $countries as $country ) {
 
 				$country_data['postcode_locations'][ $postcode ][] = array(
 					'postcode' => $postcode,
-					'state' => $woocommerce_state,
-					'city'  => $city,
+					'state'    => $woocommerce_state,
+					'city'     => $city,
 				);
 			}
 			break;
@@ -69,7 +71,7 @@ foreach ( $countries as $country ) {
 			// Eircodes are six characters long, but we only match on the first 3.
 			$country_data['postcode_length'] = 3;
 
-			$ie_states_index = array_flip( $states['IE'] );
+			$states_index = array_flip( $states['IE'] );
 
 			$filename = __DIR__ . '/../postcodes-ie.csv';
 			if ( ! is_readable( $filename ) ) {
@@ -80,11 +82,11 @@ foreach ( $countries as $country ) {
 				$data = str_getcsv( $line );
 
 				// Always remove non-alphanumeric characters from Irish postcodes.
-				$postcode = preg_replace( '/[^\d\w]*/', '', $data[0] );
-				$city     = $data[1];
-				$dataset_state_name    = $data[2];
-				if ( isset( $ie_states_index[ $dataset_state_name ] ) ) {
-					$woocommerce_state =  $ie_states_index[ $dataset_state_name ];
+				$postcode           = preg_replace( '/[^\d\w]*/', '', $data[0] );
+				$city               = $data[1];
+				$dataset_state_name = $data[2];
+				if ( isset( $states_index[ $dataset_state_name ] ) ) {
+					$woocommerce_state = $states_index[ $dataset_state_name ];
 				} else {
 					error_log( "IE State $dataset_state_name not found in WC states list" );
 					continue;
@@ -130,20 +132,91 @@ foreach ( $countries as $country ) {
 				}
 			}
 			break;
+		case 'in':
+			// Indian "PIN code"s are digits characters long
+			$country_data['postcode_length'] = 6;
+
+			$states_index = array_flip( $states['IN'] );
+
+			$filename = __DIR__ . '/../in-pincode_30052019.csv';
+			if ( ! is_readable( $filename ) ) {
+				break;
+			}
+			$first = true;
+			$file  = file( $filename ) ?: array();
+			foreach ( $file as $line ) {
+				if ( $first ) {
+					$first = false;
+					continue;
+				}
+				$data = str_getcsv( $line );
+
+				// Always remove non-alphanumeric characters from Irish postcodes.
+				$postcode           = intval( $data[4] );
+				$city               = $data[7];
+				$dataset_state_name = $data[8];
+
+				if ( 0 === $postcode || empty( $city ) || empty( $dataset_state_name ) ) {
+					continue;
+				}
+				if ( isset( $states_index[ $dataset_state_name ] ) ) {
+					$woocommerce_state = $states_index[ $dataset_state_name ];
+				} else {
+					error_log( "IN State $dataset_state_name not found in WC states list" );
+					continue;
+				}
+
+				if ( ! isset( $country_data['postcode_locations'][ $postcode ] ) ) {
+					$country_data['postcode_locations'][ $postcode ] = array();
+				}
+				foreach ( $country_data['postcode_locations'][ $postcode ] as $location ) {
+					if ( $location['postcode'] == "{$postcode}"
+						&& $location['state'] == $woocommerce_state
+						&& $location['city'] == $city
+					) {
+							continue 2;
+					}
+				}
+				$country_data['postcode_locations'][ "{$postcode}" ][] = array(
+					'postcode' => "{$postcode}",
+					'state'    => $woocommerce_state,
+					'city'     => $city,
+				);
+			}
+			break;
+
+
 		default:
 			// Should never reach here.
 			break;
 	}
 
-	file_put_contents(
+	$json         = json_encode( $country_data, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR, 4 );
+	$result_bytes = file_put_contents(
 		__DIR__ . "/../../{$country}.json",
-		json_encode( $country_data, JSON_PRETTY_PRINT )
+		$json
 	);
+	if ( false === $result_bytes ) {
+		error_log( "Failed to write {$country}.json" );
+	}
+	$failed = json_last_error();
+	if ( JSON_ERROR_NONE !== $failed ) {
+		error_log( "Failed to encode {$country}.json: " . json_last_error_msg() );
+	}
 }
+
+
+$countries_php = array_reduce(
+	$countries,
+	function ( string $carry, string $country ): string {
+		return $carry . "\n	'". strtoupper( $country ) . "',";
+	},
+	''
+);
 
 file_put_contents(
 	__DIR__ . '/../../available-countries.php',
-<<<'EOD'
+<<<EOD
 <?php
 /**
  * Autogenerated by `data-parser.php`.
@@ -151,10 +224,7 @@ file_put_contents(
  * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
-return array(
-	'IE',
-	'JP',
-	'US',
+return array($countries_php
 );
 
 EOD,

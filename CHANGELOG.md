@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.0
+
+* Add: India's PIN codes
+
 ## 1.4.0
 
 * Add: autofill for shipping address fields on blocks checkout

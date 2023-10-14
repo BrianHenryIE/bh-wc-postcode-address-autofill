@@ -20,7 +20,7 @@ class Settings implements Settings_Interface {
 	public function get_plugin_version(): string {
 		return defined( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_VERSION' )
 			? constant( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_VERSION' )
-			: '1.4.0';
+			: '1.5.0';
 	}
 
 	/**
