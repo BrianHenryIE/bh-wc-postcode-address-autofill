@@ -19,10 +19,7 @@
     "wp-content/plugins/woo-gutenberg-products-block": "./wp-content/plugins/woo-gutenberg-products-block",
     "wp-content/plugins/woocommerce": "./wp-content/plugins/woocommerce",
     "wp-content/plugins/woocommerce-gateway-dummy": "./wp-content/plugins/woocommerce-gateway-dummy",
-    "wp-content/plugins/wp-feature-notifications": "./wp-content/plugins/wp-feature-notifications",
     "wp-content/themes": "./wp-content/themes"
   },
-  "phpVersion": "7.4",
-  "port": 8888,
-  "testsPort": 8889
+  "phpVersion": "7.4"
 }
