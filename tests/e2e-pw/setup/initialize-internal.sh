@@ -28,7 +28,7 @@ echo "Configuring shipping"
 if [[ '[]' == $(wp wc shipping_zone_method list 0 --format=json) ]]; then
   echo "Adding free shipping";
   wp wc shipping_zone_method create 0 --method_id="free_shipping";
-fi
+fi;
 
 echo "Maybe updating WooCommerce database"
 wp wc update

@@ -61,7 +61,7 @@ test.describe( 'Checkout page', () => {
         await page.waitForLoadState( 'networkidle' );
 
 
-        await expect( await billingAddress.getByLabel('State') ).toHaveValue('NEW YORK');
+        await expect( await billingAddress.getByLabel(/^State$/) ).toHaveValue('NEW YORK');
         await expect( await billingAddress.getByLabel('City') ).toHaveValue('NEW YORK');
 	});
 
