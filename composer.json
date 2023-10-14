@@ -268,7 +268,7 @@
             "act -P ubuntu-latest=shivammathur/node:latest --container-architecture linux/amd64"
         ],
         "sync-composer-wpenv": [
-            "cat .wp-env.json | jq '.mappings | values[]' | xargs -I % sh -c 'if [ ! -d \"%\" ] && [ ! -f \"%\" ]; then jq \"del(.. | select(. == \\\"%\\\"))\" .wp-env.json | sponge .wp-env.json; fi'",
+            "cat .wp-env.json | jq '.mappings | values[]' | xargs -I % sh -c \"if [ ! -d \"%\" ] && [ ! -f \"%\" ]; then jq 'del(.. | select(. == \\\"%\\\"))' .wp-env.json; fi;\" | sponge .wp-env.json;",
             "find wp-content/plugins -type d -depth 1 ! -type l | sort -h | jq -Rn '[inputs]' | jq 'reduce .[] as $item ({}; . + {$item:$item})' | jq '.[] |= \"./\\(.)\"' | jq '. | {mappings: .}' | jq --sort-keys -s '.[] * $existing[]' --slurpfile existing .wp-env.json | sponge .wp-env.json"
         ]
     }
