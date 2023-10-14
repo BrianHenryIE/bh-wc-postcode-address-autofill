@@ -4,7 +4,7 @@
 
 Performs a zipcode lookup to autofill the city and state fields. First moves the postcode field above the city and state fields.
 
-Works with WooCommerce Blocks checkout. Postcode data available for the United States (US), Ireland (IE) and Japan (JP). 
+Works with WooCommerce Blocks checkout. Postcode data available for the United States (US), India (IN), Ireland (IE) and Japan (JP). 
 
 ![Blocks checkout postcode autofill](./.github/bh-wc-postcode-address-autofill-blocks-checkout.gif "Demo of the city and state autofilling from the postcode entry")
 
@@ -13,6 +13,7 @@ Works with WooCommerce Blocks checkout. Postcode data available for the United S
 ## TODO:
 
 * Send `available_countries` to the frontend to avoid unnecessary lookups
+* Move focus to next field (phone) after autofill
 * My Account
 * JS/TS sourcemap
 * Add city suggestions via select2 where postcode is not precise enough
