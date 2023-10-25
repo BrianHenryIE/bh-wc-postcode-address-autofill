@@ -204,20 +204,26 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "strauss",
-            "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
+            "@prefix-namespaces",
+            "@create-symlinks",
             "@setup-wordpress",
-            "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-            "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
-            "@sync-composer-wpenv"
+            "@configure-phpstorm"
         ],
         "post-update-cmd": [
-            "strauss",
-            "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks",
+            "@prefix-namespaces",
+            "@create-symlinks",
             "@setup-wordpress",
+            "@configure-phpstorm"
+        ],
+        "create-symlinks": [
+            "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
+        ],
+        "prefix-namespaces": [
+            "strauss"
+        ],
+        "configure-phpstorm": [
             "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-            "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update",
-            "@sync-composer-wpenv"
+            "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
         ],
         "setup-wordpress": [
             "export $(grep -v '^#' .env.testing | xargs); wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --allow-root || true",
@@ -241,27 +247,33 @@
         "restore-acceptance-database": [
             "export $(grep -v '^#' .env.testing | xargs); mysql $TEST_SITE_DB_NAME < tests/_data/dump.sql"
         ],
-        "test-coverage": [
+        "coverage-tests": [
             "codecept run unit --coverage unit.cov",
             "codecept run wpunit --coverage wpunit.cov",
             "phpcov merge --clover tests/_output/clover.xml --html tests/_output/phpunit tests/_output;",
             "open tests/_output/phpunit/index.html"
         ],
-        "cs-fix": [
-            "phpcbf || true",
-            "phpcbf --standard=phpcs.woocommerce.xml || true",
+        "cs" : [
             "phpcs || true",
             "phpcs --standard=phpcs.woocommerce.xml || true",
             "phpstan analyse --memory-limit 1G"
         ],
+        "cs-fix": [
+            "phpcbf || true",
+            "phpcbf --standard=phpcs.woocommerce.xml || true",
+            "@cs"
+        ],
+        "cs-changes": [
+            "updated_files=$( git status | grep 'modified:\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); phpcs $(echo $updated_files); phpstan analyse $(echo $updated_files) --memory-limit 1G"
+        ],
         "cs-fix-changes": [
-            "updated_files=$( git status | grep 'modified:\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); phpcbf $(echo $updated_files); phpcs --standard=phpcs.woocommerce.xml $(echo $updated_files); phpcs $(echo $updated_files); phpstan analyse $(echo $updated_files) --memory-limit 1G"
+            "updated_files=$( git status | grep 'modified:\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); phpcbf $(echo $updated_files);",
+            "@cs-changes"
         ],
         "php-compatibility": [
             "phpcs -p src templates vendor-prefixed --standard=PHPCompatibilityWP --runtime-set testVersion 7.4-"
         ],
         "create-plugin-archive": [
-            "php ./data/original/parser/data-parser.php",
             "wp i18n make-pot src languages/$(basename \"$PWD\").pot --domain=$(basename \"$PWD\")",
             "wp dist-archive . ./dist-archive --plugin-dirname=$(basename \"$PWD\") --create-target-dir"
         ],
@@ -269,7 +281,7 @@
             "act -P ubuntu-latest=shivammathur/node:latest --container-architecture linux/amd64"
         ],
         "sync-composer-wpenv": [
-            "cat .wp-env.json | jq '.mappings | values[]' | xargs -I % sh -c \"if [ ! -d \"%\" ] && [ ! -f \"%\" ]; then jq 'del(.. | select(. == \\\"%\\\"))' .wp-env.json; fi;\" | sponge .wp-env.json;",
+            "cat .wp-env.json | jq '.mappings | values[]' | xargs -I % sh -c \"if [ ! -d \"%\" ] && [ ! -f \"%\" ]; then jq 'del(.. | select(. == \\\"%\\\"))' .wp-env.json; else; cat .wp-env.json; fi;\" | sponge .wp-env.json;",
             "find wp-content/plugins -type d -depth 1 ! -type l | sort -h | jq -Rn '[inputs]' | jq 'reduce .[] as $item ({}; . + {$item:$item})' | jq '.[] |= \"./\\(.)\"' | jq '. | {mappings: .}' | jq --sort-keys -s '.[] * $existing[]' --slurpfile existing .wp-env.json | sponge .wp-env.json"
         ]
     }
