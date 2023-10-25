@@ -145,6 +145,7 @@
         "php-stubs/woocommerce-stubs": "^7.6",
         "phpcompatibility/phpcompatibility-wp": "*",
         "phpstan/extension-installer": "*",
+        "phpstan/phpstan-phpunit": "*",
         "phpunit/phpcov": "*",
         "squizlabs/php_codesniffer": "*",
         "szepeviktor/phpstan-wordpress": "*",

@@ -4,8 +4,10 @@ parameters:
         - src
         - bh-wc-postcode-address-autofill.php
         - uninstall.php
+        - tests
     excludePaths:
         - vendor-prefixed
+        - tests/_support
     bootstrapFiles:
         - phpstanbootstrap.php
         - vendor-prefixed/autoload.php
