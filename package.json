@@ -24,15 +24,16 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@testing-library/react": "^14.0.0",
-    "@woocommerce/dependency-extraction-webpack-plugin": "^2.2.0",
-    "@woocommerce/eslint-plugin": "^2.2.0",
-    "@woocommerce/woocommerce-rest-api": "^1.0",
-    "@wordpress/e2e-test-utils": "^10.9",
-    "@wordpress/e2e-test-utils-playwright": "^0.6",
-    "@wordpress/env": "^8",
-    "@wordpress/scripts": "^26",
-    "eslint-plugin-prettier": "^5.0.0",
-    "rxjs": "^7.8.1"
+    "@testing-library/react": "^16.0.1",
+    "@woocommerce/dependency-extraction-webpack-plugin": "^3.0.1",
+    "@woocommerce/eslint-plugin": "^2.3.0",
+    "@woocommerce/woocommerce-rest-api": "^1.0.1",
+    "@wordpress/env": "^10.12.0",
+    "@wordpress/e2e-test-utils": "^11.12.0",
+    "@wordpress/e2e-test-utils-playwright": "^1.12.0",
+    "@wordpress/scripts": "^30.5.1",
+    "eslint-plugin-prettier": "^5.2.1",
+    "rxjs": "^7.8.1",
+    "wp-prettier": "^3.0.3"
   }
 }
