@@ -40,7 +40,12 @@ class I18n_WP_Unit_Test extends \Codeception\TestCase\WPTestCase {
 
 		$i18n->load_plugin_textdomain();
 
-		$this->assertTrue( $called, 'plugin_locale filter not called within load_plugin_textdomain() suggesting it has not been set by the plugin.' );
-		$this->assertEquals( 'bh-wc-postcode-address-autofill', $actual_domain );
+		/** @var \WP_Textdomain_Registry $wp_textdomain_registry */
+		global $wp_textdomain_registry;
+
+		$this->assertTrue($wp_textdomain_registry->has( 'bh-wc-postcode-address-autofill' ));
+
+//		$this->assertTrue( $called, 'plugin_locale filter not called within load_plugin_textdomain() suggesting it has not been set by the plugin.' );
+//		$this->assertEquals( 'bh-wc-postcode-address-autofill', $actual_domain );
 	}
 }
