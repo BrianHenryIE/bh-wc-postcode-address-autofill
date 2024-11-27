@@ -1,5 +1,6 @@
 {
   "redefinable-internals": [
+    "class_exists",
     "constant",
     "define",
     "defined",

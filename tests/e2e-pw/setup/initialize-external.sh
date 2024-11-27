@@ -11,8 +11,9 @@ echo "Building $PLUGIN_SLUG"
 
 # Build the plugin
 npm run build
-vendor/bin/wp i18n make-pot src languages/$PLUGIN_SLUG.pot --domain=$PLUGIN_SLUG
-vendor/bin/wp dist-archive . ./tests/e2e-pw/setup --plugin-dirname=$PLUGIN_SLUG --filename-format="{name}.latest"
+vendor/bin/wp i18n make-pot src languages/$PLUGIN_SLUG.pot --domain=$PLUGIN_SLUG;
+rm "$PLUGIN_SLUG.latest.zip";
+vendor/bin/wp dist-archive . ./tests/e2e-pw/setup --plugin-dirname=$PLUGIN_SLUG --filename-format="{name}.latest";
 
 # Configure the environment
 echo "run npx wp-env run cli ./setup/initialize-internal.sh;"

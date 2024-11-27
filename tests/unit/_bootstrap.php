@@ -16,10 +16,7 @@ Autoloader::generate(
 	$plugin_root_dir . '/src',
 )->register();
 
-$class_map = array(
-	'Automattic\WooCommerce\Blocks\Integrations\IntegrationInterface' => $plugin_root_dir . '/wp-content/plugins/woocommerce/packages/woocommerce-blocks/src/Integrations/IntegrationInterface.php',
-	'Automattic\WooCommerce\Blocks\Integrations\IntegrationRegistry' => $plugin_root_dir . '/wp-content/plugins/woocommerce/packages/woocommerce-blocks/src/Integrations/IntegrationRegistry.php',
-);
+$class_map = \Composer\Autoload\ClassMapGenerator::createMap( $plugin_root_dir . '/wp-content/plugins/woocommerce' );
 
 spl_autoload_register(
 	function ( $classname ) use ( $class_map ) {
