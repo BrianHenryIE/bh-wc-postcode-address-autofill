@@ -1,16 +1,16 @@
 
 ## Testing:
 
+Requires Docker.
+
 ### PHPUnit Tests with Codeception/WP-Browser
 
-Requires local Apache and MySQL.
 
 ```bash
 composer install
-composer create-databases
-composer setup-wordpress
+npm install
+npx wp-env start
 XDEBUG_MODE=coverage composer coverage-tests; 
-$ composer delete-databases
 ```
 
 ### E2E testing with wp-env and Playwright
@@ -20,7 +20,7 @@ Requires Docker
 ```php
 npm install
 npx wp-env start
-npx playwright test --config ./tests/e2e-pw/playwright.config.js
+npx playwright test --config ./playwright.config.js
 npx wp-env destroy
 ```
 
