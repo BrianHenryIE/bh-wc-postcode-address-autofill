@@ -17,12 +17,21 @@ test.describe( 'Plugin activates without issue', () => {
                 baseURL:baseURL
             });
 
-        // await requestUtils.activatePlugin(kebabCase("JSON Basic Authentication"));
+        // basic-auth/basic-auth.php
+        await requestUtils.activatePlugin(kebabCase("JSON Basic Authentication"));
+        // await requestUtils.activatePlugin('basic-auth/basic-auth.php');
 
-        await requestUtils.activatePlugin(kebabCase( "WooCommerce" ));
-        await requestUtils.activatePlugin(kebabCase( "Gutenberg"));
-        await requestUtils.activatePlugin(kebabCase("WooCommerce Blocks")); // 'woo-gutenberg-products-block'
-        await requestUtils.activatePlugin(kebabCase("WooCommerce Dummy Payments Gateway")); // woocommerce-gateway-dummy
+        // await requestUtils.activatePlugin(kebabCase( "WooCommerce" ));
+        await requestUtils.activatePlugin("woocommerce");
+        // await requestUtils.activatePlugin(kebabCase( "Gutenberg"));
+        // await requestUtils.activatePlugin("gutenberg");
+        // await requestUtils.activatePlugin(kebabCase("WooCommerce Blocks")); // 'woo-gutenberg-products-block'
+        // woo-gutenberg-products-block/woocommerce-gutenberg-products-block.php
+        // await requestUtils.activatePlugin('woo-gutenberg-products-block'); // 'woo-gutenberg-products-block'
+        // await requestUtils.activatePlugin('woocommerce-gutenberg-products-block');
+        // await requestUtils.activatePlugin(kebabCase("WooCommerce Dummy Payments Gateway")); // woocommerce-gateway-dummy
+        await requestUtils.activatePlugin("woocommerce-dummy-payments-gateway"); // woocommerce-gateway-dummy
+        // await requestUtils.activatePlugin('woocommerce-gateway-dummy'); // woocommerce-gateway-dummy
 
         await requestUtils.activatePlugin(kebabCase("Postcode Address Autofill")); // bh-wc-postcode-address-autofill
 
@@ -32,7 +41,8 @@ test.describe( 'Plugin activates without issue', () => {
 
         await page.fill( 'input[name="log"]', "admin" );
         await page.fill( 'input[name="pwd"]', "password" );
-        await page.click( 'text=Log In' );
+        // await page.click( 'text=Log In' );
+        await page.locator('#wp-submit').click();
 
         await page.waitForLoadState( 'networkidle' );
 

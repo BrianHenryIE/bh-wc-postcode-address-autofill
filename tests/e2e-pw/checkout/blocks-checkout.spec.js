@@ -46,22 +46,29 @@ test.describe( 'Checkout page', () => {
 
         await page.goto( '/blocks-checkout/?add-to-cart=' + productId,{waitUntil:'domcontentloaded'});
 
+        await page.locator('#checkbox-control-0').uncheck();
+
         let billingAddress = await page.locator('#billing-fields');
 
-        await billingAddress.getByLabel('Country/Region').click();
-        await billingAddress.getByLabel('Country/Region').fill('united');
-        await billingAddress.getByLabel('United States (US)', { exact: true }).click();
+        await billingAddress.getByLabel('Country/Region').selectOption('US');
+
+        // await billingAddress.getByLabel('Country/Region').click();
+        // await billingAddress.getByLabel('Country/Region').fill('united');
+        // await billingAddress.getByLabel('United States (US)', { exact: true }).click();
 
         await page.waitForLoadState( 'networkidle' );
 
-        await billingAddress.getByLabel("ZIP Code").focus();
-        await billingAddress.getByLabel("ZIP Code").fill('10001');
-        await billingAddress.getByLabel('ZIP Code').press('Tab');
+        let zipCodeField = await billingAddress.locator('#billing-postcode');
+
+        // await billingAddress.getByLabel("ZIP Code").focus();
+        await zipCodeField.fill('10001');
+        await zipCodeField.press('Tab');
 
         await page.waitForLoadState( 'networkidle' );
 
+        await expect( await billingAddress.getByLabel(/^State$/) ).toHaveValue('NY');
 
-        await expect( await billingAddress.getByLabel(/^State$/) ).toHaveValue('NEW YORK');
+        // await expect( await billingAddress.getByLabel(/^State$/) ).toHaveValue('NEW YORK');
         await expect( await billingAddress.getByLabel('City') ).toHaveValue('NEW YORK');
 	});
 
@@ -71,9 +78,11 @@ test.describe( 'Checkout page', () => {
 
         let shippingAddress = await page.locator('#shipping');
 
-        await shippingAddress.getByLabel('Country/Region').click();
-        await shippingAddress.getByLabel('Country/Region').fill('ireland');
-        await shippingAddress.getByLabel('Ireland', { exact: true }).click();
+        await shippingAddress.getByLabel('Country/Region').selectOption('IE');
+
+        // await shippingAddress.getByLabel('Country/Region').click();
+        // await shippingAddress.getByLabel('Country/Region').fill('ireland');
+        // await shippingAddress.getByLabel('Ireland', { exact: true }).click();
 
         await page.waitForLoadState( 'networkidle' );
 
@@ -83,7 +92,8 @@ test.describe( 'Checkout page', () => {
 
         await page.waitForLoadState( 'networkidle' );
 
-        await expect( await shippingAddress.getByLabel('County') ).toHaveValue(/Wicklow/i);
+        // await expect( await shippingAddress.getByLabel('County') ).toHaveValue(/Wicklow/i);
+        await expect( await shippingAddress.getByLabel('County') ).toHaveValue('WW');
         await expect( await shippingAddress.getByLabel('City') ).toHaveValue(/rathnew/i);
     });
 } );
