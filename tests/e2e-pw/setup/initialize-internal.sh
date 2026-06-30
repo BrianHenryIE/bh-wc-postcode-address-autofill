@@ -8,7 +8,10 @@ echo "$ printenv"
 printenv
 
 echo "Set up pretty permalinks for REST API."
-wp rewrite structure /%year%/%monthnum%/%postname%/ --hard;
+wp rewrite structure '/%year%/%monthnum%/%postname%/' --hard
+wp rewrite flush
+
+wp plugin activate woocommerce
 
 echo "Adding pages"
 if [[ '[]' == $(wp post list --name="Blocks Checkout" --post_type="page" --format=json) ]]; then
@@ -21,6 +24,13 @@ if [[ '[]' == $(wp post list --name="Shortcode Checkout" --post_type=page --form
   wp post create --post_type=page --post_title="Shortcode Checkout" --post_status=publish ./setup/shortcode-checkout-post-content.txt;
 fi
 
+# Create a simple product for checkout testing.
+if ! wp post list --post_type=product --field=post_title 2>/dev/null | grep -q "Test Product"; then
+  echo "Creating test product..."
+  wp wc product create --user=1 --name="Test Product" --regular_price="19.99" --status=publish 2>/dev/null || true
+fi
+
+
 wp plugin activate --all
 
 # https://sarathlal.com/create-shipping-zone-and-add-shippig-method-in-to-shipping-zone-using-wp-cli-wordpress/
@@ -32,3 +42,6 @@ fi;
 
 echo "Maybe updating WooCommerce database"
 wp wc update
+
+# Disable "coming soon" mode.
+wp option update woocommerce_coming_soon no

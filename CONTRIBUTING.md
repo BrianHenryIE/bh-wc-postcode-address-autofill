@@ -33,9 +33,6 @@ echo Y | npx wp-env destroy; npx wp-env start
 # for development work
 open http://localhost:8888
 
-# is used for automated tests.
-open http://localhost:8889
-
 # Start the playwright test runner UI and return to the Terminal (otherwise Terminal is unavailable until the application is exited).
 npx playwright test --ui &;
 
