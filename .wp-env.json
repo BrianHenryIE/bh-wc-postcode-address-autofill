@@ -9,11 +9,7 @@
   "mappings": {
     "setup": "./tests/e2e-pw/setup",
     "wp-cli.yml": "./wp-cli.wp-env.yml",
-    "wp-content/plugins/basic-auth": "./wp-content/plugins/basic-auth",
-    "wp-content/plugins/bh-wp-autologin-urls": "./wp-content/plugins/bh-wp-autologin-urls",
     "wp-content/plugins/gutenberg": "./wp-content/plugins/gutenberg",
-    "wp-content/plugins/gutenberg-test-plugin-disables-the-css-animations": "./wp-content/plugins/gutenberg-test-plugin-disables-the-css-animations",
-    "wp-content/plugins/woo-gutenberg-products-block": "./wp-content/plugins/woo-gutenberg-products-block",
     "wp-content/plugins/woocommerce": "./wp-content/plugins/woocommerce",
     "wp-content/plugins/woocommerce-gateway-dummy": "./wp-content/plugins/woocommerce-gateway-dummy",
     "wp-content/themes": "./wp-content/themes"

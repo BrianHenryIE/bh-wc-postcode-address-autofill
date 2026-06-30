@@ -18,9 +18,5 @@ vendor/bin/wp dist-archive . ./tests/e2e-pw/setup --plugin-dirname=$PLUGIN_SLUG 
 # Configure the environment
 echo "run npx wp-env run cli ./setup/initialize-internal.sh;"
 npx wp-env run cli ./setup/initialize-internal.sh;
-echo "run npx wp-env run tests-cli ./setup/initialize-internal.sh;"
-npx wp-env run tests-cli ./setup/initialize-internal.sh;
 echo "run npx wp-env run cli ./setup/initialize-internal-dev.sh;"
 npx wp-env run cli ./setup/initialize-internal-dev.sh;
-echo "run npx wp-env run tests-cli ./setup/initialize-internal-tests.sh;"
-npx wp-env run tests-cli ./setup/initialize-internal-tests.sh;
