@@ -14,12 +14,10 @@
     "config": {
         "allow-plugins": {
             "composer/installers": true,
-            "cweagans/composer-patches": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "johnpbloch/wordpress-core-installer": true,
             "phpstan/extension-installer": true,
-            "automattic/jetpack-autoloader": true,
-            "brianhenryie/composer-phpstorm": true
+            "automattic/jetpack-autoloader": true
         },
         "platform": {
             "php": "7.4"
@@ -33,10 +31,6 @@
         ]
     },
     "repositories": {
-        "brianhenryie/composer-phpstorm": {
-            "url": "https://github.com/BrianHenryIE/composer-phpstorm",
-            "type": "git"
-        },
         "outlandishideas/wpackagist": {
             "type": "composer",
             "url": "https://wpackagist.org"
@@ -65,20 +59,6 @@
                     "url": "https://github.com/woocommerce/woocommerce",
                     "type": "git",
                     "reference": "7.9.0"
-                },
-                "installation-source": "source"
-            }
-        },
-        "woocommerce/woocommerce-blocks":{
-            "type": "package",
-            "package": {
-                "name": "woocommerce/woocommerce-blocks",
-                "type": "package",
-                "version": "2023-08-16",
-                "source": {
-                    "url": "https://github.com/woocommerce/woocommerce-blocks",
-                    "type": "git",
-                    "reference": "v10.9.0"
                 },
                 "installation-source": "source"
             }
@@ -135,126 +115,51 @@
         "alleyinteractive/wordpress-autoloader": "^1.1",
         "10up/wp_mock": "*",
         "antecedent/patchwork": "^2.1",
-        "brianhenryie/color-logger": "^1.0",
-        "brianhenryie/composer-phpstorm": "dev-master",
-        "brianhenryie/strauss": "*",
-        "codeception/module-asserts": "^1.0",
-        "codeception/module-cli": "^1.0",
-        "codeception/module-db": "^1.0.0",
-        "codeception/module-filesystem": "^1.0",
-        "codeception/module-phpbrowser": "^1.0.0",
-        "codeception/module-webdriver": "^1.0",
-        "codeception/util-universalframework": "^1.0",
-        "cweagans/composer-patches": "*",
+        "brianhenryie/color-logger": "*",
         "dealerdirect/phpcodesniffer-composer-installer": "*",
-        "jaschilz/php-coverage-badger": "^2.0",
         "johnpbloch/wordpress": "*",
-        "kporras07/composer-symlinks": "dev-master",
         "lucatume/wp-browser": "*",
-        "php-stubs/woocommerce-stubs": "^7.6",
-        "phpcompatibility/phpcompatibility-wp": "*",
+        "php-stubs/woocommerce-stubs": "*",
         "phpstan/extension-installer": "*",
         "phpstan/phpstan-phpunit": "*",
+        "phpstan/phpstan-mockery": "*",
         "phpunit/phpcov": "*",
         "squizlabs/php_codesniffer": "*",
         "szepeviktor/phpstan-wordpress": "*",
         "woocommerce-zip/woocommerce-gateway-dummy": "*",
-        "woocommerce/qit-cli": "^0.3.4",
+        "woocommerce/qit-cli": "*",
         "woocommerce/woocommerce": "*",
-        "woocommerce/woocommerce-blocks": "*",
         "woocommerce/woocommerce-gateway-dummy": "*",
         "woocommerce/woocommerce-sniffs": "*",
         "wordpress/gutenberg": "*",
         "wordpress/wordpress": "*",
-        "wp-api/basic-auth": "*",
-        "wp-cli/dist-archive-command": "dev-main",
-        "wp-cli/i18n-command": "^2.4",
-        "wp-cli/wp-cli-bundle": "*",
         "wp-coding-standards/wpcs": "*",
         "wpackagist-plugin/gutenberg": "*",
-        "wpackagist-plugin/woo-gutenberg-products-block": "*",
         "wpackagist-plugin/woocommerce": "*",
         "wpackagist-theme/storefront": "*",
         "wpackagist-theme/twentytwenty": "*"
     },
     "extra": {
-        "patches": {
-            "jaschilz/php-coverage-badger": {
-                "Allow customising the text": "https://github.com/JASchilz/PHPCoverageBadge/pull/1.patch"
-            },
-            "wp-cli/dist-archive-command": {
-                "Add Increment Version": "https://github.com/BrianHenryIE/dist-archive-command/commit/f37c375ba8069c9160d642dd0c00435e0f1c4804.patch"
-            }
-        },
         "strauss": {
             "namespace_prefix": "BrianHenryIE\\WC_Postcode_Address_Autofill\\",
-            "classmap_prefix": "BH_WC_Postcode_Address_Autofill_"
-        },
-        "symlinks": {
-            "wp-content": "wordpress/wp-content",
-            ".": "wp-content/plugins/bh-wc-postcode-address-autofill"
-        },
-        "phpstorm": {
-            "exclude_folders": {
-                "folders": [
-                    "dist-archive",
-                    "vendor/php-stubs/woocommerce-stubs",
-                    "vendor/wordpress/wordpress/src",
-                    "vendor/wordpress/wordpress/build",
-                    "wp-content/plugins/bh-wc-postcode-address-autofill",
-                    "wordpress/wp-content"
-                ],
-                "include_folders": [
-                    "vendor/wordpress/wordpress/"
-                ],
-                "composer-symlinks": false
-            }
+            "classmap_prefix": "BH_WC_Postcode_Address_Autofill_",
+            "include_root_autoload": true
         }
     },
     "scripts": {
         "post-install-cmd": [
-            "@prefix-namespaces",
-            "@create-symlinks",
-            "@setup-wordpress",
-            "@configure-phpstorm"
+            "@prefix-namespaces"
         ],
         "post-update-cmd": [
-            "@prefix-namespaces",
-            "@create-symlinks",
-            "@setup-wordpress",
-            "@configure-phpstorm"
-        ],
-        "create-symlinks": [
-            "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
+            "@prefix-namespaces"
         ],
         "prefix-namespaces": [
-            "strauss"
+            "sh -c 'test -f ./bin/strauss.phar || curl -o bin/strauss.phar -L -C - https://github.com/BrianHenryIE/strauss/releases/latest/download/strauss.phar'",
+            "@php bin/strauss.phar",
+            "@composer dump-autoload"
         ],
-        "configure-phpstorm": [
-            "BrianHenryIE\\ComposerPhpStorm\\ExcludeFolders::update",
-            "BrianHenryIE\\ComposerPhpStorm\\PHPUnitRunConfigurations::update"
-        ],
-        "setup-wordpress": [
-            "export $(grep -v '^#' .env.testing | xargs); wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --allow-root || true",
-            "export $(grep -v '^#' .env.testing | xargs); wp core install --url=\"localhost:8080/$PLUGIN_SLUG\" --title=\"$PLUGIN_NAME\" --admin_user=admin --admin_password=password --admin_email=admin@example.org || true; wp plugin activate $PLUGIN_SLUG || true;",
-            "wp config set WP_DEBUG true --raw; wp config set WP_DEBUG_LOG true --raw; wp config set SCRIPT_DEBUG true --raw",
-            "wp user create bob bob@example.org --user_pass=password || true;",
-            "mkdir -p wordpress/wp-content/uploads"
-        ],
-        "create-databases": [
-            "export $(grep -v '^#' .env.testing | xargs); [[ $(mysqld --version) =~ .*MariaDB.* ]] && mysql -e \"CREATE USER IF NOT EXISTS '\"$TEST_DB_USER\"'@'%' IDENTIFIED BY '\"$TEST_DB_PASSWORD\"';\" || mysql -e \"CREATE USER IF NOT EXISTS '\"$TEST_DB_USER\"'@'%' IDENTIFIED WITH mysql_native_password BY '\"$TEST_DB_PASSWORD\"';\";",
-            "export $(grep -v '^#' .env.testing | xargs); mysql -e \"CREATE DATABASE IF NOT EXISTS \"$TEST_SITE_DB_NAME\"; USE \"$TEST_SITE_DB_NAME\"; GRANT ALL PRIVILEGES ON \"$TEST_SITE_DB_NAME\".* TO '\"$TEST_DB_USER\"'@'%';\";",
-            "export $(grep -v '^#' .env.testing | xargs); mysql -e \"CREATE DATABASE IF NOT EXISTS \"$TEST_DB_NAME\"; USE \"$TEST_DB_NAME\"; GRANT ALL PRIVILEGES ON \"$TEST_DB_NAME\".* TO '\"$TEST_DB_USER\"'@'%';\";",
-            "@restore-acceptance-database"
-        ],
-        "delete-databases": [
-            "export $(grep -v '^#' .env.testing | xargs); DB_DIR=$(mysql -e \"select @@datadir\" -N -B); if [[ \"$DB_DIR\" != \"$DB_DIR$TEST_SITE_DB_NAME\" ]]; then rm -rf $DB_DIR$TEST_SITE_DB_NAME; fi; if [[ \"$DB_DIR\" != \"$DB_DIR$TEST_DB_NAME\" ]]; then rm -rf $DB_DIR$TEST_DB_NAME; fi;"
-        ],
-        "save-acceptance-database": [
-            "export $(grep -v '^#' .env.testing | xargs); mysqldump -u $TEST_SITE_DB_USER -p$TEST_SITE_DB_PASSWORD  $TEST_SITE_DB_NAME > tests/_data/dump.sql;"
-        ],
-        "restore-acceptance-database": [
-            "export $(grep -v '^#' .env.testing | xargs); mysql $TEST_SITE_DB_NAME < tests/_data/dump.sql"
+        "post-autoload-dump": [
+            "@php bin/strauss.phar include-autoloader"
         ],
         "coverage-tests": [
             "codecept run unit --coverage unit.cov",
@@ -280,18 +185,14 @@
             "@cs-changes"
         ],
         "php-compatibility": [
-            "phpcs -p src templates vendor-prefixed --standard=PHPCompatibilityWP --runtime-set testVersion 7.4-"
+            "phpcs -p includes templates vendor-prefixed --standard=PHPCompatibilityWP --runtime-set testVersion 7.4-"
         ],
         "create-plugin-archive": [
-            "wp i18n make-pot src languages/$(basename \"$PWD\").pot --domain=$(basename \"$PWD\")",
+            "wp i18n make-pot includes languages/$(basename \"$PWD\").pot --domain=$(basename \"$PWD\")",
             "wp dist-archive . ./dist-archive --plugin-dirname=$(basename \"$PWD\") --create-target-dir"
         ],
         "github-actions":  [
             "act -P ubuntu-latest=shivammathur/node:latest --container-architecture linux/amd64"
-        ],
-        "sync-composer-wpenv": [
-            "for name in $(cat .wp-env.json | jq '.mappings | values[]' | sed -r 's/^\\\"|\\\"$//g'); do [ ! -d $name ] && [ ! -f $name ] && echo $name && jq 'del(.. | select(. == \"'$name'\"))' .wp-env.json | sponge .wp-env.json; done; exit 0;",
-            "find wp-content/plugins -type d -depth 1 ! -type l | sort -h | jq -Rn '[inputs]' | jq 'reduce .[] as $item ({}; . + {$item:$item})' | jq '.[] |= \"./\\(.)\"' | jq '. | {mappings: .}' | jq --sort-keys -s '.[] * $existing[]' --slurpfile existing .wp-env.json | sponge .wp-env.json"
         ]
     }
 }

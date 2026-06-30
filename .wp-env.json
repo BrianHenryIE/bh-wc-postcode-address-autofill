@@ -1,14 +1,8 @@
 {
-  "env": {
-    "development": {
-      "plugins": [
-        "."
-      ]
-    },
-    "tests": {
-      "mysqlPort": 33066
-    }
-  },
+  "plugins": [
+    "."
+  ],
+  "mysqlPort": 33066,
   "lifecycleScripts": {
     "afterStart": "./tests/e2e-pw/setup/initialize-external.sh"
   },
@@ -24,5 +18,7 @@
     "wp-content/plugins/woocommerce-gateway-dummy": "./wp-content/plugins/woocommerce-gateway-dummy",
     "wp-content/themes": "./wp-content/themes"
   },
-  "phpVersion": "7.4"
+  "phpVersion": "7.4",
+  "core": "WordPress/WordPress#7.0",
+  "testsEnvironment": false
 }
