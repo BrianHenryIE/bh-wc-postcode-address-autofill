@@ -17,7 +17,7 @@ global $plugin_root_dir;
  */
 $create_map = function ( string $path, array $excludedDirs ): array {
 	$generator = new ClassMapGenerator();
-	$generator->scanPaths( $path, '#Autoloader#', 'classmap', null, $excludedDirs );
+	$generator->scanPaths( $path, null, 'classmap', null, $excludedDirs );
 	return $generator->getClassMap()->getMap();
 };
 $class_map  = $create_map(
@@ -25,9 +25,9 @@ $class_map  = $create_map(
 	array(
 		'lib/packages/GraphQL',
 		'src/Api',
+		'Internal/Api',
 	)
 );
-
 
 spl_autoload_register(
 	function ( $classname ) use ( $class_map ) {
