@@ -1,5 +1,9 @@
 # Changelog
 
+2024-12-03 - 1.5.1
+
+* Minor changes for WooCommerce.com submission
+
 ## 1.5.0
 
 * Add: India's PIN codes

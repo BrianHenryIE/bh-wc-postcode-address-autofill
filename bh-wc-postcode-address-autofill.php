@@ -15,7 +15,7 @@
  * Plugin Name:       Postcode Address Autofill
  * Plugin URI:        http://github.com/BrianHenryIE/bh-wc-postcode-address-autofill/
  * Description:       Autofill city and state based on postcode input.
- * Version:           1.5.0
+ * Version:           1.5.1
  * Requires PHP:      7.4
  * Author:            BrianHenryIE
  * Author URI:        http://bhwp.ie
