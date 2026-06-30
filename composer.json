@@ -27,6 +27,11 @@
         "process-timeout": 0,
         "sort-packages": true
     },
+    "autoload": {
+        "classmap": [
+            "includes"
+        ]
+    },
     "repositories": {
         "brianhenryie/composer-phpstorm": {
             "url": "https://github.com/BrianHenryIE/composer-phpstorm",
@@ -124,10 +129,10 @@
     },
     "require": {
         "php": ">=7.4",
-        "ext-json": "*",
-        "alleyinteractive/wordpress-autoloader": "^1.1"
+        "ext-json": "*"
     },
     "require-dev": {
+        "alleyinteractive/wordpress-autoloader": "^1.1",
         "10up/wp_mock": "*",
         "antecedent/patchwork": "^2.1",
         "brianhenryie/color-logger": "^1.0",

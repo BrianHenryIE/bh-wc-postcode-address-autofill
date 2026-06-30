@@ -11,10 +11,6 @@ WP_Mock::setUsePatchwork( true );
 WP_Mock::bootstrap();
 
 global $plugin_root_dir;
-Autoloader::generate(
-	'BrianHenryIE\\WC_Postcode_Address_Autofill\\',
-	$plugin_root_dir . '/src',
-)->register();
 
 $class_map = \Composer\Autoload\ClassMapGenerator::createMap( $plugin_root_dir . '/wp-content/plugins/woocommerce' );
 

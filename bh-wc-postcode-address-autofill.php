@@ -42,8 +42,6 @@ if ( ! defined( 'WPINC' ) ) {
 
 require_once __DIR__ . '/vendor-prefixed/autoload.php';
 
-Autoloader::generate( __NAMESPACE__, __DIR__ . '/src', )->register();
-
 define( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_VERSION', '1.5.0' );
 define( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_BASENAME', plugin_basename( __FILE__ ) );
 define( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_PATH', plugin_dir_path( __FILE__ ) );
