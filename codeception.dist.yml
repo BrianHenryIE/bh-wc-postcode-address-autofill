@@ -21,7 +21,7 @@ params:
 coverage:
     enabled: true
     include:
-        - /src/*
+        - /includes/*
         - /bh-wc-postcode-address-autofill.php
         - /uninstall.php
     exclude:

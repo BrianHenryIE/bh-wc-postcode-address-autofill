@@ -75,7 +75,7 @@ class Blocks {
 	 *
 	 * @param array{shipping:array{postcode:string, country:string},billing:array{postcode:string, country:string}} $data The data object as passed from our JavaScript.
 	 */
-	public function update_callback( array $data ): void {
+	public function update_callback( ?array $data = array() ): void {
 
 		foreach ( $data as $address_type => $address_data ) {
 
