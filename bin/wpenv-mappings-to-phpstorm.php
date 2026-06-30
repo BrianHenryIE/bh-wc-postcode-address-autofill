@@ -60,7 +60,6 @@ foreach ( $raw_mappings as $container_rel_path => $local_rel_path ) {
 	if ( '.' === $local_rel_path ) {
 		$local_root = '$PROJECT_DIR$';
 	} elseif ( 0 === strpos( $local_rel_path, './' ) ) {
-//	} elseif ( str_starts_with( $local_rel_path, './' ) ) {
 		$local_root = '$PROJECT_DIR$/' . substr( $local_rel_path, 2 );
 	} else {
 		$local_root = '$PROJECT_DIR$/' . ltrim( $local_rel_path, '/' );

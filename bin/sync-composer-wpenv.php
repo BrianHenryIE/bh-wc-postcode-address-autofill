@@ -63,7 +63,7 @@ $corePackageNames = array( 'johnpbloch/wordpress-core', 'wordpress/wordpress' );
 $allPackages      = array_merge( $composerLock['packages'] ?? array(), $composerLock['packages-dev'] ?? array() );
 foreach ( $allPackages as $package ) {
 	if ( in_array( $package['name'], $corePackageNames, true ) ) {
-		$version        = preg_replace( '/\.0$/', '', $package['version'] );
+		$version       = preg_replace( '/\.0$/', '', $package['version'] );
 		$wpEnv['core'] = 'WordPress/WordPress#' . $version;
 		break;
 	}

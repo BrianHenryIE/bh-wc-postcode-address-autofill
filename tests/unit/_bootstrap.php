@@ -5,14 +5,29 @@
  * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
-use Alley_Interactive\Autoloader\Autoloader;
+use Composer\ClassMapGenerator\ClassMapGenerator;
 
 WP_Mock::setUsePatchwork( true );
 WP_Mock::bootstrap();
 
 global $plugin_root_dir;
 
-$class_map = \Composer\Autoload\ClassMapGenerator::createMap( $plugin_root_dir . '/wp-content/plugins/woocommerce' );
+/**
+ * @see ClassMapGenerator::createMap()
+ */
+$create_map = function ( string $path, array $excludedDirs ): array {
+	$generator = new ClassMapGenerator();
+	$generator->scanPaths( $path, '#Autoloader#', 'classmap', null, $excludedDirs );
+	return $generator->getClassMap()->getMap();
+};
+$class_map  = $create_map(
+	$plugin_root_dir . '/wp-content/plugins/woocommerce',
+	array(
+		'lib/packages/GraphQL',
+		'src/Api',
+	)
+);
+
 
 spl_autoload_register(
 	function ( $classname ) use ( $class_map ) {

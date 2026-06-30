@@ -3,7 +3,9 @@
  * @package           brianhenryie/bh-wc-postcode-address-autofill
  */
 
-use BrianHenryIE\WC_Postcode_Address_Autofill\Alley_Interactive\Autoloader\Autoloader;
+namespace BrianHenryIE\WC_Postcode_Address_Autofill;
+
+use Alley_Interactive\Autoloader\Autoloader;
 
 $GLOBALS['project_root_dir']   = $project_root_dir  = dirname( __DIR__, 1 );
 $GLOBALS['plugin_root_dir']    = $plugin_root_dir   = $project_root_dir;
@@ -12,6 +14,8 @@ $GLOBALS['plugin_file_php']    = $plugin_file_php   = $plugin_slug . '.php';
 $GLOBALS['plugin_path_php']    = $plugin_root_dir . '/' . $plugin_file_php;
 $GLOBALS['plugin_basename']    = $plugin_slug . '/' . $plugin_file_php;
 $GLOBALS['wordpress_root_dir'] = $project_root_dir . '/wordpress';
+
+require_once $project_root_dir . '/vendor/autoload.php';
 
 Autoloader::generate( __NAMESPACE__, $plugin_root_dir . '/includes', )->register();
 
