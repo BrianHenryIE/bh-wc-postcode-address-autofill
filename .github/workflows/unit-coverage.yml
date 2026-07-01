@@ -87,6 +87,9 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         run: composer install --verbose
 
+      - name: Generate data from raw sources
+        run: php ./bin/data-parser.php
+
       - name: Install php-codecoverage-markdown for markdown report generation
         if: ${{ matrix.php == env.COVERAGE_PHP_VERSION }}
         run: composer require brianhenryie/php-codecoverage-markdown --dev --with-all-dependencies
