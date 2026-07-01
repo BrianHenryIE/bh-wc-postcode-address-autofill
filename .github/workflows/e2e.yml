@@ -29,6 +29,17 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
+      - name: Install PHP dependencies
+        if: ${{ github.event_name == 'pull_request' }}
+        run: composer update --verbose
+
+      - name: Install PHP dependencies
+        if: ${{ github.event_name != 'pull_request' }}
+        run: composer install --verbose
+
+      - name: Generate data from raw sources
+        run: php ./bin/data-parser.php
+
       - name: Install dependencies
         run: npm ci
 
