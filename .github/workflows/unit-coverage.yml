@@ -32,6 +32,9 @@ jobs:
       matrix:
         php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5' ]
 
+    env:
+      COMPOSER_ALLOW_UNSAFE_PHAR_METADATA: 1 # "Refusing to parse a tar/phar archive on PHP < 8.0 because it is not safe to process untrusted archives on that PHP version."
+
     steps:
       - uses: actions/checkout@v6
         with:
@@ -90,7 +93,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         run: composer update --verbose
 
-      - name: Install PHP dependencies
+      - name: Install PHP dependencies (using update)
         if: ${{ github.event_name != 'pull_request' }}
         run: composer install --verbose
 
