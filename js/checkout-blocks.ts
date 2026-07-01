@@ -8,9 +8,56 @@ var lastPostcode = {
 };
 var isPostcodeAutofillUpdating = false
 
+// While an autofill request is in flight, the user may edit the city/state. WooCommerce's
+// response handling (receiveCart) overwrites the editable address in the store with the
+// server's values, so the store cannot be trusted to still hold the user's edit by the time
+// the request resolves. Record the address on every tick while the request is pending so we
+// can tell what the user last entered and preserve it.
+type AddressSnapshot = { city: string, state: string };
+var inFlightShippingSnapshots: AddressSnapshot[] = [];
+var inFlightBillingSnapshots: AddressSnapshot[] = [];
+
+/**
+ * Decide which value a field should end up with once the autofill response arrives.
+ *
+ * If the user changed the field after the request was sent, keep their value; otherwise use
+ * the server's suggestion. `snapshots` are the values seen while the request was in flight;
+ * the most recent one that differs from the server's value is the user's latest edit (the
+ * final snapshot is typically the server value applied by receiveCart).
+ */
+function resolveFieldValue(
+    snapshots: AddressSnapshot[],
+    field: 'city' | 'state',
+    sentValue: string,
+    serverValue: string
+): string {
+    for ( let i = snapshots.length - 1; i >= 0; i-- ) {
+        const value = snapshots[ i ][ field ];
+        if ( value !== serverValue ) {
+            // The user edited the field after the request was sent — keep their value.
+            // If it merely matches what was there when we sent, use the server value.
+            return value !== sentValue ? value : serverValue;
+        }
+    }
+    return serverValue;
+}
+
 subscribe( () => {
-    // If the action has already begun, wait for it to finish, or it can enter a loop of updating between postcodes.
+
+    const store = select( CART_STORE_KEY );
+    const cartData = store.getCartData();
+
+    // If a request is already in flight, record the address (the user may be editing it) and
+    // wait for it to finish, or it can enter a loop of updating between postcodes.
     if( isPostcodeAutofillUpdating ) {
+        inFlightShippingSnapshots.push( {
+            city: cartData.shippingAddress.city,
+            state: cartData.shippingAddress.state,
+        } );
+        inFlightBillingSnapshots.push( {
+            city: cartData.billingAddress.city,
+            state: cartData.billingAddress.state,
+        } );
         return;
     }
 
@@ -19,9 +66,6 @@ subscribe( () => {
     if ( ! isBeforeProcessing ) {
         return;
     }
-
-    const store = select( CART_STORE_KEY );
-    const cartData = store.getCartData();
 
     isPostcodeAutofillUpdating = true;
 
@@ -79,25 +123,38 @@ subscribe( () => {
     const didUpdateBilling = !! addressData.billing;
     const didUpdateShipping = !! addressData.shipping;
 
+    // Capture the city/state as they are when the request is sent, and start recording edits
+    // the user makes while the request is in flight.
+    const sentShipping = {
+        city: cartData.shippingAddress.city,
+        state: cartData.shippingAddress.state,
+    };
+    const sentBilling = {
+        city: cartData.billingAddress.city,
+        state: cartData.billingAddress.state,
+    };
+    inFlightShippingSnapshots = [];
+    inFlightBillingSnapshots = [];
+
     extensionCartUpdate({
         namespace: 'bh-wc-postcode-address-autofill',
         data: addressData
     }).then(function ( cart: any ) {
         // The server filled the city/state on the cart address, but the block checkout's
-        // controlled address inputs do not adopt the cart response on their own (and their
-        // own customer-data push would re-clear them). Push the resolved city/state — read
-        // from the returned cart response (Store API snake_case), not the store which gets
-        // clobbered — into the editable address store so the visible fields update and persist.
+        // controlled address inputs do not adopt the cart response on their own. Push the
+        // resolved city/state (from the response, Store API snake_case) into the editable
+        // address store — but preserve any value the user changed while the request was in
+        // flight (see resolveFieldValue).
         if ( didUpdateShipping && cart?.shipping_address ) {
             dispatch( CART_STORE_KEY ).setShippingAddress( {
-                city: cart.shipping_address.city,
-                state: cart.shipping_address.state,
+                city: resolveFieldValue( inFlightShippingSnapshots, 'city', sentShipping.city, cart.shipping_address.city ),
+                state: resolveFieldValue( inFlightShippingSnapshots, 'state', sentShipping.state, cart.shipping_address.state ),
             } );
         }
         if ( didUpdateBilling && cart?.billing_address ) {
             dispatch( CART_STORE_KEY ).setBillingAddress( {
-                city: cart.billing_address.city,
-                state: cart.billing_address.state,
+                city: resolveFieldValue( inFlightBillingSnapshots, 'city', sentBilling.city, cart.billing_address.city ),
+                state: resolveFieldValue( inFlightBillingSnapshots, 'state', sentBilling.state, cart.billing_address.state ),
             } );
         }
         isPostcodeAutofillUpdating = false;
