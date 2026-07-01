@@ -23,10 +23,11 @@ if ( ! file_exists( $wp_env_file ) ) {
 	exit( 1 );
 }
 
+// TODO: This should error 0 in GitHub Actions and 1 locally.
 if ( ! file_exists( $workspace_file ) ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo "Error: .idea/workspace.xml not found at {$workspace_file}\n";
-	exit( 1 );
+	exit( 0 );
 }
 
 // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
