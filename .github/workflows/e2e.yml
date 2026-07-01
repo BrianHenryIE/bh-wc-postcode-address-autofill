@@ -1,0 +1,96 @@
+name: E2E Tests
+
+# Runs Playwright end-to-end tests against wp-env.
+#
+# npx playwright test
+#
+# @author BrianHenryIE
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches:
+      - master
+
+jobs:
+
+  e2e:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Git checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install PHP dependencies
+        if: ${{ github.event_name == 'pull_request' }}
+        run: composer update --verbose
+
+      - name: Install PHP dependencies
+        if: ${{ github.event_name != 'pull_request' }}
+        run: composer install --verbose
+
+      - name: Generate data from raw sources
+        run: php ./bin/data-parser.php
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Start wp-env
+        run: npm run env:start
+
+      - name: Wait for WordPress to be ready
+        run: |
+          echo "Waiting for WordPress to be ready..."
+          for i in {1..30}; do
+            if curl -s http://localhost:8888 > /dev/null; then
+              echo "WordPress is ready!"
+              break
+            fi
+            echo "Attempt $i: WordPress not ready yet..."
+            sleep 2
+          done
+
+      - name: Activate plugins
+        run: |
+          # Activate the plugin on development environment (port 8888)
+          npx wp-env run cli -- wp plugin activate woocommerce bh-wc-postcode-address-autofill
+          # List plugins to verify activation
+          npx wp-env run cli -- wp plugin list
+          # Set up permalinks for REST API
+          npx wp-env run cli -- wp rewrite structure '/%year%/%monthnum%/%postname%/' --hard
+          npx wp-env run cli -- wp rewrite flush
+
+      - name: Run Playwright tests
+        run: npx playwright test --reporter=github
+        env:
+          CI: true
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v7
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: tests/_output/playwright-report/
+          retention-days: 30
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v7
+        if: ${{ !cancelled() }}
+        with:
+          name: test-results
+          path: tests/_output/playwright-results/
+          retention-days: 30

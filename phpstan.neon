@@ -1,7 +1,7 @@
 parameters:
     level: 8
     paths:
-        - src
+        - includes
         - bh-wc-postcode-address-autofill.php
         - uninstall.php
         - tests
@@ -12,7 +12,7 @@ parameters:
         - phpstanbootstrap.php
         - vendor-prefixed/autoload.php
         - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
-        - vendor/wp-cli/wp-cli/php/class-wp-cli-command.php
+#        - vendor/wp-cli/wp-cli/php/class-wp-cli-command.php
         - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
         - vendor/php-stubs/woocommerce-stubs/woocommerce-packages-stubs.php
     scanFiles:
@@ -20,7 +20,7 @@ parameters:
     scanDirectories:
         - vendor-prefixed
         - wp-content/plugins/woocommerce
-        - vendor/wp-cli
+#        - vendor/wp-cli
     ignoreErrors:
         # LoggerAwareTrait allows for null $logger, but we set it in the constructor.
         #- '#LoggerInterface\|null#'
@@ -30,5 +30,5 @@ parameters:
         # - '/Parameter .* of .* expects .* given\./'
         # Setting an empty array with type associative array in the PhpDoc prints this.
         #- '/does not accept default value of type array\(\)/'
-        - path: src/woocommerce/class-checkout-shortcode.php
+        - path: includes/woocommerce/class-checkout-shortcode.php
           message: '#Call to function is_null.*#'

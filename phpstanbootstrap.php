@@ -7,5 +7,5 @@
  * @package brianhenryie/bh-wc-postcode-address-autofill
  */
 
-define( 'WP_CONTENT_DIR', __DIR__ . '/wp-content' );
-define( 'WP_PLUGIN_DIR', __DIR__ . '/wp-content/plugins' );
+// define( 'WP_CONTENT_DIR', __DIR__ . '/wp-content' );
+// define( 'WP_PLUGIN_DIR', __DIR__ . '/wp-content/plugins' );

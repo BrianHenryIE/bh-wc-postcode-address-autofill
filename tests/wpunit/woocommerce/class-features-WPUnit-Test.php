@@ -3,6 +3,7 @@
 namespace BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce;
 
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
+use Automattic\WooCommerce\Utilities\PluginUtil;
 use BrianHenryIE\WC_Postcode_Address_Autofill\Settings_Interface;
 use Codeception\Stub\Expected;
 
@@ -10,6 +11,19 @@ use Codeception\Stub\Expected;
  * @coversDefaultClass \BrianHenryIE\WC_Postcode_Address_Autofill\WooCommerce\Features
  */
 class Features_WPUnit_Test extends \Codeception\TestCase\WPTestCase {
+
+	public function setUp(): void {
+		parent::setUp();
+
+		/**
+		 * @see PluginUtil::get_wp_plugin_id()
+		 * @see get_plugins()
+		 */
+		$cache_plugins[''] = array(
+			'bh-wc-postcode-address-autofill/bh-wc-postcode-address-autofill.php' => array(),
+		);
+		wp_cache_set( 'plugins', $cache_plugins, 'plugins' );
+	}
 
 	/**
 	 * @covers ::declare_hpos_compatibility

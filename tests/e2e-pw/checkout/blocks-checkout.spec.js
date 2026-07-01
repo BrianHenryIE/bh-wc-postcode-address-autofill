@@ -6,6 +6,17 @@ const { default: WooCommerceRestApi } = require("@woocommerce/woocommerce-rest-a
 // "It also creates a "Checkout page object" util class which contains some new utils, specifically:"
 // @see https://github.com/woocommerce/woocommerce-blocks/pull/10532
 
+/**
+ * Set a country on the block checkout. The country field is a native `<select>` (rendered with
+ * an implicit `combobox` role); select by its option value (the ISO country code).
+ *
+ * @param {import('@playwright/test').Locator} scope The billing/shipping fields container.
+ * @param {string}                             code  ISO country code, e.g. 'US', 'IE'.
+ */
+async function selectCountry( scope, code ) {
+    await scope.getByRole( 'combobox', { name: 'Country/Region' } ).selectOption( code );
+}
+
 test.describe( 'Checkout page', () => {
 
     const singleProductPrice = '9.99';
@@ -46,15 +57,14 @@ test.describe( 'Checkout page', () => {
 
         await page.goto( '/blocks-checkout/?add-to-cart=' + productId,{waitUntil:'domcontentloaded'});
 
-        await page.locator('#checkbox-control-0').uncheck();
+        // Uncheck "Use same address for billing" to reveal the separate billing fields. The
+        // block checkbox input is visually hidden behind its mark, so click the label text.
+        await page.getByText( 'Use same address for billing' ).click();
 
         let billingAddress = await page.locator('#billing-fields');
+        await expect( billingAddress ).toBeVisible();
 
-        await billingAddress.getByLabel('Country/Region').selectOption('US');
-
-        // await billingAddress.getByLabel('Country/Region').click();
-        // await billingAddress.getByLabel('Country/Region').fill('united');
-        // await billingAddress.getByLabel('United States (US)', { exact: true }).click();
+        await selectCountry( billingAddress, 'US' );
 
         await page.waitForLoadState( 'networkidle' );
 
@@ -78,11 +88,7 @@ test.describe( 'Checkout page', () => {
 
         let shippingAddress = await page.locator('#shipping');
 
-        await shippingAddress.getByLabel('Country/Region').selectOption('IE');
-
-        // await shippingAddress.getByLabel('Country/Region').click();
-        // await shippingAddress.getByLabel('Country/Region').fill('ireland');
-        // await shippingAddress.getByLabel('Ireland', { exact: true }).click();
+        await selectCountry( shippingAddress, 'IE' );
 
         await page.waitForLoadState( 'networkidle' );
 
@@ -95,5 +101,155 @@ test.describe( 'Checkout page', () => {
         // await expect( await shippingAddress.getByLabel('County') ).toHaveValue(/Wicklow/i);
         await expect( await shippingAddress.getByLabel('County') ).toHaveValue('WW');
         await expect( await shippingAddress.getByLabel('City') ).toHaveValue(/rathnew/i);
+    });
+
+    // Race condition: on a slow connection, a user can edit the city and/or state while the
+    // postcode autofill request is still in flight. When the response arrives it must NOT
+    // overwrite what the user has since entered. The autofill for A67 X566 returns city
+    // "Rathnew" / county "WW" (Wicklow); the user instead enters "Kilcoolabbey" / "CW"
+    // (Carlow), which must be preserved.
+    test('User-entered city and state are not overwritten by a slow autofill response', async( { page } ) => {
+
+        await page.goto( '/blocks-checkout/?add-to-cart=' + productId,{waitUntil:'domcontentloaded'});
+
+        // Simulate a slow network for the plugin's autofill request only: hold the
+        // `extensionCartUpdate` batch (identified by our namespace) so we can edit the
+        // city and state fields while it is still pending.
+        await page.route( '**/wc/store/v1/batch*', async ( route ) => {
+            const postData = route.request().postData() || '';
+            if ( postData.includes( 'bh-wc-postcode-address-autofill' ) ) {
+                await new Promise( ( resolve ) => setTimeout( resolve, 3000 ) );
+            }
+            await route.continue();
+        } );
+
+        let shippingAddress = await page.locator('#shipping');
+
+        await selectCountry( shippingAddress, 'IE' );
+        await page.waitForLoadState( 'networkidle' );
+
+        // Entering the postcode fires the async city/state lookup.
+        const autofillRequest = page.waitForRequest( ( request ) =>
+            request.url().includes( '/wc/store/v1/batch' ) &&
+            ( request.postData() || '' ).includes( 'bh-wc-postcode-address-autofill' )
+        );
+        const autofillResponse = page.waitForResponse( ( response ) =>
+            response.url().includes( '/wc/store/v1/batch' ) &&
+            ( response.request().postData() || '' ).includes( 'bh-wc-postcode-address-autofill' )
+        );
+        await shippingAddress.getByLabel('Eircode').fill('A67 X566');
+        await shippingAddress.getByLabel('Eircode').press('Tab');
+
+        // Wait until that request is in-flight (held by the route above).
+        await autofillRequest;
+
+        // While the request is pending, the user enters a different city and county.
+        const cityField = shippingAddress.getByLabel('City');
+        const countyField = shippingAddress.getByLabel('County');
+        await cityField.fill('Kilcoolabbey');
+        await countyField.selectOption('CW');
+
+        // Wait for the slow request to complete and settle so the plugin's `.then` has
+        // applied (and clobbered) before asserting — otherwise we'd assert the user's value
+        // while it is only briefly still present, giving a false pass.
+        await autofillResponse;
+        await page.waitForLoadState( 'networkidle' );
+        await page.waitForTimeout( 2000 );
+
+        // The user's input must win: their edits happened after the request was fired.
+        // Soft assertions so both fields are reported even though both currently clobber.
+        await expect.soft( cityField ).toHaveValue('Kilcoolabbey');
+        await expect.soft( countyField ).toHaveValue('CW');
+    });
+
+    // Race condition: on a slow connection the postcode can change (here, be cleared) before
+    // the autofill response arrives. A response for the old postcode must NOT fill the address,
+    // otherwise the checkout shows a city/county that does not match the current postcode.
+    test('Autofill response for a superseded postcode is not applied', async( { page } ) => {
+
+        await page.goto( '/blocks-checkout/?add-to-cart=' + productId,{waitUntil:'domcontentloaded'});
+
+        // Simulate a slow network for the plugin's autofill request only.
+        await page.route( '**/wc/store/v1/batch*', async ( route ) => {
+            const postData = route.request().postData() || '';
+            if ( postData.includes( 'bh-wc-postcode-address-autofill' ) ) {
+                await new Promise( ( resolve ) => setTimeout( resolve, 3000 ) );
+            }
+            await route.continue();
+        } );
+
+        let shippingAddress = await page.locator('#shipping');
+
+        await selectCountry( shippingAddress, 'IE' );
+        await page.waitForLoadState( 'networkidle' );
+
+        // Entering the postcode fires the async city/state lookup for "A67 X566".
+        const autofillRequest = page.waitForRequest( ( request ) =>
+            request.url().includes( '/wc/store/v1/batch' ) &&
+            ( request.postData() || '' ).includes( 'bh-wc-postcode-address-autofill' )
+        );
+        const autofillResponse = page.waitForResponse( ( response ) =>
+            response.url().includes( '/wc/store/v1/batch' ) &&
+            ( response.request().postData() || '' ).includes( 'bh-wc-postcode-address-autofill' )
+        );
+        await shippingAddress.getByLabel('Eircode').fill('A67 X566');
+        await shippingAddress.getByLabel('Eircode').press('Tab');
+
+        // Wait until that request is in-flight (held by the route above).
+        await autofillRequest;
+
+        // Before the response arrives, the user changes their mind and clears the postcode.
+        // The pending lookup is now for a postcode that is no longer entered.
+        await shippingAddress.getByLabel('Eircode').fill('');
+        await shippingAddress.getByLabel('Eircode').press('Tab');
+
+        // Let the slow (now stale) response complete and settle.
+        await autofillResponse;
+        await page.waitForLoadState( 'networkidle' );
+        await page.waitForTimeout( 2000 );
+
+        // The response was for the old postcode, so it must not fill the address.
+        await expect.soft( shippingAddress.getByLabel('City') ).toHaveValue('');
+        await expect.soft( shippingAddress.getByLabel('County') ).toHaveValue('');
+    });
+
+    // On a slow connection the user may enter a postcode and, before the lookup returns,
+    // correct it to a different one. The corrected postcode must still be looked up and its
+    // city filled (95816 -> Sacramento, corrected to 95670 -> Rancho Cordova).
+    test('Autofill applies to a postcode the user corrects to while a request is in flight', async( { page } ) => {
+
+        await page.goto( '/blocks-checkout/?add-to-cart=' + productId,{waitUntil:'domcontentloaded'});
+
+        // Simulate a slow network for the plugin's autofill request only.
+        await page.route( '**/wc/store/v1/batch*', async ( route ) => {
+            const postData = route.request().postData() || '';
+            if ( postData.includes( 'bh-wc-postcode-address-autofill' ) ) {
+                await new Promise( ( resolve ) => setTimeout( resolve, 1500 ) );
+            }
+            await route.continue();
+        } );
+
+        let shippingAddress = await page.locator('#shipping');
+
+        await selectCountry( shippingAddress, 'US' );
+        await page.waitForLoadState( 'networkidle' );
+
+        const zip = shippingAddress.getByLabel('ZIP Code');
+
+        // Enter the first postcode; its lookup is held in flight.
+        const firstRequest = page.waitForRequest( ( request ) =>
+            request.url().includes( '/wc/store/v1/batch' ) &&
+            ( request.postData() || '' ).includes( '95816' )
+        );
+        await zip.fill('95816');
+        await zip.press('Tab');
+        await firstRequest;
+
+        // Correct the postcode before the first lookup returns.
+        await zip.fill('95670');
+        await zip.press('Tab');
+
+        // The corrected postcode must be looked up and its city filled.
+        await expect( shippingAddress.getByLabel('City') ).toHaveValue('RANCHO CORDOVA', { timeout: 15000 });
     });
 } );

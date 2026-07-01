@@ -1,6 +1,12 @@
 // @ts-check
 const { defineConfig, devices } = require( '@playwright/test' );
 
+// `@wordpress/e2e-test-utils-playwright` (RequestUtils/Admin) reads its base URL from
+// the WP_BASE_URL env var, which defaults to port 8889 (the wp-env "tests" instance).
+// This project runs a single wp-env instance on 8888, so pin it here before the utils'
+// config module is loaded. Set in process.env so it propagates to Playwright workers.
+process.env.WP_BASE_URL = process.env.WP_BASE_URL || 'http://localhost:8888';
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -29,7 +35,7 @@ const config = {
 	/* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 	use: {
 		/* Base URL to use in actions like `await page.goto('/')`. */
-		baseURL: 'http://localhost:8889',
+		baseURL: 'http://localhost:8888',
 
 		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
 		trace: 'retain-on-failure',

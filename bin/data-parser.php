@@ -15,7 +15,9 @@ function __( $text, $translation_domain ) {
 function _x( $text, $context, $translation_domain ) {
 	return $text;
 }
-$plugin_root_dir = __DIR__ . '/../../../';
+
+$plugin_root_dir = __DIR__ . '/..';
+$plugin_data_dir = $plugin_root_dir . '/data';
 $states          = include $plugin_root_dir . '/wp-content/plugins/woocommerce/i18n/states.php';
 
 
@@ -39,7 +41,7 @@ foreach ( $countries as $country ) {
 
 			$states_index = array_flip( $states['JP'] );
 
-			$filename = __DIR__ . '/../jp_postal_codes.csv';
+			$filename = $plugin_data_dir . '/original/jp_postal_codes.csv';
 			$file     = file( $filename ) ?: array();
 			foreach ( $file as $line ) {
 				$data = str_getcsv( $line );
@@ -73,7 +75,7 @@ foreach ( $countries as $country ) {
 
 			$states_index = array_flip( $states['IE'] );
 
-			$filename = __DIR__ . '/../postcodes-ie.csv';
+			$filename = $plugin_data_dir . '/original/postcodes-ie.csv';
 			if ( ! is_readable( $filename ) ) {
 				break;
 			}
@@ -105,7 +107,7 @@ foreach ( $countries as $country ) {
 		case 'us':
 			$country_data['postcode_length'] = 5; // match on of 9.
 
-			$filename = __DIR__ . "/../postcodes-{$country}.json";
+			$filename = $plugin_data_dir . "/original/postcodes-{$country}.json";
 			if ( ! file_exists( $filename ) ) {
 				break;
 			}
@@ -138,7 +140,7 @@ foreach ( $countries as $country ) {
 
 			$states_index = array_flip( $states['IN'] );
 
-			$filename = __DIR__ . '/../in-pincode_30052019.csv';
+			$filename = $plugin_data_dir . '/original/in-pincode_30052019.csv';
 			if ( ! is_readable( $filename ) ) {
 				break;
 			}
@@ -193,7 +195,7 @@ foreach ( $countries as $country ) {
 
 	$json         = json_encode( $country_data, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR, 4 );
 	$result_bytes = file_put_contents(
-		__DIR__ . "/../../{$country}.json",
+		$plugin_data_dir . "/{$country}.json",
 		$json
 	);
 	if ( false === $result_bytes ) {
@@ -209,13 +211,13 @@ foreach ( $countries as $country ) {
 $countries_php = array_reduce(
 	$countries,
 	function ( string $carry, string $country ): string {
-		return $carry . "\n	'". strtoupper( $country ) . "',";
+		return $carry . "\n	'" . strtoupper( $country ) . "',";
 	},
 	''
 );
 
 file_put_contents(
-	__DIR__ . '/../../available-countries.php',
+	$plugin_data_dir . '/available-countries.php',
 <<<EOD
 <?php
 /**

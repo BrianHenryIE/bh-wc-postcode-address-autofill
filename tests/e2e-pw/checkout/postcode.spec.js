@@ -91,7 +91,17 @@ test.describe( 'Checkout page', () => {
 
         let shippingFields = await page.locator( '.woocommerce-shipping-fields' );
 
-        await page.locator('#ship-to-different-address').click();
+        // This id is the container for the text, fake checkbox and hidden checkbox. Clicking anywhere on it
+        // should affect checking the real checkbox but it is not working right now.
+        await page.locator('#ship-to-different-address').getByText( 'Ship to a different address?' ).click();
+        // Element is not visible.
+        //await page.locator( '#ship-to-different-address-checkbox' ).check( { force: true } );
+
+
+        const checkbox = page.locator( '#ship-to-different-address-checkbox' );
+        await checkbox.dispatchEvent( 'click' );          // toggles + bubbles change
+        await expect( checkbox ).toBeChecked();
+
         await page.waitForTimeout(250);
 
         await page.selectOption( '#shipping_country', 'IE' );

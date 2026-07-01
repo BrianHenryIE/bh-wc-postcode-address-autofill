@@ -7,6 +7,8 @@ namespace BrianHenryIE\WC_Postcode_Address_Autofill\API;
  */
 class Settings_Unit_Test extends \Codeception\Test\Unit {
 
+	protected static string $current_version = '1.5.1';
+
 	/**
 	 * @covers ::get_plugin_version
 	 */
@@ -39,7 +41,7 @@ class Settings_Unit_Test extends \Codeception\Test\Unit {
 
 		$sut = new Settings();
 
-		self::assertEquals( '1.5.0', $sut->get_plugin_version() );
+		self::assertEquals( self::$current_version, $sut->get_plugin_version() );
 
 		\Patchwork\restoreAll();
 	}

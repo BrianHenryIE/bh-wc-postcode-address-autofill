@@ -30,7 +30,6 @@
 
 namespace BrianHenryIE\WC_Postcode_Address_Autofill;
 
-use BrianHenryIE\WC_Postcode_Address_Autofill\Alley_Interactive\Autoloader\Autoloader;
 use BrianHenryIE\WC_Postcode_Address_Autofill\API\API;
 use BrianHenryIE\WC_Postcode_Address_Autofill\API\Data_Loader;
 use BrianHenryIE\WC_Postcode_Address_Autofill\API\Settings;
@@ -42,9 +41,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 require_once __DIR__ . '/vendor-prefixed/autoload.php';
 
-Autoloader::generate( __NAMESPACE__, __DIR__ . '/src', )->register();
-
-define( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_VERSION', '1.5.0' );
+define( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_VERSION', '1.5.1' );
 define( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_BASENAME', plugin_basename( __FILE__ ) );
 define( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BH_WC_POSTCODE_ADDRESS_AUTOFILL_URL', trailingslashit( plugins_url( plugin_basename( __DIR__ ) ) ) );

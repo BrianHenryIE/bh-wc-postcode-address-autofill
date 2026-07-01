@@ -73,11 +73,11 @@ class Blocks {
 	 * Find the state+city for the country+postcode and apply them to the cart address.
 	 * This should only be called when a new postcode has been entered.
 	 *
-	 * @param array{shipping:array{postcode:string, country:string},billing:array{postcode:string, country:string}} $data The data object as passed from our JavaScript.
+	 * @param array{shipping:array{postcode:string, country:string},billing:array{postcode:string, country:string}}|array{}|null $data The data object as passed from our JavaScript.
 	 */
-	public function update_callback( array $data ): void {
+	public function update_callback( ?array $data = array() ): void {
 
-		foreach ( $data as $address_type => $address_data ) {
+		foreach ( $data ?? array() as $address_type => $address_data ) {
 
 			$postcode = $address_data['postcode'];
 			$country  = $address_data['country'];
