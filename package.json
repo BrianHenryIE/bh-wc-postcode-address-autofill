@@ -6,7 +6,7 @@
   "scripts": {
     "env:start": "wp-env start",
     "env:stop": "wp-env stop",
-    "test:e2e-pw": "npx playwright test --config=tests/e2e-pw/playwright.config.js",
+    "test:e2e-pw": "npx playwright test --config=playwright.config.js",
     "build": "wp-scripts build",
     "check-engines": "wp-scripts check-engines",
     "check-licenses": "wp-scripts check-licenses",
