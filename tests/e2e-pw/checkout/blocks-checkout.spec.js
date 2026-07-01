@@ -214,4 +214,44 @@ test.describe( 'Checkout page', () => {
         await expect.soft( shippingAddress.getByLabel('City') ).toHaveValue('');
         await expect.soft( shippingAddress.getByLabel('County') ).toHaveValue('');
     });
+
+    // On a slow connection the user may enter a postcode and, before the lookup returns,
+    // correct it to a different one. The corrected postcode must still be looked up and its
+    // city filled (95816 -> Sacramento, corrected to 95670 -> Rancho Cordova).
+    test('Autofill applies to a postcode the user corrects to while a request is in flight', async( { page } ) => {
+
+        await page.goto( '/blocks-checkout/?add-to-cart=' + productId,{waitUntil:'domcontentloaded'});
+
+        // Simulate a slow network for the plugin's autofill request only.
+        await page.route( '**/wc/store/v1/batch*', async ( route ) => {
+            const postData = route.request().postData() || '';
+            if ( postData.includes( 'bh-wc-postcode-address-autofill' ) ) {
+                await new Promise( ( resolve ) => setTimeout( resolve, 1500 ) );
+            }
+            await route.continue();
+        } );
+
+        let shippingAddress = await page.locator('#shipping');
+
+        await selectCountry( shippingAddress, 'US' );
+        await page.waitForLoadState( 'networkidle' );
+
+        const zip = shippingAddress.getByLabel('ZIP Code');
+
+        // Enter the first postcode; its lookup is held in flight.
+        const firstRequest = page.waitForRequest( ( request ) =>
+            request.url().includes( '/wc/store/v1/batch' ) &&
+            ( request.postData() || '' ).includes( '95816' )
+        );
+        await zip.fill('95816');
+        await zip.press('Tab');
+        await firstRequest;
+
+        // Correct the postcode before the first lookup returns.
+        await zip.fill('95670');
+        await zip.press('Tab');
+
+        // The corrected postcode must be looked up and its city filled.
+        await expect( shippingAddress.getByLabel('City') ).toHaveValue('RANCHO CORDOVA', { timeout: 15000 });
+    });
 } );
