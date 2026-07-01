@@ -156,7 +156,7 @@
             "php ./bin/wpenv-mappings-to-phpstorm.php"
         ],
         "prefix-namespaces": [
-            "vendor/bin/strauss",
+            "vendor/bin/strauss --info",
             "@composer dump-autoload"
         ],
         "post-autoload-dump": [
