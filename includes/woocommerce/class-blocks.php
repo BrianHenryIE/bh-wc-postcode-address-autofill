@@ -76,8 +76,14 @@ class Blocks {
 	 * @param array{shipping:array{postcode:string, country:string},billing:array{postcode:string, country:string}}|array{}|null $data The data object as passed from our JavaScript.
 	 */
 	public function update_callback( ?array $data = array() ): void {
+		/**
+		 * TODO: see potential bug during batch updates
+		 * @see https://github.com/BrianHenryIE/bh-wc-postcode-address-autofill/pull/2#issuecomment-4860415074
+		 */
 
-		foreach ( $data ?? array() as $address_type => $address_data ) {
+		foreach ( $data as $address_type => $address_data ) {
+
+			// TODO: sanitize/validate.
 
 			$postcode = $address_data['postcode'];
 			$country  = $address_data['country'];
