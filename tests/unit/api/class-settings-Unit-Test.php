@@ -7,7 +7,7 @@ namespace BrianHenryIE\WC_Postcode_Address_Autofill\API;
  */
 class Settings_Unit_Test extends \Codeception\Test\Unit {
 
-	static $current_version = '1.5.1';
+	protected static string $current_version = '1.5.1';
 
 	/**
 	 * @covers ::get_plugin_version
