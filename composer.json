@@ -31,6 +31,19 @@
         ]
     },
     "repositories": {
+        "brianhenryie/strauss": {
+            "type": "package",
+            "package": {
+                "name": "brianhenryie/strauss",
+                "version": "v0-stable",
+                "dist": {
+                    "url": "https://github.com/BrianHenryIE/strauss/releases/latest/download/strauss.phar",
+                    "type": "phar"
+                },
+                "installation-source": "dist",
+                "bin": "bin/strauss"
+            }
+        },
         "outlandishideas/wpackagist": {
             "type": "composer",
             "url": "https://wpackagist.org"
@@ -101,6 +114,7 @@
         "10up/wp_mock": "*",
         "alleyinteractive/wordpress-autoloader": "^1.1",
         "antecedent/patchwork": "^2.1",
+        "brianhenryie/strauss": "*",
         "brianhenryie/color-logger": "*",
         "composer/class-map-generator": "^1.7",
         "dealerdirect/phpcodesniffer-composer-installer": "*",
@@ -142,13 +156,12 @@
             "php ./bin/wpenv-mappings-to-phpstorm.php"
         ],
         "prefix-namespaces": [
-            "sh -c 'test -f ./bin/strauss.phar || curl -o bin/strauss.phar -L -C - https://github.com/BrianHenryIE/strauss/releases/latest/download/strauss.phar'",
-            "@php bin/strauss.phar",
+            "vendor/bin/strauss",
             "@composer dump-autoload"
         ],
         "post-autoload-dump": [
             "php ./bin/modify-autoload-patchwork.php",
-            "@php bin/strauss.phar include-autoloader"
+            "vendor/bin/strauss include-autoloader"
         ],
         "coverage-tests": [
             "codecept run unit --coverage unit.cov",
