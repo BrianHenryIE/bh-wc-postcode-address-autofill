@@ -12,7 +12,7 @@ parameters:
         - phpstanbootstrap.php
         - vendor-prefixed/autoload.php
         - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
-        - vendor/wp-cli/wp-cli/php/class-wp-cli-command.php
+#        - vendor/wp-cli/wp-cli/php/class-wp-cli-command.php
         - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
         - vendor/php-stubs/woocommerce-stubs/woocommerce-packages-stubs.php
     scanFiles:
@@ -20,7 +20,7 @@ parameters:
     scanDirectories:
         - vendor-prefixed
         - wp-content/plugins/woocommerce
-        - vendor/wp-cli
+#        - vendor/wp-cli
     ignoreErrors:
         # LoggerAwareTrait allows for null $logger, but we set it in the constructor.
         #- '#LoggerInterface\|null#'
