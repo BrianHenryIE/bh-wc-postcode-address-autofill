@@ -45,3 +45,4 @@ wp-cli.*.yml
 playwright.config.js
 
 /CONTRIBUTING.md
+/bin
