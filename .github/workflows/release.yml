@@ -29,6 +29,8 @@ jobs:
 
       - name: Run composer install
         run: composer install --verbose
+        env:
+          COMPOSER_ALLOW_UNSAFE_PHAR_METADATA: 1 # "Refusing to parse a tar/phar archive on PHP < 8.0 because it is not safe to process untrusted archives on that PHP version."
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
