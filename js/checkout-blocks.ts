@@ -58,16 +58,16 @@ subscribe( () => {
 
     // If it's not a valid postcode, there is nothing to do.
     if ( !isValidPostcode( {
-            postcode: cartData.billingAddress.postcode,
-            country: cartData.billingAddress.country,
-        } ) ) {
+        postcode: cartData.billingAddress.postcode,
+        country: cartData.billingAddress.country,
+    } ) ) {
         delete addressData.billing;
     }
     // If it's not a valid postcode, there is nothing to do.
     if ( !isValidPostcode( {
-            postcode: cartData.shippingAddress.postcode,
-            country: cartData.shippingAddress.country,
-        } ) ) {
+        postcode: cartData.shippingAddress.postcode,
+        country: cartData.shippingAddress.country,
+    } ) ) {
         delete addressData.shipping;
     }
 
