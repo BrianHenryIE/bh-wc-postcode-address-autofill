@@ -27,7 +27,8 @@ fi
 # Create a simple product for checkout testing.
 if ! wp post list --post_type=product --field=post_title 2>/dev/null | grep -q "Test Product"; then
   echo "Creating test product..."
-  wp wc product create --user=1 --name="Test Product" --regular_price="19.99" --status=publish 2>/dev/null || true
+  # The product needs to be a shipping product to allow setting billing and shipping address separate.
+  wp wc product create --user=1 --name="Test Product" --regular_price="19.99" --type=simple  --status=publish 2>/dev/null || true
 fi
 
 
