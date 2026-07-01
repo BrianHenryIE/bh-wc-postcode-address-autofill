@@ -162,4 +162,56 @@ test.describe( 'Checkout page', () => {
         await expect.soft( cityField ).toHaveValue('Kilcoolabbey');
         await expect.soft( countyField ).toHaveValue('CW');
     });
+
+    // Race condition: on a slow connection the postcode can change (here, be cleared) before
+    // the autofill response arrives. A response for the old postcode must NOT fill the address,
+    // otherwise the checkout shows a city/county that does not match the current postcode. This
+    // test currently FAILS (the stale response fills "Rathnew"/"WW") — it exists to prove the bug.
+    test('Autofill response for a superseded postcode is not applied', async( { page } ) => {
+
+        await page.goto( '/blocks-checkout/?add-to-cart=' + productId,{waitUntil:'domcontentloaded'});
+
+        // Simulate a slow network for the plugin's autofill request only.
+        await page.route( '**/wc/store/v1/batch*', async ( route ) => {
+            const postData = route.request().postData() || '';
+            if ( postData.includes( 'bh-wc-postcode-address-autofill' ) ) {
+                await new Promise( ( resolve ) => setTimeout( resolve, 3000 ) );
+            }
+            await route.continue();
+        } );
+
+        let shippingAddress = await page.locator('#shipping');
+
+        await selectCountry( shippingAddress, 'IE' );
+        await page.waitForLoadState( 'networkidle' );
+
+        // Entering the postcode fires the async city/state lookup for "A67 X566".
+        const autofillRequest = page.waitForRequest( ( request ) =>
+            request.url().includes( '/wc/store/v1/batch' ) &&
+            ( request.postData() || '' ).includes( 'bh-wc-postcode-address-autofill' )
+        );
+        const autofillResponse = page.waitForResponse( ( response ) =>
+            response.url().includes( '/wc/store/v1/batch' ) &&
+            ( response.request().postData() || '' ).includes( 'bh-wc-postcode-address-autofill' )
+        );
+        await shippingAddress.getByLabel('Eircode').fill('A67 X566');
+        await shippingAddress.getByLabel('Eircode').press('Tab');
+
+        // Wait until that request is in-flight (held by the route above).
+        await autofillRequest;
+
+        // Before the response arrives, the user changes their mind and clears the postcode.
+        // The pending lookup is now for a postcode that is no longer entered.
+        await shippingAddress.getByLabel('Eircode').fill('');
+        await shippingAddress.getByLabel('Eircode').press('Tab');
+
+        // Let the slow (now stale) response complete and settle.
+        await autofillResponse;
+        await page.waitForLoadState( 'networkidle' );
+        await page.waitForTimeout( 2000 );
+
+        // The response was for the old postcode, so it must not fill the address.
+        await expect.soft( shippingAddress.getByLabel('City') ).toHaveValue('');
+        await expect.soft( shippingAddress.getByLabel('County') ).toHaveValue('');
+    });
 } );
