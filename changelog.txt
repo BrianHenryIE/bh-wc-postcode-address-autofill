@@ -1,6 +1,10 @@
 # Changelog
 
-2024-12-03 - 1.5.1
+## 1.5.2 – 2026-07-01
+
+* Fixed race condition: a user on a slow network connection would have had their input overwritten
+
+## 1.5.1 – 2024-12-03
 
 * Minor changes for WooCommerce.com submission
 
