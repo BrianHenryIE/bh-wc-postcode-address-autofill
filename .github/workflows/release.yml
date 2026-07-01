@@ -28,9 +28,7 @@ jobs:
           extensions: zip
 
       - name: Run composer install
-        uses: php-actions/composer@v6
-        with:
-          php_version: ${{ matrix.php }}
+        run: composer install --verbose
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
