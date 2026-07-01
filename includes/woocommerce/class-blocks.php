@@ -78,6 +78,7 @@ class Blocks {
 	public function update_callback( ?array $data = array() ): void {
 		/**
 		 * TODO: see potential bug during batch updates
+		 *
 		 * @see https://github.com/BrianHenryIE/bh-wc-postcode-address-autofill/pull/2#issuecomment-4860415074
 		 */
 
