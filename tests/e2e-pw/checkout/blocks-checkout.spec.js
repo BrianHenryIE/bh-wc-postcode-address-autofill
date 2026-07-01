@@ -103,17 +103,19 @@ test.describe( 'Checkout page', () => {
         await expect( await shippingAddress.getByLabel('City') ).toHaveValue(/rathnew/i);
     });
 
-    // Race condition: on a slow connection, a user can start typing a city while the
+    // Race condition: on a slow connection, a user can edit the city and/or state while the
     // postcode autofill request is still in flight. When the response arrives it must NOT
-    // overwrite what the user has since typed. This test currently FAILS (the plugin clobbers
-    // the user's input with the server's value) — it exists to prove the bug.
-    test('User-entered city is not overwritten by a slow autofill response', async( { page } ) => {
+    // overwrite what the user has since entered. This test currently FAILS (the plugin clobbers
+    // both the user's city and state with the server's values) — it exists to prove the bug.
+    // The autofill for A67 X566 returns city "Rathnew" / county "WW" (Wicklow); the user
+    // instead enters "Kilcoolabbey" / "CW" (Carlow), which must be preserved.
+    test('User-entered city and state are not overwritten by a slow autofill response', async( { page } ) => {
 
         await page.goto( '/blocks-checkout/?add-to-cart=' + productId,{waitUntil:'domcontentloaded'});
 
         // Simulate a slow network for the plugin's autofill request only: hold the
-        // `extensionCartUpdate` batch (identified by our namespace) so we can type into the
-        // city field while it is still pending.
+        // `extensionCartUpdate` batch (identified by our namespace) so we can edit the
+        // city and state fields while it is still pending.
         await page.route( '**/wc/store/v1/batch*', async ( route ) => {
             const postData = route.request().postData() || '';
             if ( postData.includes( 'bh-wc-postcode-address-autofill' ) ) {
@@ -132,20 +134,32 @@ test.describe( 'Checkout page', () => {
             request.url().includes( '/wc/store/v1/batch' ) &&
             ( request.postData() || '' ).includes( 'bh-wc-postcode-address-autofill' )
         );
+        const autofillResponse = page.waitForResponse( ( response ) =>
+            response.url().includes( '/wc/store/v1/batch' ) &&
+            ( response.request().postData() || '' ).includes( 'bh-wc-postcode-address-autofill' )
+        );
         await shippingAddress.getByLabel('Eircode').fill('A67 X566');
         await shippingAddress.getByLabel('Eircode').press('Tab');
 
         // Wait until that request is in-flight (held by the route above).
         await autofillRequest;
 
-        // While the request is pending, the user types a different city.
+        // While the request is pending, the user enters a different city and county.
         const cityField = shippingAddress.getByLabel('City');
+        const countyField = shippingAddress.getByLabel('County');
         await cityField.fill('Kilcoolabbey');
+        await countyField.selectOption('CW');
 
-        // Let the slow request complete and the plugin's `.then` run.
-        await page.waitForTimeout( 4000 );
+        // Wait for the slow request to complete and settle so the plugin's `.then` has
+        // applied (and clobbered) before asserting — otherwise we'd assert the user's value
+        // while it is only briefly still present, giving a false pass.
+        await autofillResponse;
+        await page.waitForLoadState( 'networkidle' );
+        await page.waitForTimeout( 2000 );
 
-        // The user's input must win: their typing happened after the request was fired.
-        await expect( cityField ).toHaveValue('Kilcoolabbey');
+        // The user's input must win: their edits happened after the request was fired.
+        // Soft assertions so both fields are reported even though both currently clobber.
+        await expect.soft( cityField ).toHaveValue('Kilcoolabbey');
+        await expect.soft( countyField ).toHaveValue('CW');
     });
 } );
