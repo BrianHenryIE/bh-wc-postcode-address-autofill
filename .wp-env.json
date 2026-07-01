@@ -8,6 +8,7 @@
   },
   "mappings": {
     "setup": "./tests/e2e-pw/setup",
+    "wp-content/plugins/basic-auth": "./wp-content/plugins/basic-auth",
     "wp-content/plugins/gutenberg": "./wp-content/plugins/gutenberg",
     "wp-content/plugins/woocommerce": "./wp-content/plugins/woocommerce",
     "wp-content/plugins/woocommerce-gateway-dummy": "./wp-content/plugins/woocommerce-gateway-dummy",
