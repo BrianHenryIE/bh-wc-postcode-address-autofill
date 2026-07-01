@@ -7,7 +7,8 @@ type AddressType = 'billing' | 'shipping';
 
 // Postcodes we have already sent a lookup for, keyed by address type + country + postcode.
 // Acts as a cache so repeated/echoed values are not looked up again, and prevents the
-// fill -> store change -> re-lookup loop.
+// fill -> store change -> re-lookup loop. Intentionally unbounded: it lives only for the
+// lifetime of the (short-lived) checkout page and only grows by distinct postcodes entered.
 const queriedPostcodes = new Set<string>();
 
 // Only one lookup is in flight at a time. While it is, the address is recorded on every store
@@ -35,6 +36,15 @@ function isLookupNeeded( type: AddressType, address: Address ): boolean {
         && !! address.postcode
         && isValidPostcode( { postcode: address.postcode, country: address.country } )
         && ! queriedPostcodes.has( postcodeKey( type, address ) );
+}
+
+/**
+ * Only autofill while the checkout is idle. Once the customer starts placing the order
+ * (before/processing/after processing, or complete) we must not mutate their address.
+ */
+function isCheckoutIdle(): boolean {
+    const checkout: any = select( 'wc/store/checkout' );
+    return typeof checkout.isIdle === 'function' ? checkout.isIdle() : true;
 }
 
 /**
@@ -144,11 +154,13 @@ function evaluate( addresses: { billing: Address, shipping: Address } ): void {
     const sentBilling = addresses.billing;
     const sentShipping = addresses.shipping;
 
-    if ( didUpdateBilling ) {
-        queriedPostcodes.add( postcodeKey( 'billing', addresses.billing ) );
+    const billingKey = didUpdateBilling ? postcodeKey( 'billing', addresses.billing ) : null;
+    const shippingKey = didUpdateShipping ? postcodeKey( 'shipping', addresses.shipping ) : null;
+    if ( billingKey ) {
+        queriedPostcodes.add( billingKey );
     }
-    if ( didUpdateShipping ) {
-        queriedPostcodes.add( postcodeKey( 'shipping', addresses.shipping ) );
+    if ( shippingKey ) {
+        queriedPostcodes.add( shippingKey );
     }
 
     extensionCartUpdate( {
@@ -157,15 +169,18 @@ function evaluate( addresses: { billing: Address, shipping: Address } ): void {
     } ).then( function ( cart: any ) {
         // The server filled the city/state on the cart address, but the block checkout's
         // controlled address inputs do not adopt the cart response on their own, so push the
-        // resolved values into the editable address store (see applyAutofill).
+        // resolved values into the editable address store (see applyAutofill). Skip this if the
+        // customer has since started placing the order — we must not mutate the address then.
         const serverShipping = cart?.shipping_address ? toAddress( cart.shipping_address ) : sentShipping;
         const serverBilling = cart?.billing_address ? toAddress( cart.billing_address ) : sentBilling;
 
-        if ( didUpdateShipping && cart?.shipping_address ) {
-            applyAutofill( 'shipping', inFlightSnapshots.shipping, sentShipping, serverShipping );
-        }
-        if ( didUpdateBilling && cart?.billing_address ) {
-            applyAutofill( 'billing', inFlightSnapshots.billing, sentBilling, serverBilling );
+        if ( isCheckoutIdle() ) {
+            if ( didUpdateShipping && cart?.shipping_address ) {
+                applyAutofill( 'shipping', inFlightSnapshots.shipping, sentShipping, serverShipping );
+            }
+            if ( didUpdateBilling && cart?.billing_address ) {
+                applyAutofill( 'billing', inFlightSnapshots.billing, sentBilling, serverBilling );
+            }
         }
 
         isQuerying = false;
@@ -177,10 +192,25 @@ function evaluate( addresses: { billing: Address, shipping: Address } ): void {
             billing: userAddressFromSnapshots( inFlightSnapshots.billing, sentBilling, serverBilling ),
             shipping: userAddressFromSnapshots( inFlightSnapshots.shipping, sentShipping, serverShipping ),
         } );
+    } ).catch( function () {
+        // The request failed. Release the lock and un-cache the postcodes so the lookup can be
+        // retried on the next change, rather than silently stopping autofill for the session.
+        if ( billingKey ) {
+            queriedPostcodes.delete( billingKey );
+        }
+        if ( shippingKey ) {
+            queriedPostcodes.delete( shippingKey );
+        }
+        isQuerying = false;
     } );
 }
 
 subscribe( () => {
+
+    // Do not autofill once the customer has started placing the order.
+    if ( ! isCheckoutIdle() ) {
+        return;
+    }
 
     const cartData = select( CART_STORE_KEY ).getCartData();
     const addresses = {

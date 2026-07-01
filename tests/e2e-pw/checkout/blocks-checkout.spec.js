@@ -105,10 +105,9 @@ test.describe( 'Checkout page', () => {
 
     // Race condition: on a slow connection, a user can edit the city and/or state while the
     // postcode autofill request is still in flight. When the response arrives it must NOT
-    // overwrite what the user has since entered. This test currently FAILS (the plugin clobbers
-    // both the user's city and state with the server's values) — it exists to prove the bug.
-    // The autofill for A67 X566 returns city "Rathnew" / county "WW" (Wicklow); the user
-    // instead enters "Kilcoolabbey" / "CW" (Carlow), which must be preserved.
+    // overwrite what the user has since entered. The autofill for A67 X566 returns city
+    // "Rathnew" / county "WW" (Wicklow); the user instead enters "Kilcoolabbey" / "CW"
+    // (Carlow), which must be preserved.
     test('User-entered city and state are not overwritten by a slow autofill response', async( { page } ) => {
 
         await page.goto( '/blocks-checkout/?add-to-cart=' + productId,{waitUntil:'domcontentloaded'});
@@ -165,8 +164,7 @@ test.describe( 'Checkout page', () => {
 
     // Race condition: on a slow connection the postcode can change (here, be cleared) before
     // the autofill response arrives. A response for the old postcode must NOT fill the address,
-    // otherwise the checkout shows a city/county that does not match the current postcode. This
-    // test currently FAILS (the stale response fills "Rathnew"/"WW") — it exists to prove the bug.
+    // otherwise the checkout shows a city/county that does not match the current postcode.
     test('Autofill response for a superseded postcode is not applied', async( { page } ) => {
 
         await page.goto( '/blocks-checkout/?add-to-cart=' + productId,{waitUntil:'domcontentloaded'});
