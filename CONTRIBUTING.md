@@ -43,6 +43,18 @@ npx playwright codegen -o tests/e2e-pw/example.spec.js
 npx wp-env run tests-cli wp option get rewrite_rules
 ```
 
+## Dependencies (package.json)
+
+Node/npm dev dependencies and why each is needed:
+
+- `@wordpress/scripts` — the core build/lint/test toolchain (webpack `build`/`start`, `lint:js`, `format:js`, `test:unit`).
+- `@wordpress/env` — Docker-based local WordPress environment (`wp-env`); see `.wp-env.json`.
+- `@woocommerce/dependency-extraction-webpack-plugin` — at build time, externalizes `@woocommerce/*` imports to the `window.wc.*` globals WooCommerce provides (configured in `webpack.config.js`).
+- `@woocommerce/eslint-plugin` — WooCommerce/WordPress ESLint ruleset extended by `.eslintrc`.
+- `@playwright/test` — the Playwright test runner used by the E2E specs and `playwright.config.js`.
+- `@wordpress/e2e-test-utils-playwright` — WordPress Playwright helpers (`Admin`, `RequestUtils`) used in `tests/e2e-pw`.
+- `@woocommerce/woocommerce-rest-api` — REST API client the Playwright E2E tests use to seed store data.
+
 ### More Information
 
 See [github.com/BrianHenryIE/WordPress-Plugin-Boilerplate](https://github.com/BrianHenryIE/WordPress-Plugin-Boilerplate) for initial setup rationale. 
