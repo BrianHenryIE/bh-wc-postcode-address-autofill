@@ -17,8 +17,7 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "johnpbloch/wordpress-core-installer": true,
             "phpstan/extension-installer": true,
-            "automattic/jetpack-autoloader": true,
-            "brianhenryie/composer-fallback-to-git": true
+            "automattic/jetpack-autoloader": true
         },
         "platform": {
             "php": "7.4"
@@ -48,6 +47,19 @@
                     "reference": "10.9.1"
                 },
                 "installation-source": "source"
+            }
+        },
+        "woocommerce/woocommerce-gateway-dummy":{
+            "type": "package",
+            "package": {
+                "name": "woocommerce/woocommerce-gateway-dummy",
+                "version": "2026.02.04",
+                "source": {
+                    "url": "https://github.com/woocommerce/woocommerce-gateway-dummy",
+                    "type": "git",
+                    "reference": "2.0.0"
+                },
+                "installation-source": "dist"
             }
         },
         "woocommerce-zip/woocommerce-gateway-dummy":{
@@ -90,7 +102,6 @@
         "alleyinteractive/wordpress-autoloader": "^1.1",
         "antecedent/patchwork": "^2.1",
         "brianhenryie/color-logger": "*",
-        "brianhenryie/composer-fallback-to-git": "*",
         "composer/class-map-generator": "^1.7",
         "dealerdirect/phpcodesniffer-composer-installer": "*",
         "johnpbloch/wordpress": "*",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7f1f48374805c9027dafcba9baed1f0b",
+    "content-hash": "9b3e5eb3912350c55f60e95b828cd419",
     "packages": [],
     "packages-dev": [
         {
@@ -259,43 +259,6 @@
                 "source": "https://github.com/BrianHenryIE/bh-color-logger/tree/1.3.1"
             },
             "time": "2026-06-11T17:40:25+00:00"
-        },
-        {
-            "name": "brianhenryie/composer-fallback-to-git",
-            "version": "0.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/BrianHenryIE/composer-fallback-to-git.git",
-                "reference": "c4c941a101bbfe4fda43d36ecf04e76a22e82107"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/BrianHenryIE/composer-fallback-to-git/zipball/c4c941a101bbfe4fda43d36ecf04e76a22e82107",
-                "reference": "c4c941a101bbfe4fda43d36ecf04e76a22e82107",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^2.0"
-            },
-            "require-dev": {
-                "composer/composer": "^2.6",
-                "phpunit/phpunit": "^9.0"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "BrianHenryIE\\ComposerFallbackToGit\\FallbackPlugin"
-            },
-            "autoload": {
-                "psr-4": {
-                    "BrianHenryIE\\ComposerFallbackToGit\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "support": {
-                "issues": "https://github.com/BrianHenryIE/composer-fallback-to-git/issues",
-                "source": "https://github.com/BrianHenryIE/composer-fallback-to-git/tree/0.6.0"
-            },
-            "time": "2024-05-17T03:27:20+00:00"
         },
         {
             "name": "codeception/codeception",
@@ -6898,7 +6861,7 @@
         },
         {
             "name": "woocommerce/woocommerce-gateway-dummy",
-            "version": "2.0.0",
+            "version": "2026.02.04",
             "source": {
                 "type": "git",
                 "url": "https://github.com/woocommerce/woocommerce-gateway-dummy",
