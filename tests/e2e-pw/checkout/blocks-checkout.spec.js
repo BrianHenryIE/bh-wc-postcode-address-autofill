@@ -6,6 +6,17 @@ const { default: WooCommerceRestApi } = require("@woocommerce/woocommerce-rest-a
 // "It also creates a "Checkout page object" util class which contains some new utils, specifically:"
 // @see https://github.com/woocommerce/woocommerce-blocks/pull/10532
 
+/**
+ * Set a country on the block checkout. The country field is a native `<select>` (rendered with
+ * an implicit `combobox` role); select by its option value (the ISO country code).
+ *
+ * @param {import('@playwright/test').Locator} scope The billing/shipping fields container.
+ * @param {string}                             code  ISO country code, e.g. 'US', 'IE'.
+ */
+async function selectCountry( scope, code ) {
+    await scope.getByRole( 'combobox', { name: 'Country/Region' } ).selectOption( code );
+}
+
 test.describe( 'Checkout page', () => {
 
     const singleProductPrice = '9.99';
@@ -46,15 +57,14 @@ test.describe( 'Checkout page', () => {
 
         await page.goto( '/blocks-checkout/?add-to-cart=' + productId,{waitUntil:'domcontentloaded'});
 
-        await page.locator('#checkbox-control-0').uncheck();
+        // Uncheck "Use same address for billing" to reveal the separate billing fields. The
+        // block checkbox input is visually hidden behind its mark, so click the label text.
+        await page.getByText( 'Use same address for billing' ).click();
 
         let billingAddress = await page.locator('#billing-fields');
+        await expect( billingAddress ).toBeVisible();
 
-        await billingAddress.getByLabel('Country/Region').selectOption('US');
-
-        // await billingAddress.getByLabel('Country/Region').click();
-        // await billingAddress.getByLabel('Country/Region').fill('united');
-        // await billingAddress.getByLabel('United States (US)', { exact: true }).click();
+        await selectCountry( billingAddress, 'US' );
 
         await page.waitForLoadState( 'networkidle' );
 
@@ -78,11 +88,7 @@ test.describe( 'Checkout page', () => {
 
         let shippingAddress = await page.locator('#shipping');
 
-        await shippingAddress.getByLabel('Country/Region').selectOption('IE');
-
-        // await shippingAddress.getByLabel('Country/Region').click();
-        // await shippingAddress.getByLabel('Country/Region').fill('ireland');
-        // await shippingAddress.getByLabel('Ireland', { exact: true }).click();
+        await selectCountry( shippingAddress, 'IE' );
 
         await page.waitForLoadState( 'networkidle' );
 

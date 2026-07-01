@@ -1,4 +1,4 @@
-import { subscribe, select } from '@wordpress/data';
+import { subscribe, select, dispatch } from '@wordpress/data';
 import { CART_STORE_KEY } from '@woocommerce/block-data';
 import { extensionCartUpdate, isPostcode as isValidPostcode } from '@woocommerce/blocks-checkout';
 
@@ -76,10 +76,30 @@ subscribe( () => {
         return;
     }
 
+    const didUpdateBilling = !! addressData.billing;
+    const didUpdateShipping = !! addressData.shipping;
+
     extensionCartUpdate({
         namespace: 'bh-wc-postcode-address-autofill',
         data: addressData
-    }).then(function(){
+    }).then(function ( cart: any ) {
+        // The server filled the city/state on the cart address, but the block checkout's
+        // controlled address inputs do not adopt the cart response on their own (and their
+        // own customer-data push would re-clear them). Push the resolved city/state — read
+        // from the returned cart response (Store API snake_case), not the store which gets
+        // clobbered — into the editable address store so the visible fields update and persist.
+        if ( didUpdateShipping && cart?.shipping_address ) {
+            dispatch( CART_STORE_KEY ).setShippingAddress( {
+                city: cart.shipping_address.city,
+                state: cart.shipping_address.state,
+            } );
+        }
+        if ( didUpdateBilling && cart?.billing_address ) {
+            dispatch( CART_STORE_KEY ).setBillingAddress( {
+                city: cart.billing_address.city,
+                state: cart.billing_address.state,
+            } );
+        }
         isPostcodeAutofillUpdating = false;
     });
 
