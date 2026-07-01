@@ -75,7 +75,7 @@ foreach ( $countries as $country ) {
 
 			$states_index = array_flip( $states['IE'] );
 
-			$filename =$plugin_data_dir . '/original/postcodes-ie.csv';
+			$filename = $plugin_data_dir . '/original/postcodes-ie.csv';
 			if ( ! is_readable( $filename ) ) {
 				break;
 			}
@@ -211,7 +211,7 @@ foreach ( $countries as $country ) {
 $countries_php = array_reduce(
 	$countries,
 	function ( string $carry, string $country ): string {
-		return $carry . "\n	'". strtoupper( $country ) . "',";
+		return $carry . "\n	'" . strtoupper( $country ) . "',";
 	},
 	''
 );
