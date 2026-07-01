@@ -13,7 +13,7 @@ var isPostcodeAutofillUpdating = false
 // server's values, so the store cannot be trusted to still hold the user's edit by the time
 // the request resolves. Record the address on every tick while the request is pending so we
 // can tell what the user last entered and preserve it.
-type AddressSnapshot = { city: string, state: string };
+type AddressSnapshot = { city: string, state: string, postcode: string };
 var inFlightShippingSnapshots: AddressSnapshot[] = [];
 var inFlightBillingSnapshots: AddressSnapshot[] = [];
 
@@ -27,7 +27,7 @@ var inFlightBillingSnapshots: AddressSnapshot[] = [];
  */
 function resolveFieldValue(
     snapshots: AddressSnapshot[],
-    field: 'city' | 'state',
+    field: 'city' | 'state' | 'postcode',
     sentValue: string,
     serverValue: string
 ): string {
@@ -53,10 +53,12 @@ subscribe( () => {
         inFlightShippingSnapshots.push( {
             city: cartData.shippingAddress.city,
             state: cartData.shippingAddress.state,
+            postcode: cartData.shippingAddress.postcode,
         } );
         inFlightBillingSnapshots.push( {
             city: cartData.billingAddress.city,
             state: cartData.billingAddress.state,
+            postcode: cartData.billingAddress.postcode,
         } );
         return;
     }
@@ -128,10 +130,12 @@ subscribe( () => {
     const sentShipping = {
         city: cartData.shippingAddress.city,
         state: cartData.shippingAddress.state,
+        postcode: cartData.shippingAddress.postcode,
     };
     const sentBilling = {
         city: cartData.billingAddress.city,
         state: cartData.billingAddress.state,
+        postcode: cartData.billingAddress.postcode,
     };
     inFlightShippingSnapshots = [];
     inFlightBillingSnapshots = [];
@@ -143,15 +147,20 @@ subscribe( () => {
         // The server filled the city/state on the cart address, but the block checkout's
         // controlled address inputs do not adopt the cart response on their own. Push the
         // resolved city/state (from the response, Store API snake_case) into the editable
-        // address store — but preserve any value the user changed while the request was in
-        // flight (see resolveFieldValue).
-        if ( didUpdateShipping && cart?.shipping_address ) {
+        // address store — but:
+        //  - if the user changed the postcode while the request was in flight, the response is
+        //    stale (it describes a postcode no longer entered), so do not apply it; and
+        //  - otherwise preserve any city/state the user changed while it was in flight (see
+        //    resolveFieldValue).
+        const shippingPostcode = resolveFieldValue( inFlightShippingSnapshots, 'postcode', sentShipping.postcode, cart?.shipping_address?.postcode ?? sentShipping.postcode );
+        if ( didUpdateShipping && cart?.shipping_address && shippingPostcode === sentShipping.postcode ) {
             dispatch( CART_STORE_KEY ).setShippingAddress( {
                 city: resolveFieldValue( inFlightShippingSnapshots, 'city', sentShipping.city, cart.shipping_address.city ),
                 state: resolveFieldValue( inFlightShippingSnapshots, 'state', sentShipping.state, cart.shipping_address.state ),
             } );
         }
-        if ( didUpdateBilling && cart?.billing_address ) {
+        const billingPostcode = resolveFieldValue( inFlightBillingSnapshots, 'postcode', sentBilling.postcode, cart?.billing_address?.postcode ?? sentBilling.postcode );
+        if ( didUpdateBilling && cart?.billing_address && billingPostcode === sentBilling.postcode ) {
             dispatch( CART_STORE_KEY ).setBillingAddress( {
                 city: resolveFieldValue( inFlightBillingSnapshots, 'city', sentBilling.city, cart.billing_address.city ),
                 state: resolveFieldValue( inFlightBillingSnapshots, 'state', sentBilling.state, cart.billing_address.state ),
