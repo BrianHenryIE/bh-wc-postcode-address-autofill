@@ -27,6 +27,12 @@ jobs:
           tools: composer, wp-cli
           extensions: zip
 
+      - name: Get WP CLI version/platform/debug info
+        run: wp cli info
+
+      - name: Install dist-archive-command
+        run: wp package install wp-cli/dist-archive-command:@stable
+
       - name: Run composer install
         run: composer install --verbose
         env:
@@ -43,9 +49,6 @@ jobs:
 
       - name: Build assets
         run: npm run build
-
-      - name: Install dist-archive-command
-        run: wp package install wp-cli/dist-archive-command:@stable
 
       - name: Create plugin archive
         id: create-plugin-archive
