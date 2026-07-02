@@ -46,4 +46,76 @@
     <rule ref="PHPCompatibility">
         <exclude-pattern>tests/</exclude-pattern>
     </rule>
+
+    <!-- ignore rules on Composer's own files -->
+    <rule ref="Generic.Classes.OpeningBraceSameLine.BraceOnNewLine">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="Generic.Commenting.DocComment.LongNotCapital">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="Generic.Commenting.DocComment.MissingShort">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="Generic.Formatting.MultipleStatementAlignment.NotSameWarning">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie.BraceOnNewLine">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="Generic.Strings.UnnecessaryStringConcat.Found">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="PSR2.Files.EndFileNewline.NoneFound">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="PSR2.Methods.FunctionClosingBrace.SpacingBeforeClose">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterOpen">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingBeforeClose">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.PHP.DisallowMultipleAssignments.Found">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.Strings.ConcatenationSpacing.PaddingFound">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="Universal.WhiteSpace.PrecisionAlignment.Found">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames.classFound">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="NormalizedArrays.Arrays.ArrayBraceSpacing.EmptyArraySpacing">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="NormalizedArrays.Arrays.ArrayBraceSpacing.SpaceAfterArrayOpenerSingleLine">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="NormalizedArrays.Arrays.ArrayBraceSpacing.SpaceAfterKeyword">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="NormalizedArrays.Arrays.ArrayBraceSpacing.SpaceBeforeArrayCloserSingleLine">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.PHP.DevelopmentFunctions.error_log_trigger_error">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.PHP.NoSilencedErrors.Discouraged">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.PHP.YodaConditions.NotYoda">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.Security.EscapeOutput.ExceptionNotEscaped">
+        <exclude-pattern>vendor-prefixed/composer</exclude-pattern>
+    </rule>
+
 </ruleset>
