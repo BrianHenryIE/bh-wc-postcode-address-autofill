@@ -24,7 +24,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          tools: composer, wp-cli
+          tools: composer, wp-cli:nightly
           extensions: zip
 
       - name: Get WP CLI version/platform/debug info
